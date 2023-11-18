@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmos - Cormen et al</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script defer>hljs.highlightAll();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <!-- retire o atributo output para, ao copiar uma fórmula, copiar tanto no formato html quanto no formato mathml, entretanto, a fórmula sai duplicada -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$', right: '$', display: false}],output:'html'});"></script>
+
+    <style>
+        img {
+            max-width: 100%;
+        }
+
+        ol.exercicios>li {
+            font-weight: bold;
+        }
+
+        p.center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="a-adendos">
+        <div id="inducao-matematica">
+            <h2>Indução Matemática</h2>
+            <p>A prova por indução matemática é um método usado para provar que uma propriedade matemática é verdadeira para todos os valores de uma variável que atende a uma determinada condição. A prova por indução é composta por dois passos principais:</p>
+            <ol>
+                <li>Passo base: Prove que a propriedade é verdadeira para um valor inicial da variável.</li>
+                <li>Passo de indução: Suponha que a propriedade é verdadeira para um valor $k$ da variável e mostre que a propriedade é verdadeira para o valor $k+1$.</li>
+            </ol>
+            <p>Ou seja, a ideia é começar com um caso base e provar que ele é verdadeiro. Em seguida, supõe-se que a propriedade é verdadeira para um número arbitrário $k$ e tenta-se provar que ela também é verdadeira para $k+1$. Se esses dois passos são bem-sucedidos, então a propriedade é verdadeira para todos os valores maiores ou iguais ao caso base.</p>
+            <p>A prova por indução é frequentemente usada em problemas que envolvem números inteiros ou naturais, bem como em problemas que envolvem listas, sequências ou outras estruturas recursivas. É uma técnica poderosa para provar propriedades matemáticas que são válidas para uma infinidade de valores, mas que seriam difíceis de verificar individualmente para cada um desses valores.</p>
+
+            <p>Um exemplo simples de prova por indução é a seguinte afirmação: Para todo número natural $n$, a soma dos $n$ primeiros números inteiros é igual a $\dfrac {n(n+1)} 2$.</p>
+            <p>Para provar essa afirmação por indução, vamos seguir os dois passos mencionados anteriormente:</p>
+            <ol>
+                <li>Passo base: Verifique se a afirmação é verdadeira para $n = 1$.</li>
+                <li>Passo de indução: Suponha que a afirmação é verdadeira para $n = k$ e prove que ela também é verdadeira para $n = k + 1$.</li>
+            </ol>
+            <p>Suponha que a afirmação é verdadeira para $n = k$. Isto é, a soma dos primeiros $k$ números inteiros é igual a $\dfrac {k(k+1)} 2$. Agora, vamos considerar a soma dos primeiros $k + 1$ números inteiros:</p>
+            <p>$1 + 2 + 3 + ... + k + (k+1)$</p>
+            <p>Podemos reescrever essa soma como a soma dos primeiros $k$ números inteiros mais o próximo número inteiro:</p>
+            <p>$1 + 2 + 3 + ... + k + (k+1) = \dfrac {k(k+1)} 2 + (k+1) = \dfrac {(k+1)k} 2 + (k+1)\dfrac 2 2 = \dfrac {(k+1)(k+2)} 2 = \dfrac{(k+1)((k+1)+1)} 2$</p>
+            <p>E isso é exatamente o que queríamos provar. Portanto, a afirmação é verdadeira para $n = k + 1.$</p>
+            <p>Como o passo base e o passo de indução foram comprovados, podemos concluir que a afirmação é verdadeira para todos os valores naturais de $n$.</p>
+        </div>
+    </div>
+</body>
+
+</html>

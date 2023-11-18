@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Algoritmos - Cormen et al</title> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script defer>hljs.highlightAll();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css" integrity="sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js" integrity="sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <!-- retire o atributo output para, ao copiar uma fórmula, copiar tanto no formato html quanto no formato mathml, entretanto, a fórmula sai duplicada -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$', right: '$', display: false}],output:'html'});"></script>
+
+    <style>
+        figure,
+        figcaption {
+            display: table;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .exercise {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        table.custom,
+        table.custom td,
+        table.custom th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="algoritmos">
+        <div id="1-algoritmos">
+            <h2>1 O Papel dos Algoritmos na Computação</h2>
+            <div id="1-1-algoritmos">
+                <h3>1.1 Algoritmos</h3>
+                <p>Um algoritmo é uma sequência de etapas computacionais que transforma uma entrada em uma saída.</p>
+                <p>Um exemplo de algoritmo é a ordenação de uma sequência de itens, que surge com frequência na prática e fornece um terreno fértil para a introdução de muitas técnicas de projeto padrão e ferramentas de análise. Como resultado, você possui um grande número de bons algoritmos de ordenação à sua disposição. Qual algoritmo é o melhor para uma determinada aplicação depende, entre outros fatores, do número de itens a serem ordenados, do quanto os itens já estão em certa ordem, das possíveis restrições nos valores dos itens, da arquitetura do computador e do tipo de dispositivos de armazenamento a serem usados: memória principal, discos ou até mesmo, de forma arcaica, fitas magnéticas.</p>
+                <h4>Quais tipos de problemas são resolvidos por algoritmos?</h4>
+                <p>Algoritmos têm sido desenvolvidos para uma ampla gama de problemas computacionais, com aplicações práticas que incluem o Projeto Genoma Humano, a internet, o comércio eletrônico e a alocação de recursos em empresas manufatureiras e comerciais. Essas aplicações requerem algoritmos sofisticados para gerenciar e manipular eficientemente grandes volumes de dados, garantir privacidade e segurança e otimizar a alocação de recursos.</p>
+                <p>Algoritmos podem ser usados para resolver problemas específicos, como encontrar a rota mais curta em um mapa de estradas, listar peças em ordem de uso, determinar se um tumor é canceroso ou benigno e comprimir arquivos de texto grandes. Esses problemas podem ser modelados usando grafos, ordenação topológica, algoritmos de agrupamento e codificação de Huffman, respectivamente, com soluções eficientes apresentadas neste livro.</p>
+                <p>Muitos problemas algorítmicos interessantes têm um grande número de soluções candidatas, sendo o desafio encontrar a melhor solução sem examinar cada possibilidade. Esses problemas frequentemente têm aplicações práticas, como encontrar o caminho mais curto no transporte ou no roteamento, ou converter um sinal do domínio do tempo para o domínio da frequência usando a transformada discreta de Fourier. Algoritmos eficientes para esses problemas podem resultar em economias significativas de custo e melhor desempenho.</p>
+                <h4>Estruturas de dados</h4>
+                <p>Uma estrutura de dados é uma forma de armazenar e organizar dados para facilitar seu acesso e modificação. Usar a estrutura de dados apropriada ou estruturas é uma parte importante do design de algoritmos. Nenhuma única estrutura de dados funciona bem para todos os propósitos, então você deve conhecer os pontos fortes e limitações de várias delas.</p>
+                <h4>Problemas difíceis</h4>
+                <p>Problemas NP-completos são um subconjunto de problemas para os quais não se conhece um algoritmo eficiente, mas não foi provado que um algoritmo eficiente não possa existir. Se um algoritmo eficiente existe para qualquer um desses problemas NP-completos, então algoritmos eficientes existem para todos eles. Esses problemas são interessantes porque pequenas mudanças na descrição do problema podem resultar em mudanças significativas na eficiência do melhor algoritmo conhecido.</p>
+                <p>Problemas NP-completos surgem frequentemente em aplicações reais, e é importante reconhecê-los para evitar gastar tempo em uma busca infrutífera por um algoritmo eficiente. Em vez disso, o tempo pode ser gasto desenvolvendo um algoritmo de aproximação eficiente que forneça uma solução boa, mas não necessariamente ótima. Um exemplo desse tipo de problema é o problema do caixeiro-viajante, que é NP-completo e não possui um algoritmo eficiente conhecido, mas pode ser aproximado usando algoritmos eficientes.</p>
+                <h4>Modelos alternativos de computação</h4>
+                <p>Limitações físicas impedem que as velocidades do clock do processador aumentem indefinidamente, levando ao desenvolvimento de computadores com vários núcleos de processamento. Para obter o melhor desempenho desses computadores, os algoritmos devem ser projetados levando em consideração o paralelismo.</p>
+                <p>Em muitos exemplos do mundo real, os dados de entrada chegam ao longo do tempo e o algoritmo precisa tomar decisões sem saber os dados futuros. Exemplos incluem o agendamento de tarefas em um centro de dados, o roteamento do tráfego na internet e a tomada de decisões de triagem em uma sala de emergência de hospital. Algoritmos que recebem sua entrada ao longo do tempo são chamados de algoritmos online.</p>
+                <h4>Exercícios</h4>
+                <p class="exercise">1. Descreva um exemplo do mundo real que requer ordenação. Descreva um que requer encontrar a distância mais curta entre dois pontos.</p>
+                <p class="exercise">2. Além da velocidade, quais outras medidas de eficiência você pode precisar considerar em um ambiente do mundo real?</p>
+                <p class="exercise">3. Selecione uma estrutura de dados que você tenha visto e discuta seus pontos fortes e limitações.</p>
+                <p class="exercise">4. Como os problemas do caminho mais curto e do caixeiro-viajante acima são semelhantes? Como eles são diferentes?</p>
+                <p class="exercise">5. Sugira um problema no mundo real em que apenas a melhor solução é aceitável. Em seguida, apresente um em que "aproximadamente" a melhor solução é suficiente.</p>
+                <p class="exercise">6. Descreva um problema do mundo real em que às vezes toda a entrada está disponível antes de você precisar resolver o problema, mas outras vezes a entrada não está totalmente disponível antecipadamente e chega ao longo do tempo.</p>
+                <p>Um problema computacional do mundo real em que apenas a melhor solução serve é o cálculo da dosagem de medicação de um paciente. Neste caso, uma dosagem incorreta pode ter consequências graves para a saúde do paciente, por isso é crucial encontrar a solução exata e ideal.</p>
+                <p>Um problema computacional do mundo real em que uma solução aproximada é boa o suficiente é o agendamento de voos para uma companhia aérea. Nesse caso, o objetivo é minimizar os atrasos e maximizar os lucros, mas uma solução próxima do ótimo ainda pode ser aceitável. Uma solução aproximada que resulte em um pequeno número de atrasos ou lucros ligeiramente menores ainda pode ser considerada boa o suficiente.</p>
+            </div>
+
+            <div id="1-2-tecnologia">
+                <h3>1.2 Algoritmos como uma tecnologia</h3>
+                <p>Mesmo que os computadores fossem infinitamente rápidos e a memória fosse à vontade, estudar algoritmos ainda seria importante para garantir que as soluções sejam corretas e terminem. Com recursos finitos, o uso eficiente do tempo e do espaço é crucial, tornando a escolha de algoritmos importante.</p>
+                <h4>Eficiência</h4>
+                <p>A eficiência dos algoritmos pode variar significativamente, mesmo para o mesmo problema. Por exemplo, o algoritmo <b>insertion sort</b> leva um tempo aproximadamente proporcional a $c_1n^2$, enquanto o algoritmo <b>merge sort</b> leva um tempo aproximadamente proporcional a $c_2n \lg n$, onde $c_1$ e $c_2$ são constantes independentes do tamanho da entrada $n$, que representa a quantidade de itens a serem ordenadas. Apesar de ter uma constante maior, o merge sort é mais rápido para entradas grandes devido à sua menor taxa de crescimento. Essa vantagem pode ser mais significativa do que diferenças em hardware e software.</p>
+                <h4>Algoritmos e outras tecnologias</h4>
+                <p>Os algoritmos devem ser considerados como uma tecnologia, com o desempenho total do sistema dependendo da escolha de algoritmos eficientes, bem como de hardware rápido. Apesar dos avanços em outras tecnologias de computador, os algoritmos continuam sendo importantes, com muitas aplicações dependendo do conteúdo algorítmico no nível da aplicação.</p>
+                <p>Mesmo aplicações que não exigem conteúdo algorítmico no nível da aplicação dependem muito de algoritmos. O design de hardware, as interfaces gráficas de usuário, as redes e os compiladores fazem amplo uso de algoritmos. Os algoritmos estão no cerne da maioria das tecnologias usadas em computadores contemporâneos.</p>
+                <p>A aprendizagem de máquina automatiza o processo de design algorítmico inferindo padrões a partir de dados. Apesar disso, a aprendizagem de máquina em si é uma coleção de algoritmos e é principalmente bem-sucedida para problemas em que o algoritmo adequado não é bem compreendido. Para problemas bem compreendidos, algoritmos eficientes projetados para resolver um problema específico geralmente são mais bem-sucedidos do que abordagens de aprendizagem de máquina.</p>
+                <p>A ciência de dados é um campo interdisciplinar que tem como objetivo extrair conhecimento e insights dos dados usando métodos de estatística, ciência da computação e otimização. O design e a análise de algoritmos são fundamentais para o campo, com técnicas básicas sobrepondo-se significativamente à aprendizagem de máquina e incluindo muitos dos algoritmos deste livro.</p>
+                <p>À medida que os computadores aumentam em capacidade, eles são usados para resolver problemas maiores, nos quais as diferenças na eficiência dos algoritmos se tornam mais proeminentes. Uma base sólida de conhecimento e técnica algorítmicos é uma característica definidora de programadores habilidosos, permitindo-lhes realizar muito mais do que aqueles sem tal formação.</p>
+                <h4>Exercícios</h4>
+                <p class="exercise">1. Dê um exemplo de uma aplicação que requer conteúdo algorítmico no nível da aplicação e discuta a função dos algoritmos envolvidos.</p>
+                <p class="exercise">2. Suponha que, para entradas de tamanho $n$ em um determinado computador, o insertion sort executa em $8n^2$ etapas e o merge sort executa em $64 n \lg n$ etapas. Para quais valores de $n$ o insertion sort é mais rápido que o merge sort?</p>
+                <p class="exercise">3. Qual é o menor valor de $n$ tal que um algoritmo cujo tempo de execução é de $100n^2$ é mais rápido do que um algoritmo cujo tempo de execução é de $2^n$ no mesmo computador?</p>
+            </div>
+
+            <div id="1-problemas">
+                <h3>Problemas</h3>
+                <h4>1-1 Comparação dos tempos de execução</h4>
+                <p>Para cada função $f(n)$ e tempo $t$ na seguinte tabela, determine o maior tamanho $n$ de um problema que pode ser resolvido no tempo $t$, assumindo que o algoritmo para resolver o problema leva $f(n)$ microssegundos.</p>
+                <table class="custom">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>1 segundo</th>
+                            <th>1 minuto</th>
+                            <th>1 hora</th>
+                            <th>1 dia</th>
+                            <th>1 mês</th>
+                            <th>1 ano</th>
+                            <th>1 século</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>$\lg n$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$\sqrt n$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$n$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$n \lg n$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$n^2$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$n^3$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$2^n$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>$n!$</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

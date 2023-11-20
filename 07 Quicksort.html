@@ -230,5 +230,101 @@
                 <p>Para produzir uma divisão pior que $1 - \alpha$ para $\alpha$, $\text{PARTITION}$ deve escolher um pivô que esteja dentro dos $\alpha n$ elementos menores ou dos $\alpha n$ elementos maiores. A probabilidade de cada um é (aproximadamente) $\alpha n / n = \alpha$, e a probabilidade de ambos é $2\alpha$. Assim, a probabilidade de ter uma partição melhor é o complemento, $1 - 2\alpha$.</p>
             </ol>
         </div>
+        <div id="7-3-versao-aleatorizada-do-quicksort">
+            <h3>7.3 Versão aleatorizada do quicksort</h3>
+            <p>O pior caso do quicksort é $O(n^2)$, enquanto que o melhor caso, bem como o caso médio é $O(n\lg n)$. Entretanto não podemos assumir automaticamente que os dados de entrada se enquadram no caso médio.</p>
+            <p>Em vez de escolher sempre o último elemento como pivô, podemos selecionar aleatoriamente qualquer um dos elementos como pivô. Como o pivô é escolhido aleatoriamente, esperamos que a partição seja razoavelmente balanceada na média.</p>
+            <pre><code>RANDOMIZED-PARTITION(A, p, r)
+1 i = RANDOM(p, r)
+2 exchange A[r] with A[i]
+3 return PARTITION(A, p, r)
+
+RANDOMIZED-QUICKSORT(A, p, r)
+1 if p < r
+2   q = RANDOMIZED-PARTITION(A, p, r)
+3   RANDOMIZED-QUICKSORT(A, p, q – 1)
+4   RANDOMIZED-QUICKSORT(A, q + 1, r)</code></pre>
+
+            <div id="7-3-1-exercicios">
+                <h4>Exercício</h4>
+                <ol class="excs">
+                    <li> Por que analisamos o tempo de execução esperado de um algoritmo aleatório e não o tempo de execução no pior caso?</li>
+
+                    <p>Podemos estar interessados no pior caso, mas, nesse caso, a randomização é irrelevante: não melhorará o pior caso. O que a randomização pode fazer é diminuir a chance de encontrar o pior cenário possível.</p>
+
+                    <li> Quando o $\text{RANDOMIZED-QUICKSORT}$ é executado, quantas chamadas são feitas ao gerador de números aleatórios $\text{RANDOM}$ no pior caso? E no melhor caso? Dê sua resposta em termos de notação $\Theta$.</li>
+                </ol>
+            </div>
+        </div>
+        <div id="7-4-analise-do-quicksort">
+            <h3>7.4 Análise do quicksort</h3>
+            <div id="7-4-1-pior-caso">
+                <h4>Pior caso</h4>
+                <p>Vimos na seção 7.2 que no pior caso, $T(n) = T(n - 1) + \Theta(n)$. Provaremos que essa recorrência custa $\Theta(n^2)$ pelo método da substituição. Denote $c$ como a constante escondida no termo $\Theta(n)$. Suponha que $T(n)\le dn^2$ para uma constante $d$. Temos:</p>
+                <p>$$\begin{aligned}
+                    T(n)&\le T(n-1)+cn \\
+                    &\le d(n-1)^2+cn \\
+                    &=dn^2-2dn+d+cn
+                    \end{aligned}$$
+                </p>
+                <p>A última inequação é menor ou igual a $dn^2$ se $-2dn+d+cn\le 0$, que é equivalente a $d\ge cn/(2n-1)$. E isso vale para todo $n\ge 1$ e $d\ge c$.</p>
+                <p>Para o limite inferior, usamos o mesmo $c$ do limite superior e supomos que $T(n)\ge dn^2$ para uma constante $d$. Trocando $\le$ por $\ge$ anteriormente, chegamos em $T(n)\ge dn^2$ se $d\le cn/(2n-1)$, que vale para todo $n\ge 1$ e $d\le c/2$.</p>
+
+                <p>Portanto, $T(n)=\Theta(n^2)$.</p>
+            </div>
+            <div id="7-4-2-caso-medio">
+                <h4>7.4.2 Caso médio</h4>
+                <p>Vimos que, se em cada nível da recursão o particionamento colocar frações constantes de elementos em cada partição, a árvore de recursão ainda terá profundidade $\Theta(n)$, com cado nível custando $O(n)$. Mesmo se entre cada nível balanceado colocarmos um nível o mais desbalanceado possível, o custo ainda será $O(n\lg n)$. Vamos provar que a versão aleatorizada entra no caso médio, para uma lista de elementos distintos.</p>
+                <p>Vamos começar analisando a quantidade de comparações entre elementos do array (linha 4 de <code>PARTITION</code>).</p>
+                <p><b>Lema 7.1</b></p>
+                <p>O custo do quicksort em um array com $n$ elementos é $O(n+X)$, sendo $X$ a quantidade de comparações entre elementos realizada.</p>
+                <p><b>Prova</b></p>
+                <p>A maior parte do quicksort é gasta dentro de <code>PARTITION</code>. Em cada chamada a <code>PARTITION</code>, um pivô é selecionado, que não é mais incluído nas próximas chamadas recursivas a quicksort ou <code>PARTITION</code> (já está na sua posição final). Portanto pode haver no máximo $n$ chamadas a <code>PARTITION</code>.</p>
+                <p>Cada iteração de <code>PARTITION</code> compara o pivô com um elemento diferente do array. Portanto, o custo do laço <code>for</code> em todas as execuções de <code>PARTITION</code> é proporcional a $X$.</p>
+                <p>Mais detalhes sobre a prova se encontram no livro.</p>
+                <p>Nosso objetivo ao analizar o quicksort aleatorizado é computar o valor experado $E[X]$ da variável aleatória $X$ que denota a quantidade total de comparações realizadas em todas as chamadas a <code>PARTITION</code>.</p>
+                <p>Para facilitar a análise, indexaremos os elementos pelas suas posições no array ordenado $z_1,z_2,\dots,z_n$, e não no array inicial, e consideramos o conjunto $Z_{ij}=\{z_i,z_{i+1},\cdots,z_j\}$.</p>
+
+                <p><b>Lema 7.2</b></p>
+                <p>Durante o <code>RANDOMIZED-QUICKSORT</code>, dois elementos $z_i$ e $z_j$ são comparados entre si apenas se um deles for escolhido como pivô antes de outro elemento de $Z_{ij}$. Além disso, dois elementos nunca são comparados mais que uma vez.</p>
+                <p><b>Prova</b></p>
+                <p>Seja $x$ o pivô.</p>
+                <p>Caso 1: se $z_i\lt x \lt z_j$, então $z_i$ e $z_j$ caem em partições diferentes e nunca mais são comparados entre si.</p>
+                <p>Caso 2: Se $x=z_i$, ele será comparado uma vez com $z_j$, e ao final, nunca mais será comparado com ninguém.</p>
+                <p>Caso 3: Se $x=z_j$, simétrico ao caso 2. Mais detalhes no livro.</p>
+                <p>Exemplo, suponha os elementos de 1 a 10, e 7 seja o primeiro pivô. Todos elementos serão comparados com o 7, mas nenhum da primeira partição será comparado com algum da segunda partição.</p>
+
+                <p><b>Lema 7.3</b></p>
+                <p>Dados dois elementos arbitrários $z_i$ e $z_j$, a probabilidade deles serem comparados é $2/(j-i+1)$.</p>
+                <p><b>Prova</b></p>
+                <p>Considere a situação em que seja escolhido um pivo $x$ dentro de $Z_{ij}$. Cada elemento de $Z_{ij}$ tem igual probabilidade de ser $x$, devido a escolha aleatória. Como $|Z_{ij}|=j-i+1$, a probabilidade de $x=z_i$ é $1/(j-i+1)$, e idem para $x=z_i$. Portanto, a probabilidade de $z_i$ ser comparado com $z_j$ é a probabilidade dos dois serem escolhidos, que é $2/(j-i+1)$.</p>
+
+                <p><b>Teorema 7.4</b></p>
+                <p>O custo esperado de <code>RANDOMIZED-QUICKSORT</code> em um array com $n$ elementos distintos é $O(n\lg n)$.</p>
+                <p><b>Prova</b></p>
+                <p>Detalhes da prova no livro.</p>
+                <!--<p>Seja a variável aleatória indicadora $X_{ij}=I\{z_i \text{ é comparado com } z_j\}$, que assume o valor $1$ se $z_i$ foi comparado com $z_j$, ou o valor $0$ caso contrário. Como cada par é comparado no máximo uma vez, a quantidade total de comparações feitas pelo algoritmo é:</p>
+                <p>$$X=\sum_{i=1}^{n-1} \sum_{j=i+1}^{n} X_{ij}$$</p>
+                <p>Fazendo a média (valor esperado) de ambos os lados, temos:</p>
+                <p>
+                    $$\begin{aligned}
+                    E[X]&=E[\sum_{i=1}^{n-1} \sum_{j=i+1}^{n} X_{ij}] \\
+                    &=\sum_{i=1}^{n-1} \sum_{j=i+1}^{n}E[X_{ij}] &\text{(Linearidade da Expectativa C.24)} \\
+                    &=\sum_{i=1}^{n-1} \sum_{j=i+1}^{n}Pr\{z_i \text{ é comparado com } z_j\} &\text{(Lema 5.1)} \\
+                    &=\sum_{i=1}^{n-1} \sum_{j=i+1}^{n}\dfrac{2}{j-i+1} &\text{(Lema 7.3)}
+                    \end{aligned}$$
+                </p>
+                <p>Podemos avaliar esse somatório fazendo $k=j-1$ e usando o número harmônico da equação A.9:</p>
+                <p>
+                    $$\begin{aligned}
+                    E[X]&=\sum_{i=1}^{n-1} \sum_{j=i+1}^{n}\dfrac{2}{j-i+1} \\
+                    &=\sum_{i=1}^{n-1} \sum_{k=1}^{n-i}\dfrac{2}{k+1} \\
+                    &\lt \sum_{i=1}^{n-1} \sum_{k=1}^{n-i}\dfrac{2}{k} \\
+                    &= \sum_{i=1}^{n-1} O(\lg n) \\
+                    &= O(n \lg n)
+                    \end{aligned}$$
+                </p>-->
+            </div>
+        </div>
     </div>
 </div>

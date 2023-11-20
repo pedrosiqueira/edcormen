@@ -190,7 +190,7 @@
             <h4>Caso médio</h4>
             <p>O custo do caso médio, como veremos, é mais próximo do melhor caso do que do pior caso. Para ter uma ideia, suponha que na média o particionamento produz sempre uma proporção de 9 para 1 entre as partições, o que parece ser bem ruim. Obtemos a recorrência:</p>
             <p>$$T(n)=T(9n/10)+T(n/10)+\Theta(n)$$</p>
-            <p>A Figura 7.4 ilustra a árvore de recursão dessa recorrência. Cada nível custa $n$. A folha menos profunda ocorre no nível $\log_10 n=\Theta(\lg n)$. A partir desse nível, o custo de cada nível é no máximo $n$. A recursão termina no nível $\log_{10/9} n=\Theta(\lg n)$. Portanto apesar de não ser intuitivo, a soma de todos os níveis ainda custa $O(n\lg n)$. De fato, mesmo numa divisão de 99 para 1, ou qualquer divisão constante, a árvore de recursão terá uma profundidade de $\Theta(\lg n)$, e o custo da recursão será $O(n\lg n)$, apesar que a constante escondida pela notação assintótica será bem grande.</p>
+            <p>A Figura 7.4 ilustra a árvore de recursão dessa recorrência. Cada nível custa $n$. A folha menos profunda ocorre no nível $\log_10 n=\Theta(\lg n)$. A partir desse nível, o custo de cada nível é no máximo $n$. A recursão termina no nível $\log_{10/9} n=\Theta(\lg n)$. Portanto apesar de não ser intuitivo, a soma de todos os níveis ainda custa $O(n\lg n)$. De fato, mesmo numa divisão de 99 para 1, ou qualquer divisão constante, a árvore de recursão terá uma profundidade de $\Theta(\lg n)$, e o custo da recursão será $O(n\lg n)$, apesar que a constante escondida pela notação assintótica pode ser bem grande.</p>
             <p>
             <figure><img id="fig-7-4-quicksort-recursion-tree" alt="fig-7-4-quicksort-recursion-tree">
                 <figcaption>Figura 7.4 Árvore de recursão do quicksort com partições de tamanho 9 para 1.</figcaption>
@@ -240,9 +240,9 @@
 3 return PARTITION(A, p, r)
 
 RANDOMIZED-QUICKSORT(A, p, r)
-1 if p < r
+1 if p &lt; r
 2   q = RANDOMIZED-PARTITION(A, p, r)
-3   RANDOMIZED-QUICKSORT(A, p, q – 1)
+3   RANDOMIZED-QUICKSORT(A, p, q - 1)
 4   RANDOMIZED-QUICKSORT(A, q + 1, r)</code></pre>
 
             <div id="7-3-1-exercicios">
@@ -324,6 +324,48 @@ RANDOMIZED-QUICKSORT(A, p, r)
                     &= O(n \lg n)
                     \end{aligned}$$
                 </p>-->
+            </div>
+            <div id="7-4-3-exercicios">
+                <h4>Exercícios</h4>
+                <ol class="excs">
+                     <li>Mostre que na recorrência
+                     <p>
+                         $$
+                         \begin{aligned}
+                         T(n) & = \max\limits_{0 \le q \le n - 1} (T(q) + T(n - q - 1)) + \Theta(n), \\
+                         T(n) & = \Omega(n^2).
+                         \end{aligned}
+                         $$
+                     </p>
+                    </li>
+
+                    <li>Mostre que o tempo de execução do melhor caso do quicksort é $\Omega(n\lg n)$.</li>
+                    <li>Mostre que a expressão $q^2 + (n - q - 1)^2$ atinge o máximo para $q = 0$ e $q = n - 1$.</li>
+                    <li>Mostre que o tempo de execução esperado do $\text{RANDOMIZED-QUICKSORT}$ é $\Omega(n\lg n)$.</li>
+
+                    <li>Simplificar a recursão, como fizemos no Problema 2-1 para o merge sort, é uma maneira comum de melhorar o tempo de execução do quicksort na prática. Modificamos o caso base da recursão para que, se o array tiver menos de k elementos, o subarray seja ordenado pelo insertion sort, em vez de chamadas recursivas contínuas para o quicksort. Argumente que a versão randomizada desse algoritmo de ordenação roda em tempo esperado $O(nk + n\lg(n / k))$. Como você deve escolher $k$, tanto na teoria quanto na prática?</li>
+
+                    <p>Primeiro vamos mostrar que ao parar em nós com $k$ elementos, a altura da árvore é $O(\lg(n/k))$. Considere que a cada nível, a quantidade de elementos reduz de $n$ para $n/a$, sendo $1/a$ uma constante que representa a divisão média. Suponha que cada nós chegue a $k$ elementos ao final de $i$ divisões, isto é, $k=n/a^i$. Isolando $a$ e aplicando logaritmo chegamos a $i=\log_a(n/k)=O(\lg(n/k))$</p>
+                    <p>Na parte do quicksort do algoritmo proposto, a recursão pára no nível $i=\lg(n / k)$, o que faz o tempo de execução esperado ser $O(n\lg(n / k))$. No entanto, isso deixa $n / k$ subarrays não ordenados e não intersectantes de comprimento (máximo) $k$.</p>
+                    <p>Devido à natureza do algoritmo insertion sort, ele primeiro ordenará completamente um desses subarrays antes de considerar o próximo. Assim, ele tem a mesma complexidade que ordenar cada um desses arrays, ou seja, $\frac{n}{k}O(k^2) = O(nk)$.</p>
+                    <p>Na teoria, adicionando fatores constantes, obtemos</p>
+
+                    <p>
+                        $$
+                        \begin{aligned}
+                                    & c_qn\lg n \ge c_ink + c_qn\lg(n / k) \\
+                        \Rightarrow & c_q\lg n \ge c_ik + c_q\lg n - c_q\lg k \\
+                        \Rightarrow & \lg k \ge \frac{c_i}{c_q}k.
+                        \end{aligned}
+                        $$
+                    </p>
+
+                    <p>O que indica que pode haver um bom candidato. Além disso, os termos de ordem inferior também devem ser levados em consideração.</p>
+
+                    <p>Na prática, $k$ deve ser escolhido experimentalmente.</p>
+
+                    <li>Considere modificar o procedimento $\text{PARTITION}$ escolhendo aleatoriamente três elementos do array $A$ e particionando em torno de sua mediana (o valor do meio dos três elementos). Aproxime a probabilidade de obter no máximo uma divisão $\alpha$-para-$(1 - \alpha)$, como uma função de $\alpha$ no intervalo $0 \lt \alpha \lt 1$.</li>
+                </ol>
             </div>
         </div>
     </div>

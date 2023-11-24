@@ -24,7 +24,7 @@ Bibliografia complementar
 
 * Meu e-mail: pedro.siqueira@ifms.edu.br (ATENÇÃO: use teu email institucional para não cair no SPAM!).
 * Horário de atendimento (PE): sexta-feira das 15h30 às 17h05.
-* Link para aulas: https://abre.ai/ifmscormen
+* Link para aulas: https://pedrosiqueira.github.io/edcormen/
 * Link para o moodle: https://ead.ifms.edu.br/course/view.php?id=34003
 
 ## Avaliações

@@ -109,7 +109,7 @@
     <div id="8-ordenacao-em-tempo-linear">
         <h2>8 Ordenação em tempo linear</h2>
         <p>Até o momento, vimos algoritmos que no pior caso custam $O(n\lg n)$. Será que podemos implementar um algoritmo que no pior caso custe menos que isso?</p>
-        <p>Os algoritmos de ordenação vistos compartilham uma propriedade interessante: a ordenação é feita com base somente na <b>comparação</b> entre os elementos de entrada. Chamamos tais algoritmos de <b>ordenação por comparação</b>.</p>
+        <p>Os algoritmos de ordenação vistos compartilham uma propriedade interessante: a ordenação é feita com base na <b>comparação</b> entre os elementos de entrada. Chamamos tais algoritmos de <b>ordenação por comparação</b>.</p>
         <div id="8-1-limites-inferiores-para-ordenacao">
             <h3>8.1 Limites inferiores para ordenação</h3>
         </div>
@@ -130,19 +130,19 @@
             </p>
             <p>O pseudocódigo do algoritmo é:</p>
             <pre><code>COUNTING-SORT(A, n, k)
- 1 let B[1 : n] and C [0 : k] be new arrays
+ 1 let B[1 : n] and C[0 : k] be new arrays
  2 for i = 0 to k
- 3     C [i] = 0
+ 3     C[i] = 0
  4 for j = 1 to n
- 5     C [A[j]] = C [A[j]] + 1
- 6 // C [i] now contains the number of elements equal to i.
+ 5     C[A[j]] = C[A[j]] + 1
+ 6 // C[i] now contains the number of elements equal to i.
  7 for i = 1 to k
- 8     C [i] = C [i] + C [i - 1]
- 9 // C [i] now contains the number of elements less than or equal to i.
+ 8     C[i] = C[i] + C[i - 1]
+ 9 // C[i] now contains the number of elements less than or equal to i.
 10 // Copy A to B, starting from the end of A.
 11 for j = n downto 1
-12     B[C [A[j]]] = A[j]
-13     C [A[j]] = C [A[j]] - 1 // to handle duplicate values
+12     B[C[A[j]]] = A[j]
+13     C[A[j]] = C[A[j]] - 1 // to handle duplicate values
 14 return B</code></pre>
 
             <p>Seu tempo de execução é $\Theta(n+k)$. Na prática, geralmente usamos counting sort quando $k=O(n)$, pois assim seu tempo de execução é $\Theta(n)$.</p>

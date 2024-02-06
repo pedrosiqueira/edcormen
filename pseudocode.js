@@ -16,6 +16,7 @@ function pseudocode(hljs) {
     'continue',
     'downto',
     'else',
+    'error',
     'except',
     'finally',
     'for',

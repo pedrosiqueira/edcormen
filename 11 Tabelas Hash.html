@@ -219,7 +219,7 @@ chainedHashDelete(T,x)
                 <p>A situação para uma busca bem-sucedida é ligeiramente diferente, pois o elemento desejado pode ser qualquer um dos elementos presentes na tabela, de modo que quanto maior uma lista, maior a probabilidade da busca cair nela. Todavia, o tempo de busca esperado ainda é $\Theta(1 + \alpha)$. Mais detalhes sobre a prova encontra-se no livro.</p>
                 <p>O que estas análises significam? Se o número de posições da tabela hash é no mínimo proporcional ao número de elementos na tabela, temos $n = O(m)$ e, consequentemente, $\alpha = n/m = O(m)/m = O(1)$. Assim, a busca demora tempo constante na média.</p>
                 <h4>Exercícios</h4>
-                <ol class="exercicios">
+                <ol class="excs">
                     <li>Considere uma tabela com nove posições e a função hash $h(k) = k \mod 9$. Demonstre o que acontece quando inserimos as chaves $5, 28, 19, 15, 20, 33, 12, 17, 10$ em uma tabela hash com colisões resolvidas por encadeamento.</li>
                     <li>O professor Marley apresentou a hipótese de que podemos obter ganhos substanciais de desempenho modificando o esquema de encadeamento mantendo cada lista em sequência ordenada. Como a modificação do professor afeta o tempo de execução para buscas bem-sucedidas, malsucedidas, inserções e exclusões?</li>
                     <li>Sugira como alocar e desalocar elementos dentro da própria tabela hash criando uma "lista livre": uma lista encadeada com todos os slots vazios. Suponha que um slot possa armazenar uma flag e, ou um elemento mais um ponteiro ou dois ponteiros. Todas as operações de dicionário e lista livre devem ser executadas em tempo $O(1)$. A lista livre precisa ser duplamente encadeada ou basta uma lista encadeada simples?</li>
@@ -337,9 +337,9 @@ chainedHashDelete(T,x)
                     <p>Uma função hash criptográfica recebe como entrada um vetor de bytes arbitrário e retorna uma saída de comprimento fixo. Por exemplo, a famosa função SHA-256 produz uma saída de 256 bits (32 bytes) para qualquer entrada.</p>
                     <p>Inclusive podemos fazer proveito de alguns processadores que implementam instruções específicas para auxiliar no cálculo de funções criptográficas, como as instruções “AES-NI” que computam arredondamentos do algoritmo Advanced Encryption Standard (AES).</p>
                     <p>Dentre as maneiras de usar funções hash criptográficas como funções hash simples, temos:</p>
-                    <p>$h(k)=SHA-256(k) \mod m$.</p>
+                    <p>$h(k)=\text{SHA-256(k)} \mod m$.</p>
                     <p>Para definir uma família de funções hash, podemos adicionar uma string “tempero” (<i>salt string</i>) à entrada antes de gerar seu hash:</p>
-                    <p>$h_a(k)=SHA-256(a ‖ k) \mod m$,</p>
+                    <p>$h_a(k)=\text{SHA-256(a ‖ k)} \mod m$,</p>
                     <p>onde $a ‖ k$ é a concatenação de $a$ com $k$. A literatura sobre Message Authentication Codes (MACs) fornece abordagens adicionais.</p>
                     <p>Abordagens criptográficas para o design de funções hash estão se tornando mais práticas à medida que os computadores organizam suas memórias em hierarquias com capacidades e velocidades diferentes. A Seção 11.5 discute um design de função hash baseado no método de criptografia RC6.</p>
                 </div>
@@ -513,7 +513,7 @@ chainedHashDelete(T,x)
                 <p>Se a tabela hash estiver metade cheia, o número esperado de sondagens em uma busca bem-sucedida será menor que $1,387$. Se estiver $90\%$ cheia, passa a ser algo menor que $2,559$.</p>
 
                 <h4>Exercícios</h4>
-                <ol class="exercicios">
+                <ol class="excs">
                     <li>Considere a inserção das chaves $10, 22, 31, 4, 15, 28, 17, 88, 59$ em uma tabela hash de comprimento $m = 11$ usando endereçamento aberto com a função hash auxiliar $h'(k) = k$. Ilustre o resultado da inserção dessas chaves utilizando sondagem linear, utilizando sondagem quadrática com $c_1 = 1$ e $c_2 = 3$, e utilizando hash duplo com $h_1(k) = k$ e $h_2(k) = 1 + (k \mod (m - 1))$.</li>
 
                     <li>Escreva pseudocódigo para $\text{hashDelete}$ como descrito no texto e modifique $\text{hashInsert}$ para manipular o valor especial $\text{DELETED}$.</li>

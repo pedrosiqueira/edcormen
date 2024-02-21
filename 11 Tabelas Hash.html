@@ -280,21 +280,21 @@ chainedHashDelete(T,x)
                 <div id="11-3-2-hashing-aleatorio">
                     <h4>11.3.2 Hashing aleatório</h4>
                     <p>Suponha que um cracker escolha chaves sabendo a função hash estática implementada. Ele pode escolher $n$ chaves que caiam no mesmo slot, resultando em um tempo médio de busca de $\Theta(n)$. Qualquer função hash estática é vulnerável a esse ataque. A única maneira eficaz de evitar essa situação é escolher a função hash aleatoriamente e independentemente das chaves. Essa abordagem é chamada de <b>hashing aleatório</b>. Um caso especial dessa abordagem, chamado de <b>hashing universal</b>, pode proporcionar um desempenho médio comprovadamente bom, independentemente das chaves escolhidas pelo cracker.</p>
-                    <p>Para usar hashing aleatório, no início da execução do programa, escolha aleatoriamente uma função hash de uma família adequada de funções. Assim como no quicksort, aleatoriedade que uma sequência de entrada não invoce apenas o pior caso a cada execução.</p>
+                    <p>Para usar hashing aleatório, no início da execução do programa, escolha aleatoriamente uma função hash de uma família adequada de funções. Assim como no quicksort, aleatoriedade garante que uma sequência de entrada não invoque apenas o pior caso a cada execução.</p>
                     <p>Por exemplo, uma variante aleatória simples do método de multiplicação com deslocamento que funciona bem na média é, no início do programa, escolher aleatoriamente um número ímpar para o valor de $a$.</p>
                     <p>Uma família $H$ de funções hash é <b>universal</b> se, ao escolher aleatoriamente uma função hash $h$, a chance de colisão entre duas chaves arbitrárias distintas $k_1,k_2$ for no máximo a chance $1/m$ da colisão se $h(k_1)$ e $h(k_2)$ fossem valores aleatoriamente e independentemente escolhidos entre $\{0,1,..., m-1\}$.</p>
                     <p>Hashing uniforme independente é equivalente a escolher uma função hash uniformemente e aleatoriamente de uma família de todas as possíveis $m^n$ funções hash, onde cada função mapeia as $n$ chaves para os $m$ valores hash de maneira diferente.</p>
                     <p><b>Corolário 11.3</b></p>
-                    <p>Usando hashing universal e resolução de colisão por encadeamento em uma tabela inicialmente vazia de tamanho $m$, leva tempo $\Theta(s)$ para lidar com $s$ operaçõeos de inserção, exclusão e buscas, contendo $n=O(m)$ operações de inserção.</p>
+                    <p>Usando hashing universal e resolução de colisão por encadeamento em uma tabela inicialmente vazia de tamanho $m$, leva tempo $\Theta(s)$ para lidar com $s$ operações de inserção, exclusão e busca, contendo $n=O(m)$ operações de inserção.</p>
                     <p><b>Prova:</b> No livro.</p>
                 </div>
                 <div id="11-3-3-propriedades-de-hashing-aleatorio">
                     <h4>11.3.3 Propriedades de hashing aleatório</h4>
                     <p>Seja $h$ uma função escolhida aleatoriamente e independentemente de uma família de funções hash $H$. Dentre a vasta gama de propriedades na literatura, algumas interessantes são:</p>
                     <ul>
-                        <li>$H$ é <b>uniforme</b> se para qualquer chave $k$ e slot $q$, a probabilidade de $h(k)=q$ for $1/m$.</li>
+                        <li>$H$ é <b>uniforme</b> se para qualquer chave $k$ e slot $q$, a probabilidade de $h(k)=q$ for $1/m$.<!-- uniforme é igual, isto é, qualquer posição tem a igual chance de ser a escolhida --></li>
                         <li>$H$ é <b>universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $1/m$.</li>
-                        <li>$H$ é <b>$e$-universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $e$. Portanto, uma família de funções universal também é $1/m$-universal.</li>
+                        <li>$H$ é <b>$\epsilon$-universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $\epsilon$. Portanto, uma família de funções universal também é $1/m$-universal.</li>
                     </ul>
                 </div>
                 <div id="11-3-4-projetando-familia-universal-de-funcoes-hash">
@@ -304,13 +304,13 @@ chainedHashDelete(T,x)
                     <p>Dados quaisquer $a\in Z^*_p$ e $b\in Z_p$, definimos a função hash $h_{ab}$ como:</p>
                     <p>$$\begin{equation}
                         h_{ab}(k)=((ak+b)\mod p) \mod m
-                        \end{equation}$$.</p>
+                        \end{equation}$$</p>
                     <p>Por exemplo, para $p=17$ e $m=6$, temos:</p>
                     <p>$h_{3,4}(8)=((3\cdot 8 + 4) \mod 17)\mod 6=(28\mod 17)\mod 6=11\mod 6 = 5$.</p>
                     <p>Dados $p,m$, a família de funções é:</p>
                     <p>$$\begin{equation}
                         H_{pm}=\{h_{ab}: a\in Z^*_p \text{ e } b\in Z_p\}
-                        \end{equation}$$.</p>
+                        \end{equation}$$</p>
                     <p>A vantagem desse método é que $m$ pode ser arbitrário (não precisa ser primo). Como você pode escolher entre $p-1$ valores de $a$ e $p$ valores de $b$, a família $H_{pm}$ contém $p(p-1)$ funções.</p>
                     <p><b>Teorema 11.4</b></p>
                     <p>A família $H_{pm}$ é universal.</p>
@@ -319,7 +319,7 @@ chainedHashDelete(T,x)
                     <h5>Família $2/m$-universal de funções baseada no método de multiplicação com deslocamento</h5>
                     <p>Essa é a família recomendada pelo autor, sendo excepcionalmente eficiente e $2/m$-universal. É definida como:</p>
                     <p>$$\begin{equation}
-                        H=\{h_a:a\text{ é ímpar, }1\le a \lt m \text{ e } h_a \text{ é definido pela equação (11.2)}\}
+                        H=\{h_a:a\text{ é ímpar, }1\le a \lt m \text{ e } h_a \text{ é definida pela equação (11.2)}\}
                         \end{equation}$$</p>
                     <p><b>Teorema 11.5</b></p>
                     <p>A família de funções hash $H$ da equação (11.5) é $2/m$-universal.</p>
@@ -356,12 +356,10 @@ chainedHashDelete(T,x)
                     <p>Veja como funciona (em python):</p>
 
                     <pre><code class="language-python">def rollingHash(s,m):
-    r = len(s)
     sum = 0
-    for i in range(0,r):
-        sum = (sum * 128 + ord(s[i])) % m
-    return sum
-</code></pre>
+    for c in s:
+        sum = (sum * 128 + ord(c)) % m
+    return sum</code></pre>
 
                     <p>A cada etapa, $sum$ será o hash do prefixo da string processada até o momento e sempre caberá em uma única palavra de 32 bits.</p>
 

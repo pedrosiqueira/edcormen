@@ -244,7 +244,7 @@ chainedHashDelete(T,x)
 
                     <h5>O método da multiplicação</h5>
                     <p>Função hash:</p>
-                    <p>$h(k) = ⌊m (k A \mod 1)⌋$,</p>
+                    <p>$$h(k) = \lfloor m (k A \mod 1)\rfloor$$</p>
                     <p>que pode ser lida da seguinte forma:</p>
                     <ol>
                         <li>Escolha uma constante $A$ no intervalo $0 \lt A \lt 1$</li>
@@ -260,9 +260,8 @@ chainedHashDelete(T,x)
                     <h5>O método da multiplicação com deslocamento</h5>
                     <p>Se as chaves couberem em uma palavra de máquina de $w$ bits, e $m=2^l\le w$, podemos usar o método da multiplicação com deslocamento (multiply-shift).</p>
                     <p>Seja a constante $a=A2^w$, onde $0\le A \le 1$, de modo que $0\le a \le 2^w$, a função hash é:</p>
-                    <p>$$\begin{equation}h_a(k) = (ka \mod 2^w) \gg (w-l)
-                        \end{equation}$$,</p>
-                    <p>Que pode ser lida assim:</p>
+                    <p>$$\begin{equation}h_a(k) = (ka \mod 2^w) \gg (w-l)\end{equation}$$</p>
+                    <p>que pode ser lida assim:</p>
                     <ol>
                         <li>Multiplique $k$ pelo inteiro $a$ de $w$ bits. O resultado é um valor com $2w$ bits.</li>
                         <li>Pegue o resto da divisão por $2^w$, eliminando os $w$ bits mais significativos ($r_1$), deixando apenas o $w$ bits menos significativos ($r_0$).</li>
@@ -326,7 +325,7 @@ chainedHashDelete(T,x)
                     <p>Isto é, a probabilidade de duas chaves distintas colidirem é no máximo $2/m$. Em muitas situações práticas, comparada à função hash universal, a velocidade de computação de valores hash mais do que compensa pelo limite superior maior de probabilidade de colisão.</p>
                 </div>
                 <div id="11-3-5-hashing-de-longas-entradas">
-                    <h4>Hashing de longas entradas, como vetores ou strings</h4>
+                    <h4>11.3.5 Hashing de longas entradas, como vetores ou strings</h4>
                     <p>Às vezes, a entrada de uma função hash pode ser tão longa que não pode ser facilmente codificada com um número primo $p$ de tamanho razoável ou codificada em uma única palavra, por exemplo, de 64 bits. Como exemplo, considere vetores de bytes (que é como strings em muitas linguagens de programação são armazenadas). Um vetor pode ter um comprimento não negativo arbitrário, de modo que a função hash pode receber entradas de comprimentos variados.</p>
 
                     <h5>Abordagens número-teóricas</h5>
@@ -423,6 +422,76 @@ chainedHashDelete(T,x)
 
                     </li>
                 </ol>
+
+                <!-- <h4>Além do livro</h4>
+                <ol class="excs">
+                    <li>
+                        Considere os três métodos de hashing estático vistos nesta seção: divisão, multiplicação e multiplicação-deslocamento.
+                        
+                        fazer experimento com esses três métodos. vai inserindo elementos aleatórios e mede qual obteve mais colisões e qual foi mais rápido. vai inserindo elementos ordenados, simulando uma entrada não aleatória, e também mede as colisões e a velocidade. (que mais posso fazer nesse experimento?)
+                    </li>
+                    ### Experiment Outline:
+
+                    #### 1. Insert Random Elements:
+                    
+                    1. **Implementation:**
+                       - Implement each of the three hash calculation methods in a programming language of your choice (e.g., C, Python, Java).
+                    
+                    2. **Insert Random Elements:**
+                       - Generate a set of random elements.
+                       - Insert these elements into hash tables using each of the three methods.
+                    
+                    3. **Measure Collisions:**
+                       - Keep track of collisions for each method during the insertion process.
+                       - Collisions can be measured by counting the number of times two different keys hash to the same location.
+                    
+                    4. **Measure Speed:**
+                       - Record the time it takes to insert all random elements for each method.
+                       - Use a timer or a library function to measure the execution time.
+                    
+                    #### 2. Insert Ordered Elements:
+                    
+                    1. **Generate Ordered Elements:**
+                       - Generate a set of ordered (non-random) elements. This could be a sequence of integers.
+                    
+                    2. **Insert Ordered Elements:**
+                       - Insert the ordered elements into hash tables using each of the three methods.
+                    
+                    3. **Measure Collisions:**
+                       - Record the collisions that occur when inserting ordered elements.
+                    
+                    4. **Measure Speed:**
+                       - Record the time it takes to insert all ordered elements for each method.
+                    
+                    #### 3. Additional Analysis:
+                    
+                    1. **Load Factor:**
+                       - Calculate and compare the load factor for each hash table in both experiments.
+                       - Load Factor = Number of Elements / Table Size
+                    
+                    2. **Distribution Analysis:**
+                       - Analyze the distribution of hash values for each method.
+                       - Plot histograms or analyze statistical measures to understand the distribution.
+                    
+                    3. **Code Review and Discussion:**
+                       - Have students review each other's code to understand the implementation differences and similarities.
+                       - Discuss the trade-offs and advantages of each method.
+                    
+                    #### 4. Report and Presentation:
+                    
+                    1. **Collate Results:**
+                       - Create a report summarizing the results of the experiments, including collision statistics and execution times.
+                    
+                    2. **Comparison and Analysis:**
+                       - Discuss the findings, comparing the performance and behavior of the three methods in different scenarios (random vs. ordered input).
+                    
+                    3. **Conclusion:**
+                       - Draw conclusions about the effectiveness of each method in handling random and non-random input.
+                    
+                    4. **Presentation:**
+                       - Have students present their findings to the class, fostering discussion and understanding.
+
+                </ol> -->
             </div>
 
             <div id="11-4-enderecamento-aberto">

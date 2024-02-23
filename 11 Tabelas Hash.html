@@ -62,25 +62,25 @@
             text-align: left;
         }
 
+        /* inicia a lista de exercícios */
         ol.excs {
-            /* lista de exercícios */
             padding-inline-start: 0em;
             counter-reset: excs;
             list-style: none;
         }
 
-        ol.excs>li::before {
-            /* lista de exercícios */
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
             counter-increment: excs;
             content: counters(excs, ".") ". ";
         }
 
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
         ol.excs>li {
             /* Change this to adjust the line color and thickness */
             border-left: 2px solid #000;
             /* Optional: Add padding to create some space between the bar and content */
             padding-left: 10px;
-
             margin-block-start: 1em;
             margin-block-end: 1em;
         }
@@ -233,7 +233,7 @@ chainedHashDelete(T,x)
                 <p>A maior parte das funções hash considera como universo de chaves o conjunto $N = \{0, 1, 2, ...\}$ de números naturais. Assim, se as chaves não forem números naturais, temos de encontrar um modo de interpretá-las como números naturais. Por exemplo, o conjunto de caracteres ASCII possui 128 possíveis caracteres. Para converter uma string ASCII (dígitos na base 128) em um número natural (dígitos na base 10), usamos a fórmula de <a href="https://en.wikipedia.org/wiki/Radix#In_numeral_systems">conversão de radix</a>. Assim, a string “pt” (caracteres 112 e 116) na notação decimal seria 112*128+126=14452. Como seria teu nome na notação decimal? Portanto, consideramos a partir daqui que as chaves são números naturais.</p>
 
                 <div id="11-3-1-hashing-estatico">
-                    <h4>11.3.1 Hashing estático</h4>
+                    <h4 id="11-3-1-hashing-estatico">11.3.1 Hashing estático</h4>
 
                     <h5>O método da divisão</h5>
                     <p>Função hash: $h(k) = k \mod m$.</p>
@@ -415,83 +415,41 @@ chainedHashDelete(T,x)
                     <li>Demonstre que qualquer família $ϵ$-universal $H$ de funções hash de um conjunto finito $U$ para um conjunto finito $Q$ possui $ϵ \ge 1/|Q| − 1/|U|$.</li>
 
                     <li>Seja $U$ o conjunto de $d$-tuplas de valores retirados de $\mathbb Z_p$, e seja $Q = \mathbb Z_p$, onde $p$ é primo. Definimos a função hash $h_b: U \rightarrow Q$ para $b \in \mathbb Z_p$ em uma entrada $d$-tupla $\langle a_0, a_1, \ldots, a_{d - 1} \rangle$ de $U$ como
-                        
-                         <p>$$h_b(\langle a_0, a_1, \ldots, a_{d - 1} \rangle) = \Bigg(\sum_{j = 0}^{d - 1} a_jb^j \Bigg) \mod p,$$</p>
-                        
-                         <p>e seja $\mathcal{H} = \{h_b : b \in \mathbb Z_p\}$. Argumente que $\mathcal H$ é $\epsilon$-universal para $\epsilon=((d - 1) / p)$. ($\textit{Dica:}$ Veja o Exercício 31.4-4.)</p>
+
+                        <p>$$h_b(\langle a_0, a_1, \ldots, a_{d - 1} \rangle) = \Bigg(\sum_{j = 0}^{d - 1} a_jb^j \Bigg) \mod p,$$</p>
+
+                        <p>e seja $\mathcal{H} = \{h_b : b \in \mathbb Z_p\}$. Argumente que $\mathcal H$ é $\epsilon$-universal para $\epsilon=((d - 1) / p)$. ($\textit{Dica:}$ Veja o Exercício 31.4-4.)</p>
 
                     </li>
                 </ol>
 
-                <!-- <h4>Além do livro</h4>
+                <h4>Além do livro</h4>
                 <ol class="excs">
-                    <li>
-                        Considere os três métodos de hashing estático vistos nesta seção: divisão, multiplicação e multiplicação-deslocamento.
-                        
-                        fazer experimento com esses três métodos. vai inserindo elementos aleatórios e mede qual obteve mais colisões e qual foi mais rápido. vai inserindo elementos ordenados, simulando uma entrada não aleatória, e também mede as colisões e a velocidade. (que mais posso fazer nesse experimento?)
+                    <li class="no-mark">Considere os três métodos de hashing estático vistos na <a href="#11-3-1-hashing-estatico">Seção 11.3.1</a>: divisão, multiplicação e multiplicação-deslocamento.</li>
+                    <li>Implemente uma tabela hash cujos elementos sejam números inteiros e que, em sua inicialização, possa ser escolhida uma função hash entre esses três métodos. A resolução de colisões será por sobrescrita, isto é, só haverá um elemento para cada posição, que é o último inserido.</li>
+                    <li>Faça experimentos para comparar esses três métodos:
+                        <ol type="a">
+                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos aleatórios na tabela usando cada método.</li>
+                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos ordenados na tabela usando cada método.</li>
+                        </ol>
                     </li>
-                    ### Experiment Outline:
-
-                    #### 1. Insert Random Elements:
-                    
-                    1. **Implementation:**
-                       - Implement each of the three hash calculation methods in a programming language of your choice (e.g., C, Python, Java).
-                    
-                    2. **Insert Random Elements:**
-                       - Generate a set of random elements.
-                       - Insert these elements into hash tables using each of the three methods.
-                    
-                    3. **Measure Collisions:**
-                       - Keep track of collisions for each method during the insertion process.
-                       - Collisions can be measured by counting the number of times two different keys hash to the same location.
-                    
-                    4. **Measure Speed:**
-                       - Record the time it takes to insert all random elements for each method.
-                       - Use a timer or a library function to measure the execution time.
-                    
-                    #### 2. Insert Ordered Elements:
-                    
-                    1. **Generate Ordered Elements:**
-                       - Generate a set of ordered (non-random) elements. This could be a sequence of integers.
-                    
-                    2. **Insert Ordered Elements:**
-                       - Insert the ordered elements into hash tables using each of the three methods.
-                    
-                    3. **Measure Collisions:**
-                       - Record the collisions that occur when inserting ordered elements.
-                    
-                    4. **Measure Speed:**
-                       - Record the time it takes to insert all ordered elements for each method.
-                    
-                    #### 3. Additional Analysis:
-                    
-                    1. **Load Factor:**
-                       - Calculate and compare the load factor for each hash table in both experiments.
-                       - Load Factor = Number of Elements / Table Size
-                    
-                    2. **Distribution Analysis:**
-                       - Analyze the distribution of hash values for each method.
-                       - Plot histograms or analyze statistical measures to understand the distribution.
-                    
-                    3. **Code Review and Discussion:**
-                       - Have students review each other's code to understand the implementation differences and similarities.
-                       - Discuss the trade-offs and advantages of each method.
-                    
-                    #### 4. Report and Presentation:
-                    
-                    1. **Collate Results:**
-                       - Create a report summarizing the results of the experiments, including collision statistics and execution times.
-                    
-                    2. **Comparison and Analysis:**
-                       - Discuss the findings, comparing the performance and behavior of the three methods in different scenarios (random vs. ordered input).
-                    
-                    3. **Conclusion:**
-                       - Draw conclusions about the effectiveness of each method in handling random and non-random input.
-                    
-                    4. **Presentation:**
-                       - Have students present their findings to the class, fostering discussion and understanding.
-
-                </ol> -->
+                    <li>Elabore um relatório sobre o experimento:
+                        <ol type="a">
+                            <li>Descreva a metodologia empregada, com informações sobre os métodos de hashing usados, e os parâmetros utilizados em cada método.</li>
+                            <li>Faça análises de tempo de execução e de distribuição dos elementos nas tabelas, com medidas estatísticas e gráficos que ajudem a entender os resultados.</li>
+                            <li>Discuta os resultados, comparando o desempenho e o comportamento dos três métodos em diferentes cenários (entrada aleatória vs. entrada ordenada), e como cada método com parâmetros diferentes pode afetar o resultado.</li>
+                            <li>Tire conclusões sobre a eficácia de cada método no tratamento de entradas aleatórias e não aleatórias.</li>
+                        </ol>
+                    </li>
+                    <li class="no-mark">(Observações:
+                        <ul>
+                            <li>Use valores razoáveis para a quantidade de inserções de modo a testar efetivamente os métodos.</li>
+                            <li>Use parâmetros recomendados pelo Cormen para a implementação dos métodos.</li>
+                            <li>Colisões podem ser medidas contando a quantidade de vezes que duas chaves diferentes caem na mesma posição (possuem mesmo hash).</li>
+                            <li>Tempo de execução pode ser medido usando um temporizador ou uma biblioteca específica para isso.)</li>
+                        </ul>
+                    </li>
+                </ol>
             </div>
 
             <div id="11-4-enderecamento-aberto">

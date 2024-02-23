@@ -431,7 +431,9 @@ chainedHashDelete(T,x)
                         <ol type="a">
                             <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos aleatórios na tabela usando cada método.</li>
                             <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos ordenados na tabela usando cada método.</li>
+                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos múltiplos de um determinado valor na tabela usando cada método.</li>
                         </ol>
+                        <p>Essas diferentes entradas de dados servem para simular diferentes situações que podem ocorrer, e que podem afetar o desempenho dos métodos de hashing.</p>
                     </li>
                     <li>Elabore um relatório sobre o experimento:
                         <ol type="a">
@@ -444,7 +446,7 @@ chainedHashDelete(T,x)
                     <li class="no-mark">(Observações:
                         <ul>
                             <li>Use valores razoáveis para a quantidade de inserções de modo a testar efetivamente os métodos.</li>
-                            <li>Use parâmetros recomendados pelo Cormen para a implementação dos métodos.</li>
+                            <li>Use tanto parâmetros recomendados pelo Cormen quanto parâmetros não recomendados para a implementação dos métodos. Assim você pode observar o quanto um método pode ser afetado com parâmetros ruins.</li>
                             <li>Colisões podem ser medidas contando a quantidade de vezes que duas chaves diferentes caem na mesma posição (possuem mesmo hash).</li>
                             <li>Tempo de execução pode ser medido usando um temporizador ou uma biblioteca específica para isso.)</li>
                         </ul>

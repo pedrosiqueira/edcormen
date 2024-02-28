@@ -119,28 +119,26 @@
     </style>
 </head>
 
-<body>
+<div id="estruturas-de-dados">
+    <div id="11-tabelas-hash">
+        <h2>11 Tabelas hash</h2>
 
-    <div id="estruturas-de-dados">
-        <div id="11-tabelas-hash">
-            <h2>11 Tabelas hash</h2>
+        <p>Muitas aplicações exigem um conjunto dinâmico que suporte somente as operações de dicionário INSERT, SEARCH e DELETE. Por exemplo, um compilador que traduz uma linguagem de programação mantém uma <b>tabela de símbolos</b>. O tempo médio para buscar um elemento em uma <b>tabela hash</b>, também chamada de tabela de espalhamento, ou tabela de dispersão, é $O(1)$.</p>
 
-            <p>Muitas aplicações exigem um conjunto dinâmico que suporte somente as operações de dicionário INSERT, SEARCH e DELETE. Por exemplo, um compilador que traduz uma linguagem de programação mantém uma <b>tabela de símbolos</b>. O tempo médio para buscar um elemento em uma <b>tabela hash</b>, também chamada de tabela de espalhamento, ou tabela de dispersão, é $O(1)$.</p>
+        <div id="11-1-tabelas-de-enderecamento-direto">
+            <h3>11.1 Tabelas de endereçamento direto</h3>
 
-            <div id="11-1-tabelas-de-enderecamento-direto">
-                <h3>11.1 Tabelas de endereçamento direto</h3>
+            <p>O endereçamento direto é uma técnica simples que funciona bem quando o universo $U$ de chaves é razoavelmente pequeno. Suponha que uma aplicação necessite de um conjunto dinâmico no qual cada elemento tem uma chave extraída do universo $U = \{0, 1, ..., m - 1\}$, onde $m$ não é muito grande. Consideramos que não há dois elementos com a mesma chave.</p>
 
-                <p>O endereçamento direto é uma técnica simples que funciona bem quando o universo $U$ de chaves é razoavelmente pequeno. Suponha que uma aplicação necessite de um conjunto dinâmico no qual cada elemento tem uma chave extraída do universo $U = \{0, 1, ..., m - 1\}$, onde $m$ não é muito grande. Consideramos que não há dois elementos com a mesma chave.</p>
+            <p>Para representar o conjunto dinâmico, usamos um array, ou uma tabela de endereçamento direto, denotada por $T[0 .. m - 1]$, na qual cada posição (ou lacuna, slot) corresponde a uma chave no universo $U$. A Figura 11.1 ilustra a abordagem; a posição $k$ aponta para um elemento no conjunto com chave $k$. Se o conjunto não contém nenhum elemento com chave $k$, então $T[k] = NIL$.</p>
 
-                <p>Para representar o conjunto dinâmico, usamos um array, ou uma tabela de endereçamento direto, denotada por $T[0 .. m - 1]$, na qual cada posição (ou lacuna, slot) corresponde a uma chave no universo $U$. A Figura 11.1 ilustra a abordagem; a posição $k$ aponta para um elemento no conjunto com chave $k$. Se o conjunto não contém nenhum elemento com chave $k$, então $T[k] = NIL$.</p>
+            <figure>
+                <img id="fig-11-1-direct-address-table" alt="How to implement a dynamic set by a direct-address table T">
+                <figcaption>Figura 11.1: Tabela de endereçamento direto</figcaption>
+            </figure>
 
-                <figure>
-                    <img id="fig-11-1-direct-address-table" alt="How to implement a dynamic set by a direct-address table T">
-                    <figcaption>Figura 11.1: Tabela de endereçamento direto</figcaption>
-                </figure>
-
-                <p>A implementação das operações de dicionário é trivial:</p>
-                <pre><code>directAddressSearch(T,k)
+            <p>A implementação das operações de dicionário é trivial:</p>
+            <pre><code>directAddressSearch(T,k)
     return T[k]
 
 directAddressInsert(T,x)
@@ -149,55 +147,55 @@ directAddressInsert(T,x)
 directAddressDelete(T,x)
     T[x.key] = NIL</code></pre>
 
-                <p>Cada uma dessas operações custa somente $O(1)$.</p>
-                <p>Em vez de armazenar o objeto fora da tabela de endereçamento direto, podemos armazenar o objeto na própria tabela. Essa alternativa economizaria espaço?
-                    <!-- quanto mais dados satélites, cada objeto ocupa ainda mais espaço que um ponteiro. se a tabela armazenar os objetos diretamente nela, é melhor que ela esteja praticamente completa, pois cada posição ocupa mais espaço. economizamos em espaços de ponteiros. -->
-                    Usaríamos uma chave especial dentro do objeto para indicar uma posição vazia. Além disso, muitas vezes, é desnecessário armazenar a chave do objeto, já que, se temos o índice de um objeto na tabela, temos sua chave.
-                </p>
+            <p>Cada uma dessas operações custa somente $O(1)$.</p>
+            <p>Em vez de armazenar o objeto fora da tabela de endereçamento direto, podemos armazenar o objeto na própria tabela. Essa alternativa economizaria espaço?
+                <!-- quanto mais dados satélites, cada objeto ocupa ainda mais espaço que um ponteiro. se a tabela armazenar os objetos diretamente nela, é melhor que ela esteja praticamente completa, pois cada posição ocupa mais espaço. economizamos em espaços de ponteiros. -->
+                Usaríamos uma chave especial dentro do objeto para indicar uma posição vazia. Além disso, muitas vezes, é desnecessário armazenar a chave do objeto, já que, se temos o índice de um objeto na tabela, temos sua chave.
+            </p>
 
-                <h4>Exercícios</h4>
-                <ol class="excs">
-                    <li>Suponha que um conjunto dinâmico $S$ seja representado por uma tabela de endereçamento direto $T$ de comprimento $m$. Descreva um procedimento que determine o maior elemento de $S$. Qual é o desempenho do pior caso do seu procedimento?</li>
-                    <li>Um vetor de bits é simplesmente um array de bits (0s e 1s). Um vetor de bits de comprimento $m$ ocupa um espaço muito menor que um array de $m$ ponteiros. Descreva como usar um vetor de bits para representar um conjunto dinâmico de números naturais distintos entre $0$ e $m-1$. Operações de dicionário devem ser executadas no tempo $O(1)$.</li>
-                    <p>Comece com um vetor de bits $b$ que contém $1$ no slot $k$ se $k$ estiver no conjunto dinâmico, e $0$ caso contrário. Para procurar, retorne $\text{true}$ se $b[x]==1$. Para inserir $x$, defina $b[x]=1$. Para remover $x$, defina $b[x]=0$. Cada uma dessas operações custa $O(1)$.</p>
-                    <p>Por exemplo, podemos armazenar o conjunto $\{2, 4, 6, 10, 16\}$ no seguinte vetor de comprimento $20$:</p>
-                    <p>$$001010100010000010000$$</p>
-                    <li>Sugira como implementar uma tabela de endereçamento direto na qual as chaves de elementos armazenados não precisem ser distintas e os elementos possam ter dados satélites. Todas as três operações de dicionário (INSERT, DELETE e SEARCH) devem ser executadas em tempo $O(1)$. (Não esqueça que DELETE recebe como argumento um ponteiro para um objeto a ser excluído, não uma chave.)</li>
-                    <li>Descreva um esquema para implementar um dicionário usando endereçamento direto em um array enorme. No início, as posições do array podem conter lixo, e inicializar o array inteiro é impraticável devido ao seu tamanho. Cada objeto armazenado deve utilizar espaço $O(1)$; cada uma das operações SEARCH, INSERT e DELETE deve custar $O(1)$ e a inicialização da estrutura de dados deve custar $O(1)$. (Sugestão: Use uma espécie de pilha cujo tamanho é o número de chaves realmente armazenadas no dicionário, para ajudar a determinar se determinado elemento no array enorme é válido ou não.)</li>
-                </ol>
+            <h4>Exercícios</h4>
+            <ol class="excs">
+                <li>Suponha que um conjunto dinâmico $S$ seja representado por uma tabela de endereçamento direto $T$ de comprimento $m$. Descreva um procedimento que determine o maior elemento de $S$. Qual é o desempenho do pior caso do seu procedimento?</li>
+                <li>Um vetor de bits é simplesmente um array de bits (0s e 1s). Um vetor de bits de comprimento $m$ ocupa um espaço muito menor que um array de $m$ ponteiros. Descreva como usar um vetor de bits para representar um conjunto dinâmico de números naturais distintos entre $0$ e $m-1$. Operações de dicionário devem ser executadas no tempo $O(1)$.</li>
+                <p>Comece com um vetor de bits $b$ que contém $1$ no slot $k$ se $k$ estiver no conjunto dinâmico, e $0$ caso contrário. Para procurar, retorne $\text{true}$ se $b[x]==1$. Para inserir $x$, defina $b[x]=1$. Para remover $x$, defina $b[x]=0$. Cada uma dessas operações custa $O(1)$.</p>
+                <p>Por exemplo, podemos armazenar o conjunto $\{2, 4, 6, 10, 16\}$ no seguinte vetor de comprimento $20$:</p>
+                <p>$$001010100010000010000$$</p>
+                <li>Sugira como implementar uma tabela de endereçamento direto na qual as chaves de elementos armazenados não precisem ser distintas e os elementos possam ter dados satélites. Todas as três operações de dicionário (INSERT, DELETE e SEARCH) devem ser executadas em tempo $O(1)$. (Não esqueça que DELETE recebe como argumento um ponteiro para um objeto a ser excluído, não uma chave.)</li>
+                <li>Descreva um esquema para implementar um dicionário usando endereçamento direto em um array enorme. No início, as posições do array podem conter lixo, e inicializar o array inteiro é impraticável devido ao seu tamanho. Cada objeto armazenado deve utilizar espaço $O(1)$; cada uma das operações SEARCH, INSERT e DELETE deve custar $O(1)$ e a inicialização da estrutura de dados deve custar $O(1)$. (Sugestão: Use uma espécie de pilha cujo tamanho é o número de chaves realmente armazenadas no dicionário, para ajudar a determinar se determinado elemento no array enorme é válido ou não.)</li>
+            </ol>
 
-                <h4>Além do livro</h4>
-                <ol class="excs">
-                    <li>Considere um banco de dados de pessoas, com os atributos nome, data de nascimento e sexo. Esse banco de dados armazena no máximo uma pessoa por dia do ano. Por exemplo, não pode haver duas pessoas que nasceram no dia primeiro de janeiro, independente do ano.
-                        <p>Implemente as operações de inserção, busca por data de nascimento e exclusão em tempo $O(1)$. Ao tentar inserir um pessoa que nasceu no mesmo dia do ano que outra já presente no banco de dados, a com menor idade deve ficar. (Dica: utilize uma tabela de endereçamento direto em que as chaves são cada um dos 366 dias do ano).</p>
-                    </li>
-                </ol>
-            </div>
+            <h4>Além do livro</h4>
+            <ol class="excs">
+                <li>Considere um banco de dados de pessoas, com os atributos nome, data de nascimento e sexo. Esse banco de dados armazena no máximo uma pessoa por dia do ano. Por exemplo, não pode haver duas pessoas que nasceram no dia primeiro de janeiro, independente do ano.
+                    <p>Implemente as operações de inserção, busca por data de nascimento e exclusão em tempo $O(1)$. Ao tentar inserir um pessoa que nasceu no mesmo dia do ano que outra já presente no banco de dados, a com menor idade deve ficar. (Dica: utilize uma tabela de endereçamento direto em que as chaves são cada um dos 366 dias do ano).</p>
+                </li>
+            </ol>
+        </div>
 
-            <div id="11-2-tabelas-hash">
-                <h3>11.2 Tabelas hash</h3>
+        <div id="11-2-tabelas-hash">
+            <h3>11.2 Tabelas hash</h3>
 
-                <p>Se o universo $U$ é grande, armazenar uma tabela $T$ de tamanho $|U|$ pode ser impraticável ou mesmo impossível. Além disso, o conjunto $K$ de chaves realmente armazenadas pode ser tão pequeno em relação a $U$ que grande parte do espaço alocado para $T$ seria desperdiçada.</p>
-                <p>Com tabela de endereçamento direto, um elemento com a chave $k$ é armazenado na posição $k$. Com tabela hash (tabela de espalhamento, ou tabela de dispersão), esse elemento é armazenado na posição $h(k)$; isto é, usamos uma <b>função hash</b> $h$ para calcular a posição da chave $k$.</p>
-                <p>A Figura 11.2 ilustra a ideia básica:</p>
-                <figure>
-                    <img id="fig-11-2-hash-table" alt="tabela hash">
-                    <figcaption>Figura 11.2: Tabela hash</figcaption>
-                </figure>
-                <p>Após o hash, duas chaves podem ser mapeadas para a mesma posição. Chamamos essa situação de <b>colisão</b>. Podemos evitar colisão escolhendo uma função hash adequada. Uma ideia é fazer $h$ parecer “aleatória”.</p>
-                <p>Seja $m$ o tamanho da tabela hash. Como $|U|>m$, é impossível evitar totalmente colisões.</p>
+            <p>Se o universo $U$ é grande, armazenar uma tabela $T$ de tamanho $|U|$ pode ser impraticável ou mesmo impossível. Além disso, o conjunto $K$ de chaves realmente armazenadas pode ser tão pequeno em relação a $U$ que grande parte do espaço alocado para $T$ seria desperdiçada.</p>
+            <p>Com tabela de endereçamento direto, um elemento com a chave $k$ é armazenado na posição $k$. Com tabela hash (tabela de espalhamento, ou tabela de dispersão), esse elemento é armazenado na posição $h(k)$; isto é, usamos uma <b>função hash</b> $h$ para calcular a posição da chave $k$.</p>
+            <p>A Figura 11.2 ilustra a ideia básica:</p>
+            <figure>
+                <img id="fig-11-2-hash-table" alt="tabela hash">
+                <figcaption>Figura 11.2: Tabela hash</figcaption>
+            </figure>
+            <p>Após o hash, duas chaves podem ser mapeadas para a mesma posição. Chamamos essa situação de <b>colisão</b>. Podemos evitar colisão escolhendo uma função hash adequada. Uma ideia é fazer $h$ parecer “aleatória”.</p>
+            <p>Seja $m$ o tamanho da tabela hash. Como $|U|>m$, é impossível evitar totalmente colisões.</p>
 
-                <h4>Hashing uniform independente</h4>
-                <p>Para cada elemento $k$ do domínio $U$, uma função hash $h$ ideal geraria o mesmo valor $h(k)$ independentemente e uniformemente <!-- todos os valores nesse intervalo têm a mesma probabilidade de serem escolhidos --> aleatório do intervalo $\{0, 1, ..., m - 1\}$. Chamamos tal função de <b>função hash uniforme independente</b>. Na prática, temos aproximações desse ideal.</p>
+            <h4>Hashing uniform independente</h4>
+            <p>Para cada elemento $k$ do domínio $U$, uma função hash $h$ ideal geraria o mesmo valor $h(k)$ independentemente e uniformemente <!-- todos os valores nesse intervalo têm a mesma probabilidade de serem escolhidos --> aleatório do intervalo $\{0, 1, ..., m - 1\}$. Chamamos tal função de <b>função hash uniforme independente</b>. Na prática, temos aproximações desse ideal.</p>
 
-                <h4>Resolução de colisões por encadeamento</h4>
-                <p>No encadeamento, todos os elementos resultantes do hash vão para a mesma posição em uma lista encadeada, como mostra a Figura 11.3.</p>
-                <figure>
-                    <img id="fig-11-3-evitando-colisoes" alt="evitando colisões com encadeamento">
-                    <figcaption>Figura 11.3: Evitando colisões com encadeamento</figcaption>
-                </figure>
-                <p>A seguir, a implementação das operações:</p>
-                <pre><code>chainedHashInsert(T,x)
+            <h4>Resolução de colisões por encadeamento</h4>
+            <p>No encadeamento, todos os elementos resultantes do hash vão para a mesma posição em uma lista encadeada, como mostra a Figura 11.3.</p>
+            <figure>
+                <img id="fig-11-3-evitando-colisoes" alt="evitando colisões com encadeamento">
+                <figcaption>Figura 11.3: Evitando colisões com encadeamento</figcaption>
+            </figure>
+            <p>A seguir, a implementação das operações:</p>
+            <pre><code>chainedHashInsert(T,x)
     insert x at the head of list T[h(x.key)]
 
 chainedHashSearch(T,k)
@@ -206,177 +204,177 @@ chainedHashSearch(T,k)
 chainedHashDelete(T,x)
     delete x from the list T[h(x.key)]</code></pre>
 
-                <p>Se a lista for duplamente encadeada, a operação de exclusão pode ser feita em tempo $O(1)$, já que o argumento da função não é a chave do elemento a ser excluído, e sim o ponteiro para o elemento. A inserção é $O(1)$.</p>
+            <p>Se a lista for duplamente encadeada, a operação de exclusão pode ser feita em tempo $O(1)$, já que o argumento da função não é a chave do elemento a ser excluído, e sim o ponteiro para o elemento. A inserção é $O(1)$.</p>
 
-                <h4>Análise do hashing com encadeamento</h4>
+            <h4>Análise do hashing com encadeamento</h4>
 
-                <p>Dada uma tabela hash $T$ com $m$ posições que armazena $n$ elementos, definimos o <b>fator de carga</b> $\alpha$ de $T$ como $n/m$, isto é, o número médio de elementos armazenados em uma lista encadeada.</p>
-                <p>O pior caso do hashing com encadeamento é terrível: após o hashing, todas as $n$ chaves vão para a mesma posição, criando uma lista de comprimento $n$.</p>
-                <p>O desempenho do hashing para o caso médio depende de como a função hash $h$ distribui as chaves entre as $m$ posições, em média. Por enquanto, vamos considerar hashing uniform independente, isto é, qualquer elemento tem igual probabilidade de cair em qualquer das $m$ posições, independente dos elementos já na tabela.</p>
-                <p>Para $j = 0, 1, ..., m - 1$, vamos denotar o comprimento da lista $T[j]$ por $n_j$, de modo que</p>
-                <p>$$\begin{equation}
-                    n=n_0+n_1+...+n_{m-1}
-                    \end{equation}$$</p>
-                <p>e o valor esperado de $n_j$ é $E[n_j] = \alpha = n/m$.</p>
-                <p>Assumimos que o custo de calcular o valor hash $h(k)$ é $O(1)$. Assim, o tempo para procurar por um elemento com chave $k$ depende do comprimento $n_{h(k)}$ da lista $T[h(k)]$.</p>
-                <p><b>Teorema 11.1</b></p>
-                <p>Em uma tabela hash com colisões resolvidas com encadeamento, uma busca malsucedida demora tempo médio $\Theta(1+\alpha)$ com hashing uniforme independente.</p>
-                <p><b>Prova</b></p>
-                <p>Qualquer chave $k$ ainda não armazenada na tabela tem igual probabilidade de ocupar qualquer das $m$ posições após o hash. O tempo esperado para procurar sem sucesso uma chave $k$ é o tempo esperado para buscar até o fim da lista $T[h(k)]$, que tem o comprimento esperado $E[n_{h(k)}] = \alpha$. Assim, o número esperado de elementos examinados em uma busca malsucedida é $\alpha$, e o tempo total exigido (incluindo o tempo para se calcular $h(k)$) é $\Theta(1 + \alpha)$.</p>
-                <p><b>Teorema 11.2</b></p>
-                <p>Em uma tabela hash com colisões resolvidas com encadeamento, uma busca bem sucedida demora tempo médio $\Theta(1+\alpha)$ com hashing uniforme independente.</p>
-                <p><b>Prova</b></p>
-                <p>A situação para uma busca bem-sucedida é ligeiramente diferente, pois o elemento desejado pode ser qualquer um dos elementos presentes na tabela, de modo que quanto maior uma lista, maior a probabilidade da busca cair nela. Todavia, o tempo de busca esperado ainda é $\Theta(1 + \alpha)$. Mais detalhes sobre a prova encontra-se no livro.</p>
-                <p>O que estas análises significam? Se o número de posições da tabela hash é no mínimo proporcional ao número de elementos na tabela, temos $n = O(m)$ e, consequentemente, $\alpha = n/m = O(m)/m = O(1)$. Assim, a busca demora tempo constante na média.</p>
-                <h4>Exercícios</h4>
-                <ol class="excs">
-                    <li>Considere uma tabela com nove posições e a função hash $h(k) = k \mod 9$. Demonstre o que acontece quando inserimos as chaves $5, 28, 19, 15, 20, 33, 12, 17, 10$ em uma tabela hash com colisões resolvidas por encadeamento.</li>
-                    <li>O professor Marley apresentou a hipótese de que podemos obter ganhos substanciais de desempenho modificando o esquema de encadeamento mantendo cada lista em sequência ordenada. Como a modificação do professor afeta o tempo de execução para buscas bem-sucedidas, malsucedidas, inserções e exclusões?</li>
-                    <li>Sugira como alocar e desalocar elementos dentro da própria tabela hash criando uma "lista livre": uma lista encadeada com todos os slots vazios. Suponha que um slot possa armazenar uma flag e, ou um elemento mais um ponteiro ou dois ponteiros. Todas as operações de dicionário e lista livre devem ser executadas em tempo $O(1)$. A lista livre precisa ser duplamente encadeada ou basta uma lista encadeada simples?</li>
-                    <li>Suponha que estejamos armazenando um conjunto de $n$ chaves em uma tabela hash de tamanho $m$. Mostre que, se as chaves forem extraídas de um universo $U$ com $|U| > nm$, então $U$ tem um subconjunto de $n$ chaves com um mesmo valor de hashing, de modo que o tempo de busca do pior caso para o hashing com encadeamento é $O(n)$.</li>
+            <p>Dada uma tabela hash $T$ com $m$ posições que armazena $n$ elementos, definimos o <b>fator de carga</b> $\alpha$ de $T$ como $n/m$, isto é, o número médio de elementos armazenados em uma lista encadeada.</p>
+            <p>O pior caso do hashing com encadeamento é terrível: após o hashing, todas as $n$ chaves vão para a mesma posição, criando uma lista de comprimento $n$.</p>
+            <p>O desempenho do hashing para o caso médio depende de como a função hash $h$ distribui as chaves entre as $m$ posições, em média. Por enquanto, vamos considerar hashing uniform independente, isto é, qualquer elemento tem igual probabilidade de cair em qualquer das $m$ posições, independente dos elementos já na tabela.</p>
+            <p>Para $j = 0, 1, ..., m - 1$, vamos denotar o comprimento da lista $T[j]$ por $n_j$, de modo que</p>
+            <p>$$\begin{equation}
+                n=n_0+n_1+...+n_{m-1}
+                \end{equation}$$</p>
+            <p>e o valor esperado de $n_j$ é $E[n_j] = \alpha = n/m$.</p>
+            <p>Assumimos que o custo de calcular o valor hash $h(k)$ é $O(1)$. Assim, o tempo para procurar por um elemento com chave $k$ depende do comprimento $n_{h(k)}$ da lista $T[h(k)]$.</p>
+            <p><b>Teorema 11.1</b></p>
+            <p>Em uma tabela hash com colisões resolvidas com encadeamento, uma busca malsucedida demora tempo médio $\Theta(1+\alpha)$ com hashing uniforme independente.</p>
+            <p><b>Prova</b></p>
+            <p>Qualquer chave $k$ ainda não armazenada na tabela tem igual probabilidade de ocupar qualquer das $m$ posições após o hash. O tempo esperado para procurar sem sucesso uma chave $k$ é o tempo esperado para buscar até o fim da lista $T[h(k)]$, que tem o comprimento esperado $E[n_{h(k)}] = \alpha$. Assim, o número esperado de elementos examinados em uma busca malsucedida é $\alpha$, e o tempo total exigido (incluindo o tempo para se calcular $h(k)$) é $\Theta(1 + \alpha)$.</p>
+            <p><b>Teorema 11.2</b></p>
+            <p>Em uma tabela hash com colisões resolvidas com encadeamento, uma busca bem sucedida demora tempo médio $\Theta(1+\alpha)$ com hashing uniforme independente.</p>
+            <p><b>Prova</b></p>
+            <p>A situação para uma busca bem-sucedida é ligeiramente diferente, pois o elemento desejado pode ser qualquer um dos elementos presentes na tabela, de modo que quanto maior uma lista, maior a probabilidade da busca cair nela. Todavia, o tempo de busca esperado ainda é $\Theta(1 + \alpha)$. Mais detalhes sobre a prova encontra-se no livro.</p>
+            <p>O que estas análises significam? Se o número de posições da tabela hash é no mínimo proporcional ao número de elementos na tabela, temos $n = O(m)$ e, consequentemente, $\alpha = n/m = O(m)/m = O(1)$. Assim, a busca demora tempo constante na média.</p>
+            <h4>Exercícios</h4>
+            <ol class="excs">
+                <li>Considere uma tabela com nove posições e a função hash $h(k) = k \mod 9$. Demonstre o que acontece quando inserimos as chaves $5, 28, 19, 15, 20, 33, 12, 17, 10$ em uma tabela hash com colisões resolvidas por encadeamento.</li>
+                <li>O professor Marley apresentou a hipótese de que podemos obter ganhos substanciais de desempenho modificando o esquema de encadeamento mantendo cada lista em sequência ordenada. Como a modificação do professor afeta o tempo de execução para buscas bem-sucedidas, malsucedidas, inserções e exclusões?</li>
+                <li>Sugira como alocar e desalocar elementos dentro da própria tabela hash criando uma "lista livre": uma lista encadeada com todos os slots vazios. Suponha que um slot possa armazenar uma flag e, ou um elemento mais um ponteiro ou dois ponteiros. Todas as operações de dicionário e lista livre devem ser executadas em tempo $O(1)$. A lista livre precisa ser duplamente encadeada ou basta uma lista encadeada simples?</li>
+                <li>Suponha que estejamos armazenando um conjunto de $n$ chaves em uma tabela hash de tamanho $m$. Mostre que, se as chaves forem extraídas de um universo $U$ com $|U| > nm$, então $U$ tem um subconjunto de $n$ chaves com um mesmo valor de hashing, de modo que o tempo de busca do pior caso para o hashing com encadeamento é $O(n)$.</li>
+            </ol>
+        </div>
+
+        <div id="11-3-funcoes-hash">
+            <h3>11.3 Funções hash</h3>
+            <p>Uma boa função hash satisfaz (aproximadamente) a premissa do hashing uniforme independente: cada chave tem igual probabilidade de cair em qualquer das $m$ posições, independentemente da posição que qualquer outra chave ocupa. Infelizmente, normalmente não temos nenhum meio de verificar essa condição, já que raramente conhecemos a distribuição de probabilidade da qual as chaves são extraídas. Além disso, as chaves poderiam não ser extraídas independentemente. Ocasionalmente conhecemos a distribuição. Por exemplo, se soubermos que as chaves são números reais aleatórios $k$, independente e uniformemente distribuídos na faixa $0 \leq k \lt 1$, então a função hash $h(k)=\lfloor km \rfloor$ satisfaz a condição de hashing uniforme independente.</p>
+            <p>A maior parte das funções hash considera como universo de chaves o conjunto $N = \{0, 1, 2, ...\}$ de números naturais. Assim, se as chaves não forem números naturais, temos de encontrar um modo de interpretá-las como números naturais. Por exemplo, o conjunto de caracteres ASCII possui 128 possíveis caracteres. Para converter uma string ASCII (dígitos na base 128) em um número natural (dígitos na base 10), usamos a fórmula de <a href="https://en.wikipedia.org/wiki/Radix#In_numeral_systems">conversão de radix</a>. Assim, a string “pt” (caracteres 112 e 116) na notação decimal seria 112*128+126=14452. Como seria teu nome na notação decimal? Portanto, consideramos a partir daqui que as chaves são números naturais.</p>
+
+            <div id="11-3-1-hashing-estatico">
+                <h4 id="11-3-1-hashing-estatico">11.3.1 Hashing estático</h4>
+
+                <h5>O método da divisão</h5>
+                <p>Função hash: $h(k) = k \mod m$.</p>
+                <p>Por exemplo, para tabela hash com $m = 12$ e chave $k = 100$, então $h(k) = 4$.</p>
+                <p>Vantagem: rapidez, pois o cálculo envolve apenas uma operação de divisão.</p>
+                <p>Alguns valores para $m$ são ruins, como uma potência de $2$, já que, se $m = 2^p$, então $h(k)$ usará apenas os $p$ bits menos significativos de $k$ para o <a href='https://cs.stackexchange.com/a/19021'>cálculo</a>. É melhor garantir que a função hash dependa de todos os bits da chave.</p>
+                <p>Um primo não muito próximo de uma potência de $2$ é uma boa escolha para $m$. Por exemplo, considere uma tabela hash com colisões resolvidas por encadeamento que armazena $n=2000$ strings. Um bom tamanho para essa tabela é $701$, pois é um primo não próximo de uma potência de $2$ e permite uma média de três elementos colididos ($2000/3 ≈ 701$). A função hash seria $h(k)=k \mod 701$.</p>
+
+                <h5>O método da multiplicação</h5>
+                <p>Função hash:</p>
+                <p>$$h(k) = \lfloor m (k A \mod 1)\rfloor$$</p>
+                <p>que pode ser lida da seguinte forma:</p>
+                <ol>
+                    <li>Escolha uma constante $A$ no intervalo $0 \lt A \lt 1$</li>
+                    <li>Multiplique a chave $k$ pela constante $A$</li>
+                    <li>Extraia a parte fracionária de $k A$, isto é, $(k A \mod 1)$ é o mesmo que $(k A - ⌊k A⌋)$</li>
+                    <li>Multiplique a parte fracionária por $m$</li>
+                    <li>Pegue o piso do resultado</li>
                 </ol>
+                <p>Vantagem: o valor de $m$ não é crítico. Entretanto, este método não é tão rápido quanto o da divisão. Em geral, $m = 2^p$, para algum inteiro $p$, já que podemos implementar facilmente a função na maioria dos computadores (mais informações no livro).</p>
+                <p>Alguns valores para $A$ funcionam melhor que outros. A escolha ótima depende das características dos dados aos quais o hash está sendo aplicado. Knuth sugere que $A \approx ( \sqrt{5} - 1 )/2=0.6180339887...$. funciona bem.</p>
+                <p>Como exemplo, suponha $k=123456$, $p=14$, $m=2^p=16384$. Assim, $kA = 76300.004115107$. Então, $h(k) = ⌊m * 0.004115107⌋ = 67$.</p>
+
+                <h5>O método da multiplicação com deslocamento</h5>
+                <p>Se as chaves couberem em uma palavra de máquina de $w$ bits, e $m=2^l\le w$, podemos usar o método da multiplicação com deslocamento (multiply-shift).</p>
+                <p>Seja a constante $a=A2^w$, onde $0\le A \le 1$, de modo que $0\le a \le 2^w$, a função hash é:</p>
+                <p>$$\begin{equation}h_a(k) = (ka \mod 2^w) \gg (w-l)\end{equation}$$</p>
+                <p>que pode ser lida assim:</p>
+                <ol>
+                    <li>Multiplique $k$ pelo inteiro $a$ de $w$ bits. O resultado é um valor com $2w$ bits.</li>
+                    <li>Pegue o resto da divisão por $2^w$, eliminando os $w$ bits mais significativos ($r_1$), deixando apenas o $w$ bits menos significativos ($r_0$).</li>
+                    <li>Desloque (shift) à direita $w-l$ bits, deixando apenas os $l$ bits mais significativos de $r_0$, que é seu valor hash.</li>
+                </ol>
+                <p>A Figura 11.4 ilustra esse processo:</p>
+                <p>
+                <figure><img id="fig-11-4-multiply-shift-method" alt="o método multiplicação com shift para computar um hash.">
+                    <figcaption>Figura 11.4: O método da multiplicação com shift para computar um hash.</figcaption>
+                </figure>
+                </p>
+                <p>Esse método pode ser implementado com três instruções de máquina simples: multiplicação, subtração e deslocamento à direita.</p>
+                <p>Como exemplo, suponha $k=123456$, $l=14$, $m=2^l=16384$, $w=32$ e $a=2654435769$, conforme sugestão de Knuth. Assim, $ka = 76300\cdot 2^{32} + 17612864$, sendo $r_1=76300$ e $r_0=17612864$. Os 14 bits mais significativos de $r_0$ são $h_a(k)=67$.</p>
             </div>
+            <div id="11-3-2-hashing-aleatorio">
+                <h4>11.3.2 Hashing aleatório</h4>
+                <p>Suponha que um cracker escolha chaves sabendo a função hash estática implementada. Ele pode escolher $n$ chaves que caiam no mesmo slot, resultando em um tempo médio de busca de $\Theta(n)$. Qualquer função hash estática é vulnerável a esse ataque. A única maneira eficaz de evitar essa situação é escolher a função hash aleatoriamente e independentemente das chaves. Essa abordagem é chamada de <b>hashing aleatório</b>. Um caso especial dessa abordagem, chamado de <b>hashing universal</b>, pode proporcionar um desempenho médio comprovadamente bom, independentemente das chaves escolhidas pelo cracker.</p>
+                <p>Para usar hashing aleatório, no início da execução do programa, escolha aleatoriamente uma função hash de uma família adequada de funções. Assim como no quicksort, aleatoriedade garante que uma sequência de entrada não invoque apenas o pior caso a cada execução.</p>
+                <p>Por exemplo, uma variante aleatória simples do método de multiplicação com deslocamento que funciona bem na média é, no início do programa, escolher aleatoriamente um número ímpar para o valor de $a$.</p>
+                <p>Uma família $H$ de funções hash é <b>universal</b> se, ao escolher aleatoriamente uma função hash $h$, a chance de colisão entre duas chaves arbitrárias distintas $k_1,k_2$ for no máximo a chance $1/m$ da colisão se $h(k_1)$ e $h(k_2)$ fossem valores aleatoriamente e independentemente escolhidos entre $\{0,1,..., m-1\}$.</p>
+                <p>Hashing uniforme independente é equivalente a escolher uma função hash uniformemente e aleatoriamente de uma família de todas as possíveis $m^n$ funções hash, onde cada função mapeia as $n$ chaves para os $m$ valores hash de maneira diferente.</p>
+                <p><b>Corolário 11.3</b></p>
+                <p>Usando hashing universal e resolução de colisão por encadeamento em uma tabela inicialmente vazia de tamanho $m$, leva tempo $\Theta(s)$ para lidar com $s$ operações de inserção, exclusão e busca, contendo $n=O(m)$ operações de inserção.</p>
+                <p><b>Prova:</b> No livro.</p>
+            </div>
+            <div id="11-3-3-propriedades-de-hashing-aleatorio">
+                <h4>11.3.3 Propriedades de hashing aleatório</h4>
+                <p>Seja $h$ uma função escolhida aleatoriamente e independentemente de uma família de funções hash $H$. Dentre a vasta gama de propriedades na literatura, algumas interessantes são:</p>
+                <ul>
+                    <li>$H$ é <b>uniforme</b> se para qualquer chave $k$ e slot $q$, a probabilidade de $h(k)=q$ for $1/m$.<!-- uniforme é igual, isto é, qualquer posição tem a igual chance de ser a escolhida --></li>
+                    <li>$H$ é <b>universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $1/m$.</li>
+                    <li>$H$ é <b>$\epsilon$-universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $\epsilon$. Portanto, uma família de funções universal também é $1/m$-universal.</li>
+                </ul>
+            </div>
+            <div id="11-3-4-projetando-familia-universal-de-funcoes-hash">
+                <h4>11.3.4 Projetando uma família universal de funções hash</h4>
+                <h5>Família universal de funções baseada em teoria dos números</h5>
+                <p>Comece escolhendo um número primo $p$ tal que qualquer chave $k$ esteja entre $0$ e $p-1$ inclusivos. Seja $Z_p=\{0,1,..., p-1\}$ e $Z^*_p=\{1,..., p-1\}$. Como o universo de chaves é maior que o tamanho da tabela, então $p\gt m$. O capítulo 31 ensina como calcular resto da divisão de números primos eficientemente.</p>
+                <p>Dados quaisquer $a\in Z^*_p$ e $b\in Z_p$, definimos a função hash $h_{ab}$ como:</p>
+                <p>$$\begin{equation}
+                    h_{ab}(k)=((ak+b)\mod p) \mod m
+                    \end{equation}$$</p>
+                <p>Por exemplo, para $p=17$ e $m=6$, temos:</p>
+                <p>$h_{3,4}(8)=((3\cdot 8 + 4) \mod 17)\mod 6=(28\mod 17)\mod 6=11\mod 6 = 5$.</p>
+                <p>Dados $p,m$, a família de funções é:</p>
+                <p>$$\begin{equation}
+                    H_{pm}=\{h_{ab}: a\in Z^*_p \text{ e } b\in Z_p\}
+                    \end{equation}$$</p>
+                <p>A vantagem desse método é que $m$ pode ser arbitrário (não precisa ser primo). Como você pode escolher entre $p-1$ valores de $a$ e $p$ valores de $b$, a família $H_{pm}$ contém $p(p-1)$ funções.</p>
+                <p><b>Teorema 11.4</b></p>
+                <p>A família $H_{pm}$ é universal.</p>
+                <p><b>Prova:</b> No livro.</p>
 
-            <div id="11-3-funcoes-hash">
-                <h3>11.3 Funções hash</h3>
-                <p>Uma boa função hash satisfaz (aproximadamente) a premissa do hashing uniforme independente: cada chave tem igual probabilidade de cair em qualquer das $m$ posições, independentemente da posição que qualquer outra chave ocupa. Infelizmente, normalmente não temos nenhum meio de verificar essa condição, já que raramente conhecemos a distribuição de probabilidade da qual as chaves são extraídas. Além disso, as chaves poderiam não ser extraídas independentemente. Ocasionalmente conhecemos a distribuição. Por exemplo, se soubermos que as chaves são números reais aleatórios $k$, independente e uniformemente distribuídos na faixa $0 \leq k \lt 1$, então a função hash $h(k)=\lfloor km \rfloor$ satisfaz a condição de hashing uniforme independente.</p>
-                <p>A maior parte das funções hash considera como universo de chaves o conjunto $N = \{0, 1, 2, ...\}$ de números naturais. Assim, se as chaves não forem números naturais, temos de encontrar um modo de interpretá-las como números naturais. Por exemplo, o conjunto de caracteres ASCII possui 128 possíveis caracteres. Para converter uma string ASCII (dígitos na base 128) em um número natural (dígitos na base 10), usamos a fórmula de <a href="https://en.wikipedia.org/wiki/Radix#In_numeral_systems">conversão de radix</a>. Assim, a string “pt” (caracteres 112 e 116) na notação decimal seria 112*128+126=14452. Como seria teu nome na notação decimal? Portanto, consideramos a partir daqui que as chaves são números naturais.</p>
+                <h5>Família $2/m$-universal de funções baseada no método de multiplicação com deslocamento</h5>
+                <p>Essa é a família recomendada pelo autor, sendo excepcionalmente eficiente e $2/m$-universal. É definida como:</p>
+                <p>$$\begin{equation}
+                    H=\{h_a:a\text{ é ímpar, }1\le a \lt m \text{ e } h_a \text{ é definida pela equação (11.2)}\}
+                    \end{equation}$$</p>
+                <p><b>Teorema 11.5</b></p>
+                <p>A família de funções hash $H$ da equação (11.5) é $2/m$-universal.</p>
+                <p>Isto é, a probabilidade de duas chaves distintas colidirem é no máximo $2/m$. Em muitas situações práticas, comparada à função hash universal, a velocidade de computação de valores hash mais do que compensa pelo limite superior maior de probabilidade de colisão.</p>
+            </div>
+            <div id="11-3-5-hashing-de-longas-entradas">
+                <h4>11.3.5 Hashing de longas entradas, como vetores ou strings</h4>
+                <p>Às vezes, a entrada de uma função hash pode ser tão longa que não pode ser facilmente codificada com um número primo $p$ de tamanho razoável ou codificada em uma única palavra, por exemplo, de 64 bits. Como exemplo, considere vetores de bytes (que é como strings em muitas linguagens de programação são armazenadas). Um vetor pode ter um comprimento não negativo arbitrário, de modo que a função hash pode receber entradas de comprimentos variados.</p>
 
-                <div id="11-3-1-hashing-estatico">
-                    <h4 id="11-3-1-hashing-estatico">11.3.1 Hashing estático</h4>
+                <h5>Abordagens número-teóricas</h5>
+                <p>O exercício 11.3-6 explora uma possível abordagem.</p>
 
-                    <h5>O método da divisão</h5>
-                    <p>Função hash: $h(k) = k \mod m$.</p>
-                    <p>Por exemplo, para tabela hash com $m = 12$ e chave $k = 100$, então $h(k) = 4$.</p>
-                    <p>Vantagem: rapidez, pois o cálculo envolve apenas uma operação de divisão.</p>
-                    <p>Alguns valores para $m$ são ruins, como uma potência de $2$, já que, se $m = 2^p$, então $h(k)$ usará apenas os $p$ bits menos significativos de $k$ para o <a href='https://cs.stackexchange.com/a/19021'>cálculo</a>. É melhor garantir que a função hash dependa de todos os bits da chave.</p>
-                    <p>Um primo não muito próximo de uma potência de $2$ é uma boa escolha para $m$. Por exemplo, considere uma tabela hash com colisões resolvidas por encadeamento que armazena $n=2000$ strings. Um bom tamanho para essa tabela é $701$, pois é um primo não próximo de uma potência de $2$ e permite uma média de três elementos colididos ($2000/3 ≈ 701$). A função hash seria $h(k)=k \mod 701$.</p>
+                <h5>Hashing criptográfico</h5>
+                <p>Também podemos usar <b>funções de hash criptográfico</b>. São projetadas para aplicações com requisitos muito além das necessidades de uma tabela hash. Mas por serem robustas e amplamente implementadas, podemos aplicá-las aqui também.</p>
+                <p>Uma função hash criptográfica recebe como entrada um vetor de bytes arbitrário e retorna uma saída de comprimento fixo. Por exemplo, a famosa função SHA-256 produz uma saída de 256 bits (32 bytes) para qualquer entrada.</p>
+                <p>Inclusive podemos fazer proveito de alguns processadores que implementam instruções específicas para auxiliar no cálculo de funções criptográficas, como as instruções “AES-NI” que computam arredondamentos do algoritmo Advanced Encryption Standard (AES).</p>
+                <p>Dentre as maneiras de usar funções hash criptográficas como funções hash simples, temos:</p>
+                <p>$h(k)=\text{SHA-256(k)} \mod m$.</p>
+                <p>Para definir uma família de funções hash, podemos adicionar uma string “tempero” (<i>salt string</i>) à entrada antes de gerar seu hash:</p>
+                <p>$h_a(k)=\text{SHA-256(a ‖ k)} \mod m$,</p>
+                <p>onde $a ‖ k$ é a concatenação de $a$ com $k$. A literatura sobre Message Authentication Codes (MACs) fornece abordagens adicionais.</p>
+                <p>Abordagens criptográficas para o design de funções hash estão se tornando mais práticas à medida que os computadores organizam suas memórias em hierarquias com capacidades e velocidades diferentes. A Seção 11.5 discute um design de função hash baseado no método de criptografia RC6.</p>
+            </div>
+            <h4>Exercícios</h4>
+            <ol class="excs">
+                <li>Suponha que desejemos buscar em uma lista encadeada de comprimento $n$, onde cada elemento contém um chave $k$ juntamente com um valor hash $h(k)$. Cada chave é uma string comprida. Como poderíamos tirar proveito dos valores hash ao procurar na lista um elemento com uma chave específica?</li>
 
-                    <h5>O método da multiplicação</h5>
-                    <p>Função hash:</p>
-                    <p>$$h(k) = \lfloor m (k A \mod 1)\rfloor$$</p>
-                    <p>que pode ser lida da seguinte forma:</p>
-                    <ol>
-                        <li>Escolha uma constante $A$ no intervalo $0 \lt A \lt 1$</li>
-                        <li>Multiplique a chave $k$ pela constante $A$</li>
-                        <li>Extraia a parte fracionária de $k A$, isto é, $(k A \mod 1)$ é o mesmo que $(k A - ⌊k A⌋)$</li>
-                        <li>Multiplique a parte fracionária por $m$</li>
-                        <li>Pegue o piso do resultado</li>
-                    </ol>
-                    <p>Vantagem: o valor de $m$ não é crítico. Entretanto, este método não é tão rápido quanto o da divisão. Em geral, $m = 2^p$, para algum inteiro $p$, já que podemos implementar facilmente a função na maioria dos computadores (mais informações no livro).</p>
-                    <p>Alguns valores para $A$ funcionam melhor que outros. A escolha ótima depende das características dos dados aos quais o hash está sendo aplicado. Knuth sugere que $A \approx ( \sqrt{5} - 1 )/2=0.6180339887...$. funciona bem.</p>
-                    <p>Como exemplo, suponha $k=123456$, $p=14$, $m=2^p=16384$. Assim, $kA = 76300.004115107$. Então, $h(k) = ⌊m * 0.004115107⌋ = 67$.</p>
+                <li>Suponha que geremos hash de uma string de $r$ caracteres em m slots, tratando-a como um número de radix (base) $128$ e usando o método da divisão. Podemos facilmente representar o número $m$ como uma palavra de computador de $32$ bits. Porém, a string $r$, tratada como um número de radix 128, requer muitas palavras de computador. Como podemos aplicar o método da divisão para calcular o hash da string usando um número constante de palavras além da própria string?</li>
 
-                    <h5>O método da multiplicação com deslocamento</h5>
-                    <p>Se as chaves couberem em uma palavra de máquina de $w$ bits, e $m=2^l\le w$, podemos usar o método da multiplicação com deslocamento (multiply-shift).</p>
-                    <p>Seja a constante $a=A2^w$, onde $0\le A \le 1$, de modo que $0\le a \le 2^w$, a função hash é:</p>
-                    <p>$$\begin{equation}h_a(k) = (ka \mod 2^w) \gg (w-l)\end{equation}$$</p>
-                    <p>que pode ser lida assim:</p>
-                    <ol>
-                        <li>Multiplique $k$ pelo inteiro $a$ de $w$ bits. O resultado é um valor com $2w$ bits.</li>
-                        <li>Pegue o resto da divisão por $2^w$, eliminando os $w$ bits mais significativos ($r_1$), deixando apenas o $w$ bits menos significativos ($r_0$).</li>
-                        <li>Desloque (shift) à direita $w-l$ bits, deixando apenas os $l$ bits mais significativos de $r_0$, que é seu valor hash.</li>
-                    </ol>
-                    <p>A Figura 11.4 ilustra esse processo:</p>
-                    <p>
-                    <figure><img id="fig-11-4-multiply-shift-method" alt="o método multiplicação com shift para computar um hash.">
-                        <figcaption>Figura 11.4: O método da multiplicação com shift para computar um hash.</figcaption>
-                    </figure>
-                    </p>
-                    <p>Esse método pode ser implementado com três instruções de máquina simples: multiplicação, subtração e deslocamento à direita.</p>
-                    <p>Como exemplo, suponha $k=123456$, $l=14$, $m=2^l=16384$, $w=32$ e $a=2654435769$, conforme sugestão de Knuth. Assim, $ka = 76300\cdot 2^{32} + 17612864$, sendo $r_1=76300$ e $r_0=17612864$. Os 14 bits mais significativos de $r_0$ são $h_a(k)=67$.</p>
-                </div>
-                <div id="11-3-2-hashing-aleatorio">
-                    <h4>11.3.2 Hashing aleatório</h4>
-                    <p>Suponha que um cracker escolha chaves sabendo a função hash estática implementada. Ele pode escolher $n$ chaves que caiam no mesmo slot, resultando em um tempo médio de busca de $\Theta(n)$. Qualquer função hash estática é vulnerável a esse ataque. A única maneira eficaz de evitar essa situação é escolher a função hash aleatoriamente e independentemente das chaves. Essa abordagem é chamada de <b>hashing aleatório</b>. Um caso especial dessa abordagem, chamado de <b>hashing universal</b>, pode proporcionar um desempenho médio comprovadamente bom, independentemente das chaves escolhidas pelo cracker.</p>
-                    <p>Para usar hashing aleatório, no início da execução do programa, escolha aleatoriamente uma função hash de uma família adequada de funções. Assim como no quicksort, aleatoriedade garante que uma sequência de entrada não invoque apenas o pior caso a cada execução.</p>
-                    <p>Por exemplo, uma variante aleatória simples do método de multiplicação com deslocamento que funciona bem na média é, no início do programa, escolher aleatoriamente um número ímpar para o valor de $a$.</p>
-                    <p>Uma família $H$ de funções hash é <b>universal</b> se, ao escolher aleatoriamente uma função hash $h$, a chance de colisão entre duas chaves arbitrárias distintas $k_1,k_2$ for no máximo a chance $1/m$ da colisão se $h(k_1)$ e $h(k_2)$ fossem valores aleatoriamente e independentemente escolhidos entre $\{0,1,..., m-1\}$.</p>
-                    <p>Hashing uniforme independente é equivalente a escolher uma função hash uniformemente e aleatoriamente de uma família de todas as possíveis $m^n$ funções hash, onde cada função mapeia as $n$ chaves para os $m$ valores hash de maneira diferente.</p>
-                    <p><b>Corolário 11.3</b></p>
-                    <p>Usando hashing universal e resolução de colisão por encadeamento em uma tabela inicialmente vazia de tamanho $m$, leva tempo $\Theta(s)$ para lidar com $s$ operações de inserção, exclusão e busca, contendo $n=O(m)$ operações de inserção.</p>
-                    <p><b>Prova:</b> No livro.</p>
-                </div>
-                <div id="11-3-3-propriedades-de-hashing-aleatorio">
-                    <h4>11.3.3 Propriedades de hashing aleatório</h4>
-                    <p>Seja $h$ uma função escolhida aleatoriamente e independentemente de uma família de funções hash $H$. Dentre a vasta gama de propriedades na literatura, algumas interessantes são:</p>
-                    <ul>
-                        <li>$H$ é <b>uniforme</b> se para qualquer chave $k$ e slot $q$, a probabilidade de $h(k)=q$ for $1/m$.<!-- uniforme é igual, isto é, qualquer posição tem a igual chance de ser a escolhida --></li>
-                        <li>$H$ é <b>universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $1/m$.</li>
-                        <li>$H$ é <b>$\epsilon$-universal</b> se para quaiquer chaves distintas $k_1,k_2$, a probabilidade de $h(k_1)=h(k_2)$ for no máximo $\epsilon$. Portanto, uma família de funções universal também é $1/m$-universal.</li>
-                    </ul>
-                </div>
-                <div id="11-3-4-projetando-familia-universal-de-funcoes-hash">
-                    <h4>11.3.4 Projetando uma família universal de funções hash</h4>
-                    <h5>Família universal de funções baseada em teoria dos números</h5>
-                    <p>Comece escolhendo um número primo $p$ tal que qualquer chave $k$ esteja entre $0$ e $p-1$ inclusivos. Seja $Z_p=\{0,1,..., p-1\}$ e $Z^*_p=\{1,..., p-1\}$. Como o universo de chaves é maior que o tamanho da tabela, então $p\gt m$. O capítulo 31 ensina como calcular resto da divisão de números primos eficientemente.</p>
-                    <p>Dados quaisquer $a\in Z^*_p$ e $b\in Z_p$, definimos a função hash $h_{ab}$ como:</p>
-                    <p>$$\begin{equation}
-                        h_{ab}(k)=((ak+b)\mod p) \mod m
-                        \end{equation}$$</p>
-                    <p>Por exemplo, para $p=17$ e $m=6$, temos:</p>
-                    <p>$h_{3,4}(8)=((3\cdot 8 + 4) \mod 17)\mod 6=(28\mod 17)\mod 6=11\mod 6 = 5$.</p>
-                    <p>Dados $p,m$, a família de funções é:</p>
-                    <p>$$\begin{equation}
-                        H_{pm}=\{h_{ab}: a\in Z^*_p \text{ e } b\in Z_p\}
-                        \end{equation}$$</p>
-                    <p>A vantagem desse método é que $m$ pode ser arbitrário (não precisa ser primo). Como você pode escolher entre $p-1$ valores de $a$ e $p$ valores de $b$, a família $H_{pm}$ contém $p(p-1)$ funções.</p>
-                    <p><b>Teorema 11.4</b></p>
-                    <p>A família $H_{pm}$ é universal.</p>
-                    <p><b>Prova:</b> No livro.</p>
+                <p>Cada caractere ocupa 7 bits (128 possibilidades). Logo, uma string com 5 caracteres já extrapola o tamanho de uma palavra de computador.</p>
 
-                    <h5>Família $2/m$-universal de funções baseada no método de multiplicação com deslocamento</h5>
-                    <p>Essa é a família recomendada pelo autor, sendo excepcionalmente eficiente e $2/m$-universal. É definida como:</p>
-                    <p>$$\begin{equation}
-                        H=\{h_a:a\text{ é ímpar, }1\le a \lt m \text{ e } h_a \text{ é definida pela equação (11.2)}\}
-                        \end{equation}$$</p>
-                    <p><b>Teorema 11.5</b></p>
-                    <p>A família de funções hash $H$ da equação (11.5) é $2/m$-universal.</p>
-                    <p>Isto é, a probabilidade de duas chaves distintas colidirem é no máximo $2/m$. Em muitas situações práticas, comparada à função hash universal, a velocidade de computação de valores hash mais do que compensa pelo limite superior maior de probabilidade de colisão.</p>
-                </div>
-                <div id="11-3-5-hashing-de-longas-entradas">
-                    <h4>11.3.5 Hashing de longas entradas, como vetores ou strings</h4>
-                    <p>Às vezes, a entrada de uma função hash pode ser tão longa que não pode ser facilmente codificada com um número primo $p$ de tamanho razoável ou codificada em uma única palavra, por exemplo, de 64 bits. Como exemplo, considere vetores de bytes (que é como strings em muitas linguagens de programação são armazenadas). Um vetor pode ter um comprimento não negativo arbitrário, de modo que a função hash pode receber entradas de comprimentos variados.</p>
+                <p>Uma abordagem para resolver esse problema é usar um hash contínuo (rolling hash). A ideia é calcular o valor do hash de forma incremental, atualizando-o à medida que cada caractere é adicionado, em vez de processar a string inteira de uma vez. Isso evita a necessidade de armazenar a string inteira usando várias palavras de computador.</p>
 
-                    <h5>Abordagens número-teóricas</h5>
-                    <p>O exercício 11.3-6 explora uma possível abordagem.</p>
+                <p>Veja como funciona (em python):</p>
 
-                    <h5>Hashing criptográfico</h5>
-                    <p>Também podemos usar <b>funções de hash criptográfico</b>. São projetadas para aplicações com requisitos muito além das necessidades de uma tabela hash. Mas por serem robustas e amplamente implementadas, podemos aplicá-las aqui também.</p>
-                    <p>Uma função hash criptográfica recebe como entrada um vetor de bytes arbitrário e retorna uma saída de comprimento fixo. Por exemplo, a famosa função SHA-256 produz uma saída de 256 bits (32 bytes) para qualquer entrada.</p>
-                    <p>Inclusive podemos fazer proveito de alguns processadores que implementam instruções específicas para auxiliar no cálculo de funções criptográficas, como as instruções “AES-NI” que computam arredondamentos do algoritmo Advanced Encryption Standard (AES).</p>
-                    <p>Dentre as maneiras de usar funções hash criptográficas como funções hash simples, temos:</p>
-                    <p>$h(k)=\text{SHA-256(k)} \mod m$.</p>
-                    <p>Para definir uma família de funções hash, podemos adicionar uma string “tempero” (<i>salt string</i>) à entrada antes de gerar seu hash:</p>
-                    <p>$h_a(k)=\text{SHA-256(a ‖ k)} \mod m$,</p>
-                    <p>onde $a ‖ k$ é a concatenação de $a$ com $k$. A literatura sobre Message Authentication Codes (MACs) fornece abordagens adicionais.</p>
-                    <p>Abordagens criptográficas para o design de funções hash estão se tornando mais práticas à medida que os computadores organizam suas memórias em hierarquias com capacidades e velocidades diferentes. A Seção 11.5 discute um design de função hash baseado no método de criptografia RC6.</p>
-                </div>
-                <h4>Exercícios</h4>
-                <ol class="excs">
-                    <li>Suponha que desejemos buscar em uma lista encadeada de comprimento $n$, onde cada elemento contém um chave $k$ juntamente com um valor hash $h(k)$. Cada chave é uma string comprida. Como poderíamos tirar proveito dos valores hash ao procurar na lista um elemento com uma chave específica?</li>
-
-                    <li>Suponha que geremos hash de uma string de $r$ caracteres em m slots, tratando-a como um número de radix (base) $128$ e usando o método da divisão. Podemos facilmente representar o número $m$ como uma palavra de computador de $32$ bits. Porém, a string $r$, tratada como um número de radix 128, requer muitas palavras de computador. Como podemos aplicar o método da divisão para calcular o hash da string usando um número constante de palavras além da própria string?</li>
-
-                    <p>Cada caractere ocupa 7 bits (128 possibilidades). Logo, uma string com 5 caracteres já extrapola o tamanho de uma palavra de computador.</p>
-
-                    <p>Uma abordagem para resolver esse problema é usar um hash contínuo (rolling hash). A ideia é calcular o valor do hash de forma incremental, atualizando-o à medida que cada caractere é adicionado, em vez de processar a string inteira de uma vez. Isso evita a necessidade de armazenar a string inteira usando várias palavras de computador.</p>
-
-                    <p>Veja como funciona (em python):</p>
-
-                    <pre><code class="language-python">def rollingHash(s,m):
+                <pre><code class="language-python">def rollingHash(s,m):
     sum = 0
     for c in s:
         sum = (sum * 128 + ord(c)) % m
     return sum</code></pre>
 
-                    <p>A cada etapa, $sum$ será o hash do prefixo da string processada até o momento e sempre caberá em uma única palavra de 32 bits.</p>
+                <p>A cada etapa, $sum$ será o hash do prefixo da string processada até o momento e sempre caberá em uma única palavra de 32 bits.</p>
 
-                    <p>Este algoritmo custa um tempo $O(r)$, onde $r$ é o comprimento da string, e custa um espaço $O(1)$, pois requer apenas uma quantidade constante de armazenamento além da própria string.</p>
+                <p>Este algoritmo custa um tempo $O(r)$, onde $r$ é o comprimento da string, e custa um espaço $O(1)$, pois requer apenas uma quantidade constante de armazenamento além da própria string.</p>
 
-                    <p>Observe que o hash gerado por essa técnica possui o mesmo valor do hash da técnica padrão:</p>
+                <p>Observe que o hash gerado por essa técnica possui o mesmo valor do hash da técnica padrão:</p>
 
-                    <pre><code class="language-python">def hash(s,m):
+                <pre><code class="language-python">def hash(s,m):
     r = len(s)
     sum = 0
     for i in range(0,r):
@@ -384,92 +382,92 @@ chainedHashDelete(T,x)
     return sum % m
 </code></pre>
 
-                    <li>Considere uma versão do método da divisão em que $h(k) = k \mod m$, onde $m = 2^p - 1$ e $k$ é uma string de radix $2^p$. Mostre que se pudermos derivar a string $x$ da string $y$ permutando seus caracteres, então $x$ e $y$ possuem o mesmo hash. Dê um exemplo de aplicação no qual essa propriedade seria indesejável em uma função hash.</li>
+                <li>Considere uma versão do método da divisão em que $h(k) = k \mod m$, onde $m = 2^p - 1$ e $k$ é uma string de radix $2^p$. Mostre que se pudermos derivar a string $x$ da string $y$ permutando seus caracteres, então $x$ e $y$ possuem o mesmo hash. Dê um exemplo de aplicação no qual essa propriedade seria indesejável em uma função hash.</li>
 
-                    <p>Primeiro, observamos que podemos gerar qualquer permutação por uma sequência de trocas de pares de caracteres. Pode-se provar essa propriedade formalmente, mas informalmente, considere que o quicksort funciona permutando pares de elementos e que é capaz de produzir qualquer permutação de seu array de entrada. Assim, é suficiente mostrar que se a string $x$ pode ser derivada da string $y$ pela troca de um único par de caracteres, então $x$ e $y$ têm o mesmo hash.</p>
+                <p>Primeiro, observamos que podemos gerar qualquer permutação por uma sequência de trocas de pares de caracteres. Pode-se provar essa propriedade formalmente, mas informalmente, considere que o quicksort funciona permutando pares de elementos e que é capaz de produzir qualquer permutação de seu array de entrada. Assim, é suficiente mostrar que se a string $x$ pode ser derivada da string $y$ pela troca de um único par de caracteres, então $x$ e $y$ têm o mesmo hash.</p>
 
-                    <p>Vamos denotar o $i$-ésimo caracter de $x$ por $x_i$ e similarmente para $y$. A interpretação de $x$ no radix $2^p$ é $\sum_{i=0}^{n-1}x_i2^{ip}$, e portanto, $h(x)=(\sum_{i=0}^{n-1}x_i2^{ip}) \mod (2^p-1)$.</p>
+                <p>Vamos denotar o $i$-ésimo caracter de $x$ por $x_i$ e similarmente para $y$. A interpretação de $x$ no radix $2^p$ é $\sum_{i=0}^{n-1}x_i2^{ip}$, e portanto, $h(x)=(\sum_{i=0}^{n-1}x_i2^{ip}) \mod (2^p-1)$.</p>
 
-                    <p>Suponha que $x$ e $y$ são strings idênticas de $n$ caracteres, exceto que os caracteres nas posições $a$ e $b$ são trocadas: $x_a=y_b$ e $y_a=x_b$. Sem perda de generalidade, seja $a\gt b$. Temos:</p>
+                <p>Suponha que $x$ e $y$ são strings idênticas de $n$ caracteres, exceto que os caracteres nas posições $a$ e $b$ são trocadas: $x_a=y_b$ e $y_a=x_b$. Sem perda de generalidade, seja $a\gt b$. Temos:</p>
 
-                    <p>$h(x)-h(y)=(\sum_{i=0}^{n-1}x_i2^{ip})\mod (2^p-1)-(\sum_{i=0}^{n-1}y_i2^{ip})\mod (2^p-1)$.</p>
+                <p>$h(x)-h(y)=(\sum_{i=0}^{n-1}x_i2^{ip})\mod (2^p-1)-(\sum_{i=0}^{n-1}y_i2^{ip})\mod (2^p-1)$.</p>
 
-                    <p>Como $0\leq h(x),h(y) \lt 2^p-1$, temos que $-(2^p-1)\lt h(x)-h(y)\lt 2^p-1$. Se mostrarmos que $(h(x)-h(y))\mod(2^p-1)=0$, então $h(x)=h(y)$.<!-- isto porque se a subtração deles mod (2^p-1) for zero, então ambos são múltiplos de (2^p-1), e se ambos são múltiplos de (2^p-1), então o mod de ambos por (2^p-1) é zero. observe que a subtração de dois múltiplos sempre gera outro múltiplo. --></p>
+                <p>Como $0\leq h(x),h(y) \lt 2^p-1$, temos que $-(2^p-1)\lt h(x)-h(y)\lt 2^p-1$. Se mostrarmos que $(h(x)-h(y))\mod(2^p-1)=0$, então $h(x)=h(y)$.<!-- isto porque se a subtração deles mod (2^p-1) for zero, então ambos são múltiplos de (2^p-1), e se ambos são múltiplos de (2^p-1), então o mod de ambos por (2^p-1) é zero. observe que a subtração de dois múltiplos sempre gera outro múltiplo. --></p>
 
-                    <p>Como as somas nas funções hash são a mesma exceto para os índices $a$ e $b$, temos:</p>
+                <p>Como as somas nas funções hash são a mesma exceto para os índices $a$ e $b$, temos:</p>
 
-                    $(h(x)-h(y))\mod(2^p-1)$<br>
-                    $=((x_a2^{ap}+x_b2^{bp})-(y_a2^{ap}+y_b2^{bp}))\mod(2^p-1)$<br>
-                    $=((x_a2^{ap}+x_b2^{bp})-(x_b2^{ap}+x_a2^{bp}))\mod(2^p-1)$<br>
-                    $=((x_a-x_b)(2^{ap}-2^{bp}))\mod(2^p-1)$<br>
-                    $=((x_a-x_b)2^{bp}(2^{(a-b)p}-1))\mod(2^p-1)$<br>
+                $(h(x)-h(y))\mod(2^p-1)$<br>
+                $=((x_a2^{ap}+x_b2^{bp})-(y_a2^{ap}+y_b2^{bp}))\mod(2^p-1)$<br>
+                $=((x_a2^{ap}+x_b2^{bp})-(x_b2^{ap}+x_a2^{bp}))\mod(2^p-1)$<br>
+                $=((x_a-x_b)(2^{ap}-2^{bp}))\mod(2^p-1)$<br>
+                $=((x_a-x_b)2^{bp}(2^{(a-b)p}-1))\mod(2^p-1)$<br>
 
-                    <p>Pela soma dos termos de uma PG, temos:</p>
+                <p>Pela soma dos termos de uma PG, temos:</p>
 
-                    <p>$\sum_{i=0}^{a-b-1}2^{pi}=\dfrac{2^{(a-b)p}-1}{2^p-1}$,</p>
+                <p>$\sum_{i=0}^{a-b-1}2^{pi}=\dfrac{2^{(a-b)p}-1}{2^p-1}$,</p>
 
-                    <p>E multiplicando ambos os lados por $2^p-1$, obtemos:</p>
+                <p>E multiplicando ambos os lados por $2^p-1$, obtemos:</p>
 
-                    <p>$2^{(a-b)p}-1=(\sum_{i=0}^{a-b-1}2^{pi})(2^p-1)$.</p>
+                <p>$2^{(a-b)p}-1=(\sum_{i=0}^{a-b-1}2^{pi})(2^p-1)$.</p>
 
-                    <p>Portanto,</p>
+                <p>Portanto,</p>
 
-                    $(h(x)-h(y))\mod(2^p-1)$<br>
-                    $=((x_a-x_b)2^{bp}(\sum_{i=0}^{a-b-1}2^{pi})(2^p-1))\mod(2^p-1)$<br>
-                    $=0$,<br>
+                $(h(x)-h(y))\mod(2^p-1)$<br>
+                $=((x_a-x_b)2^{bp}(\sum_{i=0}^{a-b-1}2^{pi})(2^p-1))\mod(2^p-1)$<br>
+                $=0$,<br>
 
-                    <p>já que um dos fatores é $2^p-1$. Assim, mostramos que $(h(x)-h(y))\mod(2^p-1)=0$, e portanto, $h(x)=h(y)$.</p>
+                <p>já que um dos fatores é $2^p-1$. Assim, mostramos que $(h(x)-h(y))\mod(2^p-1)=0$, e portanto, $h(x)=h(y)$.</p>
 
-                    <li>Considere uma tabela hash de tamanho $m = 1000$ e uma função hash $h(k)=⌊m (k A \mod 1)⌋$ para $A = (\sqrt{5}-1)/ 2$. Calcule as posições para as quais são mapeadas as chaves $61, 62, 63, 64, 65$.</li>
+                <li>Considere uma tabela hash de tamanho $m = 1000$ e uma função hash $h(k)=⌊m (k A \mod 1)⌋$ para $A = (\sqrt{5}-1)/ 2$. Calcule as posições para as quais são mapeadas as chaves $61, 62, 63, 64, 65$.</li>
 
-                    <li>Demonstre que qualquer família $ϵ$-universal $H$ de funções hash de um conjunto finito $U$ para um conjunto finito $Q$ possui $ϵ \ge 1/|Q| − 1/|U|$.</li>
+                <li>Demonstre que qualquer família $ϵ$-universal $H$ de funções hash de um conjunto finito $U$ para um conjunto finito $Q$ possui $ϵ \ge 1/|Q| − 1/|U|$.</li>
 
-                    <li>Seja $U$ o conjunto de $d$-tuplas de valores retirados de $\mathbb Z_p$, e seja $Q = \mathbb Z_p$, onde $p$ é primo. Definimos a função hash $h_b: U \rightarrow Q$ para $b \in \mathbb Z_p$ em uma entrada $d$-tupla $\langle a_0, a_1, \ldots, a_{d - 1} \rangle$ de $U$ como
+                <li>Seja $U$ o conjunto de $d$-tuplas de valores retirados de $\mathbb Z_p$, e seja $Q = \mathbb Z_p$, onde $p$ é primo. Definimos a função hash $h_b: U \rightarrow Q$ para $b \in \mathbb Z_p$ em uma entrada $d$-tupla $\langle a_0, a_1, \ldots, a_{d - 1} \rangle$ de $U$ como
 
-                        <p>$$h_b(\langle a_0, a_1, \ldots, a_{d - 1} \rangle) = \Bigg(\sum_{j = 0}^{d - 1} a_jb^j \Bigg) \mod p,$$</p>
+                    <p>$$h_b(\langle a_0, a_1, \ldots, a_{d - 1} \rangle) = \Bigg(\sum_{j = 0}^{d - 1} a_jb^j \Bigg) \mod p,$$</p>
 
-                        <p>e seja $\mathcal{H} = \{h_b : b \in \mathbb Z_p\}$. Argumente que $\mathcal H$ é $\epsilon$-universal para $\epsilon=((d - 1) / p)$. ($\textit{Dica:}$ Veja o Exercício 31.4-4.)</p>
+                    <p>e seja $\mathcal{H} = \{h_b : b \in \mathbb Z_p\}$. Argumente que $\mathcal H$ é $\epsilon$-universal para $\epsilon=((d - 1) / p)$. ($\textit{Dica:}$ Veja o Exercício 31.4-4.)</p>
 
-                    </li>
-                </ol>
+                </li>
+            </ol>
 
-                <h4>Além do livro</h4>
-                <ol class="excs">
-                    <li class="no-mark">Considere os três métodos de hashing estático vistos na <a href="#11-3-1-hashing-estatico">Seção 11.3.1</a>: divisão, multiplicação e multiplicação-deslocamento.</li>
-                    <li>Implemente uma tabela hash cujos elementos sejam números inteiros e que, em sua inicialização, possa ser escolhida uma função hash entre esses três métodos. A resolução de colisões será por sobrescrita, isto é, só haverá um elemento para cada posição, que é o último inserido.</li>
-                    <li>Faça experimentos para comparar esses três métodos:
-                        <ol type="a">
-                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos aleatórios na tabela usando cada método.</li>
-                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos ordenados na tabela usando cada método.</li>
-                            <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos múltiplos de um determinado valor na tabela usando cada método.</li>
-                        </ol>
-                        <p>Essas diferentes entradas de dados servem para simular diferentes situações que podem ocorrer, e que podem afetar o desempenho dos métodos de hashing.</p>
-                    </li>
-                    <li>Elabore um relatório sobre o experimento:
-                        <ol type="a">
-                            <li>Descreva a metodologia empregada, com informações sobre os métodos de hashing usados, e os parâmetros utilizados em cada método.</li>
-                            <li>Faça análises de tempo de execução e de distribuição dos elementos nas tabelas, com medidas estatísticas e gráficos que ajudem a entender os resultados.</li>
-                            <li>Discuta os resultados, comparando o desempenho e o comportamento dos três métodos em diferentes cenários (entrada aleatória vs. entrada ordenada), e como cada método com parâmetros diferentes pode afetar o resultado.</li>
-                            <li>Tire conclusões sobre a eficácia de cada método no tratamento de entradas aleatórias e não aleatórias.</li>
-                        </ol>
-                    </li>
-                    <li class="no-mark">(Observações:
-                        <ul>
-                            <li>Use valores razoáveis para a quantidade de inserções de modo a testar efetivamente os métodos.</li>
-                            <li>Use tanto parâmetros recomendados pelo Cormen quanto parâmetros não recomendados para a implementação dos métodos. Assim você pode observar o quanto um método pode ser afetado com parâmetros ruins.</li>
-                            <li>Colisões podem ser medidas contando a quantidade de vezes que duas chaves diferentes caem na mesma posição (possuem mesmo hash).</li>
-                            <li>Tempo de execução pode ser medido usando um temporizador ou uma biblioteca específica para isso.)</li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
+            <h4>Além do livro</h4>
+            <ol class="excs">
+                <li class="no-mark">Considere os três métodos de hashing estático vistos na <a href="#11-3-1-hashing-estatico">Seção 11.3.1</a>: divisão, multiplicação e multiplicação-deslocamento.</li>
+                <li>Implemente uma tabela hash cujos elementos sejam números inteiros e que, em sua inicialização, possa ser escolhida uma função hash entre esses três métodos. A resolução de colisões será por sobrescrita, isto é, só haverá um elemento para cada posição, que é o último inserido.</li>
+                <li>Faça experimentos para comparar esses três métodos:
+                    <ol type="a">
+                        <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos aleatórios na tabela usando cada método.</li>
+                        <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos ordenados na tabela usando cada método.</li>
+                        <li>Meça a quantidade de colisões e o tempo de execução ao inserir elementos múltiplos de um determinado valor na tabela usando cada método.</li>
+                    </ol>
+                    <p>Essas diferentes entradas de dados servem para simular diferentes situações que podem ocorrer, e que podem afetar o desempenho dos métodos de hashing.</p>
+                </li>
+                <li>Elabore um relatório sobre o experimento:
+                    <ol type="a">
+                        <li>Descreva a metodologia empregada, com informações sobre os métodos de hashing usados, e os parâmetros utilizados em cada método.</li>
+                        <li>Faça análises de tempo de execução e de distribuição dos elementos nas tabelas, com medidas estatísticas e gráficos que ajudem a entender os resultados.</li>
+                        <li>Discuta os resultados, comparando o desempenho e o comportamento dos três métodos em diferentes cenários (entrada aleatória vs. entrada ordenada), e como cada método com parâmetros diferentes pode afetar o resultado.</li>
+                        <li>Tire conclusões sobre a eficácia de cada método no tratamento de entradas aleatórias e não aleatórias.</li>
+                    </ol>
+                </li>
+                <li class="no-mark">(Observações:
+                    <ul>
+                        <li>Use valores razoáveis para a quantidade de inserções de modo a testar efetivamente os métodos.</li>
+                        <li>Use tanto parâmetros recomendados pelo Cormen quanto parâmetros não recomendados para a implementação dos métodos. Assim você pode observar o quanto um método pode ser afetado com parâmetros ruins.</li>
+                        <li>Colisões podem ser medidas contando a quantidade de vezes que duas chaves diferentes caem na mesma posição (possuem mesmo hash).</li>
+                        <li>Tempo de execução pode ser medido usando um temporizador ou uma biblioteca específica para isso.)</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
 
-            <div id="11-4-enderecamento-aberto">
-                <h3>11.4 Endereçamento aberto</h3>
-                <p>No endereçamento aberto, todos os elementos ficam na própria tabela hash. Porém, a tabela hash pode “ficar cheia”. Seu fator de carga $\alpha$ nunca pode exceder 1.</p>
-                <p>O exercício 11.2-4 do livro usa uma lista encadeada entre as próprias posições da tabela. Mas a vantagem do endereçamento aberto é que ele evita ponteiros por completo. A memória extra liberada por não armazenarmos ponteiros fornece à tabela hash um número maior de posições para a mesma quantidade de memória, o que produz potencialmente menor número de colisões e buscas mais rápida.</p>
-                <p>Para inserir com endereçamento aberto, <b>sondamos</b> a tabela hash até encontrar uma posição vazia na qual inserir a chave. Para determinar quais serão as posições a sondar, adicionamos à função hash um segundo parâmetro, o número da sondagem (começando do 0). Para simplificar, o seguinte algoritmo considera que o elemento é a própria chave a ser inserida.</p>
-                <pre><code>hashInsert(T,k)
+        <div id="11-4-enderecamento-aberto">
+            <h3>11.4 Endereçamento aberto</h3>
+            <p>No endereçamento aberto, todos os elementos ficam na própria tabela hash. Porém, a tabela hash pode “ficar cheia”. Seu fator de carga $\alpha$ nunca pode exceder 1.</p>
+            <p>O exercício 11.2-4 do livro usa uma lista encadeada entre as próprias posições da tabela. Mas a vantagem do endereçamento aberto é que ele evita ponteiros por completo. A memória extra liberada por não armazenarmos ponteiros fornece à tabela hash um número maior de posições para a mesma quantidade de memória, o que produz potencialmente menor número de colisões e buscas mais rápida.</p>
+            <p>Para inserir com endereçamento aberto, <b>sondamos</b> a tabela hash até encontrar uma posição vazia na qual inserir a chave. Para determinar quais serão as posições a sondar, adicionamos à função hash um segundo parâmetro, o número da sondagem (começando do 0). Para simplificar, o seguinte algoritmo considera que o elemento é a própria chave a ser inserida.</p>
+            <pre><code>hashInsert(T,k)
 1  i = 0
 2  while i &lt; m
 3    j = h(k,i)
@@ -479,10 +477,10 @@ chainedHashDelete(T,x)
 7    else i++
 8  error "hash table overflow"</code></pre>
 
-                <p>Com endereçamento aberto, exigimos que, para toda chave $k$, a <b>sequência de sondagem</b> $\lang h(k,0), h(k,1), …, h(k,m-1)\rang $ seja uma permutação de $\lang 0, 1, ..., m - 1\rang $, de modo que toda posição da tabela hash seja eventualmente considerada para uma nova chave, à medida que a tabela é preenchida.</p>
-                <p>O algoritmo <code>hashSearch</code> sonda a mesma sequência de posições que o algoritmo de inserção para uma mesma chave $k$. Portanto, a busca pode terminar (sem sucesso) quando encontra uma posição vazia, já que $k$ teria sido inserido ali e não mais adiante em sua sequência de sondagem. (Esse argumento supõe que não há exclusão de chaves na tabela hash.)</p>
+            <p>Com endereçamento aberto, exigimos que, para toda chave $k$, a <b>sequência de sondagem</b> $\lang h(k,0), h(k,1), …, h(k,m-1)\rang $ seja uma permutação de $\lang 0, 1, ..., m - 1\rang $, de modo que toda posição da tabela hash seja eventualmente considerada para uma nova chave, à medida que a tabela é preenchida.</p>
+            <p>O algoritmo <code>hashSearch</code> sonda a mesma sequência de posições que o algoritmo de inserção para uma mesma chave $k$. Portanto, a busca pode terminar (sem sucesso) quando encontra uma posição vazia, já que $k$ teria sido inserido ali e não mais adiante em sua sequência de sondagem. (Esse argumento supõe que não há exclusão de chaves na tabela hash.)</p>
 
-                <pre><code>hashSearch(T,k)
+            <pre><code>hashSearch(T,k)
 1    i = 0
 2    while i &lt; m and T[j] ≠ NIL
 3        j = h(k,i)
@@ -491,85 +489,84 @@ chainedHashDelete(T,x)
 6        i++
 7    return NIL</code></pre>
 
-                <p>Quando excluímos uma chave da posição $i$, não podemos simplesmente marcar essa posição com $\text{NIL}$. Se fizéssemos isso, poderíamos não conseguir recuperar nenhuma chave $k$ que não foi inserida em $i$ por estar ocupada. Podemos resolver esse problema armazenando o valor especial $\text{DELETED}$ em vez de $\text{NIL}$. Então, modificaríamos o procedimento $\text{hashInsert}$ para tratar tal posição como se ela estivesse vazia, de modo a podermos inserir uma nova chave. Não é necessário modificar $\text{hashSearch}$, já que ele passará por valores $\text{DELETED}$ enquanto estiver buscando. Entretanto, quando usamos o valor especial $\text{DELETED}$, os tempos de busca não dependem mais do fator de carga $\alpha$. Por essa razão, o encadeamento é mais comumente selecionado como uma técnica de resolução de colisões quando precisamos excluir chaves.</p>
-                <p>Num <b>hashing com permutação uniforme e independente</b>, a sequência de sondagem de cada chave tem igual probabilidade de ser qualquer uma das $m!$ permutações de $\lang 0, 1, ..., m - 1\rang$. O hashing com permutação uniforme e independente generaliza a noção de hashing uniforme independente definida anteriormente para uma função hash que produz não apenas um único número, mas toda uma sequência de sondagem. Contudo, hashing com permutação uniforme e independente é difícil de implementar e, na prática, são usadas aproximações adequadas (como o hashing duplo, definido a seguir).</p>
-                <p>Examinaremos três técnicas comumente utilizadas para calcular as sequências de sondagem exigidas para o endereçamento aberto: sondagem linear, sondagem quadrática e hash duplo. O hash duplo tem o maior número de sequências de sondagem e, como seria de esperar, parece dar os melhores resultados.</p>
+            <p>Quando excluímos uma chave da posição $i$, não podemos simplesmente marcar essa posição com $\text{NIL}$. Se fizéssemos isso, poderíamos não conseguir recuperar nenhuma chave $k$ que não foi inserida em $i$ por estar ocupada. Podemos resolver esse problema armazenando o valor especial $\text{DELETED}$ em vez de $\text{NIL}$. Então, modificaríamos o procedimento $\text{hashInsert}$ para tratar tal posição como se ela estivesse vazia, de modo a podermos inserir uma nova chave. Não é necessário modificar $\text{hashSearch}$, já que ele passará por valores $\text{DELETED}$ enquanto estiver buscando. Entretanto, quando usamos o valor especial $\text{DELETED}$, os tempos de busca não dependem mais do fator de carga $\alpha$. Por essa razão, o encadeamento é mais comumente selecionado como uma técnica de resolução de colisões quando precisamos excluir chaves.</p>
+            <p>Num <b>hashing com permutação uniforme e independente</b>, a sequência de sondagem de cada chave tem igual probabilidade de ser qualquer uma das $m!$ permutações de $\lang 0, 1, ..., m - 1\rang$. O hashing com permutação uniforme e independente generaliza a noção de hashing uniforme independente definida anteriormente para uma função hash que produz não apenas um único número, mas toda uma sequência de sondagem. Contudo, hashing com permutação uniforme e independente é difícil de implementar e, na prática, são usadas aproximações adequadas (como o hashing duplo, definido a seguir).</p>
+            <p>Examinaremos três técnicas comumente utilizadas para calcular as sequências de sondagem exigidas para o endereçamento aberto: sondagem linear, sondagem quadrática e hash duplo. O hash duplo tem o maior número de sequências de sondagem e, como seria de esperar, parece dar os melhores resultados.</p>
 
-                <h4>Sondagem linear</h4>
+            <h4>Sondagem linear</h4>
 
-                <p>Dada uma função hash comum $h': U → \{0, 1, ..., m - 1\}$, à qual nos referimos como uma função hash auxiliar, o método de sondagem linear usa a função hash:</p>
-                <p>$$h(k, i) = (h'(k) + i) \mod m$$</p>
-                <p>para $i = 0, 1, ..., m - 1$.</p>
-                <p>A sondagem linear é fácil de implementar, mas sofre de um problema conhecido como <b>agrupamento primário</b> (primary clustering). Longas sequências de posições ocupadas se acumulam, aumentando o tempo médio de busca. Os clusters surgem porque uma posição vazia precedida por $i$ posições cheias é a próxima a ser ocupada com probabilidade $(i + 1)/m$.</p>
-                <p>Outra desvantagem é que a sonda inicial determina toda a sequência ⇒ apenas $m$ sequências possíveis.</p>
+            <p>Dada uma função hash comum $h': U → \{0, 1, ..., m - 1\}$, à qual nos referimos como uma função hash auxiliar, o método de sondagem linear usa a função hash:</p>
+            <p>$$h(k, i) = (h'(k) + i) \mod m$$</p>
+            <p>para $i = 0, 1, ..., m - 1$.</p>
+            <p>A sondagem linear é fácil de implementar, mas sofre de um problema conhecido como <b>agrupamento primário</b> (primary clustering). Longas sequências de posições ocupadas se acumulam, aumentando o tempo médio de busca. Os clusters surgem porque uma posição vazia precedida por $i$ posições cheias é a próxima a ser ocupada com probabilidade $(i + 1)/m$.</p>
+            <p>Outra desvantagem é que a sonda inicial determina toda a sequência ⇒ apenas $m$ sequências possíveis.</p>
 
-                <h4>Sondagem quadrática</h4>
+            <h4>Sondagem quadrática</h4>
 
-                <p>A sondagem quadrática utiliza a função:</p>
-                <p>$$h(k, i) = (h'(k) + c_1i + c_2i^2) \mod m$$</p>
-                <p>onde $h'$ é uma função hash auxiliar, $c1$ e $c2$ são constantes positivas auxiliares e $i = 0, 1, ..., m - 1$.</p>
-                <p>Assim como a sondagem linear, a sequência começa em $h'(k)$. Mas diferentemente da linear, a quadrática pula pelas posições da tabela de acordo com a função.</p>
-                <p>Esse método funciona muito melhor que a sondagem linear mas, para fazer pleno uso da tabela hash, os valores de $c1$, $c2$ e $m$ são restritos.</p>
-                <p>Além disso, se duas chaves têm a mesma posição inicial de sondagem, então suas sequências de sondagem são iguais, já que $h(k_1, 0) = h(k_2, 0)$ implica $h(k_1, i) = h(k_2, i)$. Essa propriedade conduz a uma forma mais branda de agrupamento, denominada <b>agrupamento secundário</b>. Como na sondagem linear, a sondagem inicial determina a sequência inteira; assim, apenas $m$ sequências de sondagem distintas são utilizadas.</p>
+            <p>A sondagem quadrática utiliza a função:</p>
+            <p>$$h(k, i) = (h'(k) + c_1i + c_2i^2) \mod m$$</p>
+            <p>onde $h'$ é uma função hash auxiliar, $c1$ e $c2$ são constantes positivas auxiliares e $i = 0, 1, ..., m - 1$.</p>
+            <p>Assim como a sondagem linear, a sequência começa em $h'(k)$. Mas diferentemente da linear, a quadrática pula pelas posições da tabela de acordo com a função.</p>
+            <p>Esse método funciona muito melhor que a sondagem linear mas, para fazer pleno uso da tabela hash, os valores de $c1$, $c2$ e $m$ são restritos.</p>
+            <p>Além disso, se duas chaves têm a mesma posição inicial de sondagem, então suas sequências de sondagem são iguais, já que $h(k_1, 0) = h(k_2, 0)$ implica $h(k_1, i) = h(k_2, i)$. Essa propriedade conduz a uma forma mais branda de agrupamento, denominada <b>agrupamento secundário</b>. Como na sondagem linear, a sondagem inicial determina a sequência inteira; assim, apenas $m$ sequências de sondagem distintas são utilizadas.</p>
 
-                <h4>Hash duplo</h4>
+            <h4>Hash duplo</h4>
 
-                <p>O hash duplo oferece um dos melhores métodos disponíveis para endereçamento aberto porque as permutações produzidas têm muitas das características de permutações escolhidas aleatoriamente. O hash duplo usa a função:</p>
-                <p>$$h(k, i) = (h_1(k) + ih_2(k))\mod m$$</p>
-                <p>onde $h_1$ e $h_2$ são <b>funções hash auxiliares</b>. Diferentemente do caso de sondagem linear ou quadrática, aqui a sequência de sondagem depende da chave $k$ de duas maneiras, já que tanto a posição inicial de sondagem quanto o deslocamento (offset) podem variar. No caso, $h_1$ define a sonda inicial e $h_2$ define as sondas seguintes. A Figura 11.5 dá um exemplo de inserção por hash duplo.</p>
+            <p>O hash duplo oferece um dos melhores métodos disponíveis para endereçamento aberto porque as permutações produzidas têm muitas das características de permutações escolhidas aleatoriamente. O hash duplo usa a função:</p>
+            <p>$$h(k, i) = (h_1(k) + ih_2(k))\mod m$$</p>
+            <p>onde $h_1$ e $h_2$ são <b>funções hash auxiliares</b>. Diferentemente do caso de sondagem linear ou quadrática, aqui a sequência de sondagem depende da chave $k$ de duas maneiras, já que tanto a posição inicial de sondagem quanto o deslocamento (offset) podem variar. No caso, $h_1$ define a sonda inicial e $h_2$ define as sondas seguintes. A Figura 11.5 dá um exemplo de inserção por hash duplo.</p>
 
-                <figure>
-                    <img style="max-height: 250px;" id="fig-11-5-double-hash" alt="insercao-por-hash-duplo">
-                    <figcaption>Figura 11.5: Inserção por hash duplo</figcaption>
-                </figure>
+            <figure>
+                <img style="max-height: 250px;" id="fig-11-5-double-hash" alt="insercao-por-hash-duplo">
+                <figcaption>Figura 11.5: Inserção por hash duplo</figcaption>
+            </figure>
 
-                <p>Na Figura 11.5, $h_1(k)=k\mod 13$ e $h_2(k)=1+(k\mod 11)$.</p>
+            <p>Na Figura 11.5, $h_1(k)=k\mod 13$ e $h_2(k)=1+(k\mod 11)$.</p>
 
-                <p>O valor $h_2(k)$ e o tamanho $m$ da tabela hash devem ser primos entre si para que a tabela hash inteira seja examinada (exercício 11.4-5). Uma forma conveniente de assegurar essa condição é que $m$ seja uma potência de $2$ e projetar $h_2$ de modo que sempre retorne um número ímpar (por que uma potência de 2 e um ímpar são primos entre si?). Outra maneira é que $m$ seja primo e projetar $h_2$ de modo que sempre retorne um inteiro positivo menor que $m$. Por exemplo, poderíamos escolher $m$ primo e fazer:</p>
-                $h_1(k) = k\mod m$,<br>
-                $h_2(k) = 1 + (k\mod m')$,<br>
-                <p>onde o valor de $m'$ escolhido é ligeiramente menor que m (digamos, $m - 1$). Por exemplo, se $k = 123456$, $m = 701$ e $m' = 700$, temos $h_1(k) = 80$ e $h_2(k) = 257$; assim, primeiro sondamos a posição $80$ e depois examinamos cada $257$ª posição (módulo m) até encontrarmos a chave ou termos examinado todas as posições.</p>
-                <p>Quando $m$ é primo ou uma potência de $2$, o hash duplo é melhor que a sondagem linear ou quadrática no sentido de que são usadas $\Theta(m^2)$ sequências de sondagem em vez de $\Theta(m)$, já que cada par $(h_1(k), h_2(k))$ possível gera uma sequência de sondagem distinta. O resultado é que, para tais valores de $m$, o desempenho do hash duplo parece ficar bem próximo do esquema “ideal” do hashing uniforme. </p>
+            <p>O valor $h_2(k)$ e o tamanho $m$ da tabela hash devem ser primos entre si para que a tabela hash inteira seja examinada (exercício 11.4-5). Uma forma conveniente de assegurar essa condição é que $m$ seja uma potência de $2$ e projetar $h_2$ de modo que sempre retorne um número ímpar (por que uma potência de 2 e um ímpar são primos entre si?). Outra maneira é que $m$ seja primo e projetar $h_2$ de modo que sempre retorne um inteiro positivo menor que $m$. Por exemplo, poderíamos escolher $m$ primo e fazer:</p>
+            $h_1(k) = k\mod m$,<br>
+            $h_2(k) = 1 + (k\mod m')$,<br>
+            <p>onde o valor de $m'$ escolhido é ligeiramente menor que m (digamos, $m - 1$). Por exemplo, se $k = 123456$, $m = 701$ e $m' = 700$, temos $h_1(k) = 80$ e $h_2(k) = 257$; assim, primeiro sondamos a posição $80$ e depois examinamos cada $257$ª posição (módulo m) até encontrarmos a chave ou termos examinado todas as posições.</p>
+            <p>Quando $m$ é primo ou uma potência de $2$, o hash duplo é melhor que a sondagem linear ou quadrática no sentido de que são usadas $\Theta(m^2)$ sequências de sondagem em vez de $\Theta(m)$, já que cada par $(h_1(k), h_2(k))$ possível gera uma sequência de sondagem distinta. O resultado é que, para tais valores de $m$, o desempenho do hash duplo parece ficar bem próximo do esquema “ideal” do hashing uniforme. </p>
 
-                <h4>Análise do endereçamento aberto</h4>
+            <h4>Análise do endereçamento aberto</h4>
 
-                <p>No endereçamento aberto temos no máximo um elemento por posição e, portanto, $n \leq m$, o que implica $\alpha \le 1$. Mas nossa análise assumirá que pelo menos uma posição estará vazia, assim, $\alpha \lt 1$, e que não haverá exclusão de chaves.</p>
-                <p>Supomos que estamos usando hashing com permutação uniforme e independente. Nesse esquema idealizado, a sequência de sondagem $\lang h(k, 0), h(k, 1), ..., h(k, m - 1)\rang $ usada para inserir ou procurar cada chave $k$ tem igual probabilidade de ser qualquer permutação de $\lang 0, 1, ..., m - 1\rang$.</p>
-                <p><b>Teorema 11.6</b></p>
-                <p>Dada uma tabela hash com endereçamento aberto e fator de carga $\alpha = n/m \lt 1$, o número esperado de sondagens em uma busca malsucedida é no máximo $1/(1 - \alpha )$, supondo hashing com permutação uniforme e independente.</p>
-                <p><b>Prova</b> no livro.</p>
-                <p>Isso indica que se a tabela estiver metade cheia, o número médio de sondagens numa busca mal-sucedida é no máximo $1/(1-.5)=2$. Se estiver $90\%$ cheia, passa a ser $1/(1-.9)=10$.</p>
-                <p><b>Corolário 11.7</b></p>
-                <p>Inserir um elemento em uma tabela hash de endereçamento aberto com fator de carga $\alpha$ exige no máximo $1/(1 - \alpha )$ sondagens, em média, considerando hashing com permutação uniforme e independente sem exclusões.</p>
-                <p><b>Prova</b></p>
-                <p>Um elemento é inserido somente se houver espaço na tabela e, portanto, $\alpha &lt; 1$. Inserir uma chave requer uma busca malsucedida seguida pela colocação da chave na primeira posição vazia encontrada. Assim, o número esperado de sondagens é, no máximo, $1/(1 - \alpha )$.</p>
-                <!-- The bound proven, of 1/(1 − α) = 1 + α + α^2 + α^3 + ⋯, has an intuitive interpretation. The first probe always occurs. With probability approximately α, the first probe finds an occupied slot, so that a second probe happens. With probability approximately α2, the first two slots are occupied so that a third probe ensues, and so on. -->
-                <p><b>Teorema 11.8</b></p>
-                <p>Dada uma tabela hash de endereçamento aberto com fator de carga $\alpha &lt; 1$, considerando hashing com permutação uniforme e independente, sem exclusões, e também que cada chave na tabela tem igual probabilidade de ser procurada, o número esperado de sondagens em uma busca bem sucedida é, no máximo $(1/ \alpha ) \ln (1/(1- \alpha ))$</p>
-                <p><b>Prova</b> no livro.</p>
-                <p>Se a tabela hash estiver metade cheia, o número esperado de sondagens em uma busca bem-sucedida será menor que $1.387$. Se estiver $90\%$ cheia, passa a ser algo menor que $2.559$.</p>
+            <p>No endereçamento aberto temos no máximo um elemento por posição e, portanto, $n \leq m$, o que implica $\alpha \le 1$. Mas nossa análise assumirá que pelo menos uma posição estará vazia, assim, $\alpha \lt 1$, e que não haverá exclusão de chaves.</p>
+            <p>Supomos que estamos usando hashing com permutação uniforme e independente. Nesse esquema idealizado, a sequência de sondagem $\lang h(k, 0), h(k, 1), ..., h(k, m - 1)\rang $ usada para inserir ou procurar cada chave $k$ tem igual probabilidade de ser qualquer permutação de $\lang 0, 1, ..., m - 1\rang$.</p>
+            <p><b>Teorema 11.6</b></p>
+            <p>Dada uma tabela hash com endereçamento aberto e fator de carga $\alpha = n/m \lt 1$, o número esperado de sondagens em uma busca malsucedida é no máximo $1/(1 - \alpha )$, supondo hashing com permutação uniforme e independente.</p>
+            <p><b>Prova</b> no livro.</p>
+            <p>Isso indica que se a tabela estiver metade cheia, o número médio de sondagens numa busca mal-sucedida é no máximo $1/(1-.5)=2$. Se estiver $90\%$ cheia, passa a ser $1/(1-.9)=10$.</p>
+            <p><b>Corolário 11.7</b></p>
+            <p>Inserir um elemento em uma tabela hash de endereçamento aberto com fator de carga $\alpha$ exige no máximo $1/(1 - \alpha )$ sondagens, em média, considerando hashing com permutação uniforme e independente sem exclusões.</p>
+            <p><b>Prova</b></p>
+            <p>Um elemento é inserido somente se houver espaço na tabela e, portanto, $\alpha &lt; 1$. Inserir uma chave requer uma busca malsucedida seguida pela colocação da chave na primeira posição vazia encontrada. Assim, o número esperado de sondagens é, no máximo, $1/(1 - \alpha )$.</p>
+            <!-- The bound proven, of 1/(1 − α) = 1 + α + α^2 + α^3 + ⋯, has an intuitive interpretation. The first probe always occurs. With probability approximately α, the first probe finds an occupied slot, so that a second probe happens. With probability approximately α2, the first two slots are occupied so that a third probe ensues, and so on. -->
+            <p><b>Teorema 11.8</b></p>
+            <p>Dada uma tabela hash de endereçamento aberto com fator de carga $\alpha &lt; 1$, considerando hashing com permutação uniforme e independente, sem exclusões, e também que cada chave na tabela tem igual probabilidade de ser procurada, o número esperado de sondagens em uma busca bem sucedida é, no máximo $(1/ \alpha ) \ln (1/(1- \alpha ))$</p>
+            <p><b>Prova</b> no livro.</p>
+            <p>Se a tabela hash estiver metade cheia, o número esperado de sondagens em uma busca bem-sucedida será menor que $1.387$. Se estiver $90\%$ cheia, passa a ser algo menor que $2.559$.</p>
 
-                <h4>Exercícios</h4>
-                <ol class="excs">
-                    <li>Considere a inserção das chaves $10, 22, 31, 4, 15, 28, 17, 88, 59$ em uma tabela hash de comprimento $m = 11$ usando endereçamento aberto com a função hash auxiliar $h'(k) = k$. Ilustre o resultado da inserção dessas chaves utilizando sondagem linear, utilizando sondagem quadrática com $c_1 = 1$ e $c_2 = 3$, e utilizando hash duplo com $h_1(k) = k$ e $h_2(k) = 1 + (k \mod (m - 1))$.</li>
+            <h4>Exercícios</h4>
+            <ol class="excs">
+                <li>Considere a inserção das chaves $10, 22, 31, 4, 15, 28, 17, 88, 59$ em uma tabela hash de comprimento $m = 11$ usando endereçamento aberto com a função hash auxiliar $h'(k) = k$. Ilustre o resultado da inserção dessas chaves utilizando sondagem linear, utilizando sondagem quadrática com $c_1 = 1$ e $c_2 = 3$, e utilizando hash duplo com $h_1(k) = k$ e $h_2(k) = 1 + (k \mod (m - 1))$.</li>
 
-                    <li>Escreva pseudocódigo para <code>hashDelete</code> como descrito no texto e modifique <code>hashInsert</code> para manipular o valor especial <code>DELETED</code>.</li>
+                <li>Escreva pseudocódigo para <code>hashDelete</code> como descrito no texto e modifique <code>hashInsert</code> para manipular o valor especial <code>DELETED</code>.</li>
 
-                    <li>Considere uma tabela hash de endereçamento aberto com hashing com permutação uniforme e independente. Dê limites superiores para o número esperado de sondagens em uma busca malsucedida e em uma busca bem sucedida quando o fator de carga for 3/4 e quando for 7/8.</li>
+                <li>Considere uma tabela hash de endereçamento aberto com hashing com permutação uniforme e independente. Dê limites superiores para o número esperado de sondagens em uma busca malsucedida e em uma busca bem sucedida quando o fator de carga for 3/4 e quando for 7/8.</li>
 
-                    <li>Mostre que o número esperado de sondagens necessárias para uma busca bem-sucedida quando $\alpha = 1$ (ou seja, quando $n = m$), é $H_m$, o $m$-ésimo número harmônico.</li>
+                <li>Mostre que o número esperado de sondagens necessárias para uma busca bem-sucedida quando $\alpha = 1$ (ou seja, quando $n = m$), é $H_m$, o $m$-ésimo número harmônico.</li>
 
-                    <li>Suponha que usamos hashing duplo para resolver colisões - isto é, usamos a função hash $h(k, i) = (h_1(k) + ih_2(k)) \mod m$. Mostre que se $m$ e $h_2(k)$ têm um Máximo Divisor Comum $d \ge 1$ para alguma chave $k$, então uma busca malsucedida pela chave $k$ examina $(1/d)$ da tabela hash antes de retornar para a posição $h_1(k)$. Assim, quando $d = 1$, de modo que $m$ e $h_2(k)$ sejam primos entre si, a busca consegue sondar a tabela hash inteira. (Dica: veja o Capítulo 31.)</li>
+                <li>Suponha que usamos hashing duplo para resolver colisões - isto é, usamos a função hash $h(k, i) = (h_1(k) + ih_2(k)) \mod m$. Mostre que se $m$ e $h_2(k)$ têm um Máximo Divisor Comum $d \ge 1$ para alguma chave $k$, então uma busca malsucedida pela chave $k$ examina $(1/d)$ da tabela hash antes de retornar para a posição $h_1(k)$. Assim, quando $d = 1$, de modo que $m$ e $h_2(k)$ sejam primos entre si, a busca consegue sondar a tabela hash inteira. (Dica: veja o Capítulo 31.)</li>
 
-                    <p>Primeiramente, vamos visualizar o que acontece quando $m=20$ e $h_2=15$, ou seja, $d=5$, e $m/d=4$. A cada $15$ posições será a nova sondagem, mas a partir da quarta sondagem, as posições começarão a se repetir.</p>
-                    <p>Como $h_2$ e $m$ possuem um MDC $d$, então $h_2(k)=dc_1$ e $m=dc_2$ para duas constantes $c_1$ e $c_2$. Examinar $(1/d)^{\th}$ das posições da tabela corresponde a examinar $m/d=c_2$ posições. Logo, o hash resultante quando $i=m/d$ é $h(k,m/d)=(h_1(k)+(m/d)h_2(k))\mod m = (h_1(k)+(m/d)dc_1)\mod m = (h_1(k)+mc_1)\mod m$.</p>
-                    <p>Para $i=0$, temos $h(k,0)=(h_1(k))\mod m$. Como $mc_1$ é um múltiplo de $m$, e na aritmética modular, adicionar um múltiplo do módulo a um número não altera seu resto, então $(h_1(k))\mod m=(h_1(k)+mc_1)\mod m$.</p>
-                    <p>Se $d=1$, ou seja, $h_2$ e $m$ são primos entre si, então, $m/d=m$, ou seja, antes de voltar para a posição da primeira sonda ($i=0$), devemos sondar todas as demais posições da tabela.</p>
+                <p>Primeiramente, vamos visualizar o que acontece quando $m=20$ e $h_2=15$, ou seja, $d=5$, e $m/d=4$. A cada $15$ posições será a nova sondagem, mas a partir da quarta sondagem, as posições começarão a se repetir.</p>
+                <p>Como $h_2$ e $m$ possuem um MDC $d$, então $h_2(k)=dc_1$ e $m=dc_2$ para duas constantes $c_1$ e $c_2$. Examinar $(1/d)^{\th}$ das posições da tabela corresponde a examinar $m/d=c_2$ posições. Logo, o hash resultante quando $i=m/d$ é $h(k,m/d)=(h_1(k)+(m/d)h_2(k))\mod m = (h_1(k)+(m/d)dc_1)\mod m = (h_1(k)+mc_1)\mod m$.</p>
+                <p>Para $i=0$, temos $h(k,0)=(h_1(k))\mod m$. Como $mc_1$ é um múltiplo de $m$, e na aritmética modular, adicionar um múltiplo do módulo a um número não altera seu resto, então $(h_1(k))\mod m=(h_1(k)+mc_1)\mod m$.</p>
+                <p>Se $d=1$, ou seja, $h_2$ e $m$ são primos entre si, então, $m/d=m$, ou seja, antes de voltar para a posição da primeira sonda ($i=0$), devemos sondar todas as demais posições da tabela.</p>
 
-                    <li>Considere uma tabela hash de endereçamento aberto com um fator de carga $\alpha$. Encontre o valor não-zero $\alpha$ para o qual o número esperado de sondagens em uma busca malsucedida é igual a duas vezes o número esperado de sondagens em uma busca bem sucedida. Use os limites superiores dados pelos Teoremas 11.6 e 11.8 para esses números esperados de sondagens.</li>
-                </ol>
+                <li>Considere uma tabela hash de endereçamento aberto com um fator de carga $\alpha$. Encontre o valor não-zero $\alpha$ para o qual o número esperado de sondagens em uma busca malsucedida é igual a duas vezes o número esperado de sondagens em uma busca bem sucedida. Use os limites superiores dados pelos Teoremas 11.6 e 11.8 para esses números esperados de sondagens.</li>
+            </ol>
 
-            </div>
         </div>
     </div>
-</body>
+</div>

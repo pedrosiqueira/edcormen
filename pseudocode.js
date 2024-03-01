@@ -14,6 +14,7 @@ function pseudocode(hljs) {
     'case',
     'class',
     'continue',
+    'do',
     'downto',
     'else',
     'error',

@@ -466,32 +466,8 @@ chainedHashDelete(T,x)
             <h3>11.4 Endereçamento aberto</h3>
             <p>No endereçamento aberto, todos os elementos ficam na própria tabela hash. Porém, a tabela hash pode “ficar cheia”. Seu fator de carga $\alpha$ nunca pode exceder 1.</p>
             <p>O exercício 11.2-4 do livro usa uma lista encadeada entre as próprias posições da tabela. Mas a vantagem do endereçamento aberto é que ele evita ponteiros por completo. A memória extra liberada por não armazenarmos ponteiros fornece à tabela hash um número maior de posições para a mesma quantidade de memória, o que produz potencialmente menor número de colisões e buscas mais rápida.</p>
-            <p>Para inserir com endereçamento aberto, <b>sondamos</b> a tabela hash até encontrar uma posição vazia na qual inserir a chave. Para determinar quais serão as posições a sondar, adicionamos à função hash um segundo parâmetro, o número da sondagem (começando do 0). Para simplificar, o seguinte algoritmo considera que o elemento é a própria chave a ser inserida.</p>
-            <pre><code>hashInsert(T,k)
-1  i = 0
-2  while i &lt; m
-3    j = h(k,i)
-4    if T[j] == NIL
-5      T[j] = k
-6      return j
-7    else i++
-8  error "hash table overflow"</code></pre>
 
-            <p>Com endereçamento aberto, exigimos que, para toda chave $k$, a <b>sequência de sondagem</b> $\lang h(k,0), h(k,1), …, h(k,m-1)\rang $ seja uma permutação de $\lang 0, 1, ..., m - 1\rang $, de modo que toda posição da tabela hash seja eventualmente considerada para uma nova chave, à medida que a tabela é preenchida.</p>
-            <p>O algoritmo <code>hashSearch</code> sonda a mesma sequência de posições que o algoritmo de inserção para uma mesma chave $k$. Portanto, a busca pode terminar (sem sucesso) quando encontra uma posição vazia, já que $k$ teria sido inserido ali e não mais adiante em sua sequência de sondagem. (Esse argumento supõe que não há exclusão de chaves na tabela hash.)</p>
-
-            <pre><code>hashSearch(T,k)
-1    i = 0
-2    while i &lt; m and T[j] ≠ NIL
-3        j = h(k,i)
-4        if T[j] == k
-5            return j
-6        i++
-7    return NIL</code></pre>
-
-            <p>Quando excluímos uma chave da posição $i$, não podemos simplesmente marcar essa posição com $\text{NIL}$. Se fizéssemos isso, poderíamos não conseguir recuperar nenhuma chave $k$ que não foi inserida em $i$ por estar ocupada. Podemos resolver esse problema armazenando o valor especial $\text{DELETED}$ em vez de $\text{NIL}$. Então, modificaríamos o procedimento $\text{hashInsert}$ para tratar tal posição como se ela estivesse vazia, de modo a podermos inserir uma nova chave. Não é necessário modificar $\text{hashSearch}$, já que ele passará por valores $\text{DELETED}$ enquanto estiver buscando. Entretanto, quando usamos o valor especial $\text{DELETED}$, os tempos de busca não dependem mais do fator de carga $\alpha$. Por essa razão, o encadeamento é mais comumente selecionado como uma técnica de resolução de colisões quando precisamos excluir chaves.</p>
-            <p>Num <b>hashing com permutação uniforme e independente</b>, a sequência de sondagem de cada chave tem igual probabilidade de ser qualquer uma das $m!$ permutações de $\lang 0, 1, ..., m - 1\rang$. O hashing com permutação uniforme e independente generaliza a noção de hashing uniforme independente definida anteriormente para uma função hash que produz não apenas um único número, mas toda uma sequência de sondagem. Contudo, hashing com permutação uniforme e independente é difícil de implementar e, na prática, são usadas aproximações adequadas (como o hashing duplo, definido a seguir).</p>
-            <p>Examinaremos três técnicas comumente utilizadas para calcular as sequências de sondagem exigidas para o endereçamento aberto: sondagem linear, sondagem quadrática e hash duplo. O hash duplo tem o maior número de sequências de sondagem e, como seria de esperar, parece dar os melhores resultados.</p>
+            <p>A ideia é <b>sondar</b> a tabela até achar o elemento procurado numa busca ou uma posição vazia numa inserção. Para saber por qual posição sondar, adicionamos à função hash um segundo parâmetro, o número da sondagem (começando do 0). Examinaremos três técnicas comumente utilizadas para calcular as sequências de sondagem exigidas para o endereçamento aberto: sondagem linear, sondagem quadrática e hash duplo. O hash duplo tem o maior número de sequências de sondagem e, como seria de esperar, parece dar os melhores resultados.</p>
 
             <h4>Sondagem linear</h4>
 
@@ -529,10 +505,35 @@ chainedHashDelete(T,x)
             <p>onde o valor de $m'$ escolhido é ligeiramente menor que m (digamos, $m - 1$). Por exemplo, se $k = 123456$, $m = 701$ e $m' = 700$, temos $h_1(k) = 80$ e $h_2(k) = 257$; assim, primeiro sondamos a posição $80$ e depois examinamos cada $257$ª posição (módulo m) até encontrarmos a chave ou termos examinado todas as posições.</p>
             <p>Quando $m$ é primo ou uma potência de $2$, o hash duplo é melhor que a sondagem linear ou quadrática no sentido de que são usadas $\Theta(m^2)$ sequências de sondagem em vez de $\Theta(m)$, já que cada par $(h_1(k), h_2(k))$ possível gera uma sequência de sondagem distinta. O resultado é que, para tais valores de $m$, o desempenho do hash duplo parece ficar bem próximo do esquema “ideal” do hashing uniforme. </p>
 
-            <h4>Análise do endereçamento aberto</h4>
+            <h4>Inserção, busca e exclusão</h4>
+            <p>Para inserir com endereçamento aberto, <b>sondamos</b> a tabela hash até encontrar uma posição vazia na qual inserir a chave. Para simplificar, o seguinte algoritmo considera que o elemento é a própria chave a ser inserida.</p>
+            <pre><code>hashInsert(T,k)
+1  for i from 0 to m-1
+2    j = h(k,i)
+3    if T[j] == NIL
+4      T[j] = k
+5      return j
+6  error "hash table overflow"</code></pre>
 
-            <p>No endereçamento aberto temos no máximo um elemento por posição e, portanto, $n \leq m$, o que implica $\alpha \le 1$. Mas nossa análise assumirá que pelo menos uma posição estará vazia, assim, $\alpha \lt 1$, e que não haverá exclusão de chaves.</p>
-            <p>Supomos que estamos usando hashing com permutação uniforme e independente. Nesse esquema idealizado, a sequência de sondagem $\lang h(k, 0), h(k, 1), ..., h(k, m - 1)\rang $ usada para inserir ou procurar cada chave $k$ tem igual probabilidade de ser qualquer permutação de $\lang 0, 1, ..., m - 1\rang$.</p>
+            <p>Com endereçamento aberto, exigimos que, para toda chave $k$, a <b>sequência de sondagem</b> $\lang h(k,0), h(k,1), …, h(k,m-1)\rang $ seja uma permutação de $\lang 0, 1, ..., m - 1\rang $, de modo que toda posição da tabela hash eventualmente seja sondada, à medida que a tabela é preenchida.</p>
+            <p>O algoritmo <code>hashSearch</code> sonda a mesma sequência de posições que o algoritmo de inserção para uma mesma chave $k$. Portanto, a busca pode terminar (sem sucesso) quando encontra uma posição vazia, já que $k$ teria sido inserido ali e não mais adiante em sua sequência de sondagem. (Esse argumento supõe que não há exclusão de chaves na tabela hash.)</p>
+
+            <pre><code>hashSearch(T,k)
+1  i = 0
+2  do
+3    j = h(k,i)
+4    if T[j] == k
+5      return j
+6    i++
+7  while i &lt; m and T[j] ≠ NIL
+8  return NIL</code></pre>
+
+            <p>Quando excluímos uma chave da posição $i$, não podemos simplesmente marcar essa posição com <code>NIL</code>. Se fizéssemos isso, poderíamos não conseguir recuperar nenhuma chave $k$ que não foi inserida em $i$ por estar ocupada. Podemos resolver esse problema armazenando o valor especial <code>DELETED</code> em vez de <code>NIL</code>. Então, modificaríamos o procedimento <code>hashInsert</code> para tratar tal posição como se ela estivesse vazia, de modo a podermos inserir uma nova chave. Não é necessário modificar <code>hashSearch</code>, já que ele passará por valores <code>DELETED</code> enquanto estiver buscando. Entretanto, quando usamos o valor especial <code>DELETED</code>, os tempos de busca não dependem mais do fator de carga $\alpha$. Por essa razão, o encadeamento é mais comumente selecionado como uma técnica de resolução de colisões quando precisamos excluir chaves.</p>
+
+            <h4>Análise do endereçamento aberto</h4>
+            <p>No endereçamento aberto temos no máximo um elemento por posição e, portanto, $n \leq m$, o que implica $\alpha \le 1$. Mas nossa análise assumirá que pelo menos uma posição estará vazia, assim, $\alpha \lt 1$. Assumiremos, também, que não haverá exclusão de chaves.</p>
+            <p>Supomos que estamos usando hashing com permutação uniforme e independente. Num <b>hashing com permutação uniforme e independente</b>, a sequência de sondagem de cada chave tem igual probabilidade de ser qualquer uma das $m!$ permutações de $\lang 0, 1, ..., m - 1\rang$. O hashing com permutação uniforme e independente generaliza a noção de hashing uniforme independente definida anteriormente para uma função hash que produz não apenas um único número, mas toda uma sequência de sondagem. Contudo, hashing com permutação uniforme e independente é difícil de implementar e, na prática, são usadas aproximações adequadas (como o hashing duplo, definido a seguir).</p>
+            <p>Nesse esquema idealizado, a sequência de sondagem $\lang h(k, 0), h(k, 1), ..., h(k, m - 1)\rang $ usada para inserir ou procurar cada chave $k$ tem igual probabilidade de ser qualquer permutação de $\lang 0, 1, ..., m - 1\rang$.</p>
             <p><b>Teorema 11.6</b></p>
             <p>Dada uma tabela hash com endereçamento aberto e fator de carga $\alpha = n/m \lt 1$, o número esperado de sondagens em uma busca malsucedida é no máximo $1/(1 - \alpha )$, supondo hashing com permutação uniforme e independente.</p>
             <p><b>Prova</b> no livro.</p>

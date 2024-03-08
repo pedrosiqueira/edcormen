@@ -168,10 +168,10 @@
             </div>
         </div>
         <div id="12-2-consultando-bst">
-            <h3>12.2 Consultandooo BSTs</h3>
+            <h3>12.2 Consultando BSTs</h3>
             <div id="12-2-1-busca">
                 <h4>12.2.1 Busca</h4>
-                <p>Dado um poonteiro $x$ para um nó da árvore, e uma chave $k$, a busca procura pelo nó cooom chave $k$ na árvore de $x$ para baixo. Isto é, se $x$ for $T.root$, a busca se dará na árvore inteira.</p>
+                <p>Dado um ponteiro $x$ para um nó da árvore, e uma chave $k$, a busca procura pelo nó com chave $k$ na árvore de $x$ para baixo. Isto é, se $x$ for $T.root$, a busca se dará na árvore inteira.</p>
                 <p>O procedimento traça um caminho da raiz até o nó procurado, ou então, até <code>NIL</code>, caso não encontre o nó. Como os nós têm uma relativa ordem entre si, descendo pelo caminho, podemos deduzir se devemos ir pela direita ou pela esquerda. A Figura 12.2a ilustra a busca pelo nó 13.</p>
                 <p>
                 <figure><img id="fig-12-2-queries-on-a-bst" alt="consultas em uma bst">
@@ -197,9 +197,9 @@
             </div>
             <div id="12-2-3-sucessor-predecessor">
                 <h4>12.2.3 Sucessor e predecessor</h4>
-                <p>O sucessor de um nó é o que vem após ele num percurso em-ordem. Mais formalmente, o sucessoor de um nó $x$ é aquele que possui a menor chave maioor ou igual à chave do nó $x$. O legal do procedimento é que você consegue encontrar o sucessor sem precisar comparar as chaves entre si.</p>
-                <p>O código tem dois casos. Se a subárvore direita de $x$ não estiver vazia, então o sucessor será o menor elementoo de sua subárvore direita, bastando chamar o procedimento <code>TREE-MINIMUM(x.right)</code>. Por exemplo, o sucessor de $15$ na Figura 12.2c é o $17$.</p>
-                <p>Agora, se $x$ não possuir uma subárvore direita, entãoo seu sucessor é seu ancestral mais baixo cujo filho esquerdo também é ancestral de $x$ (de outra forma, seu sucessor é o primeiro ancestral, subindo pela árvore, que é maior que ele). A Figura 12.2d ilustra esse caso para o nó $13$.</p>
+                <p>O sucessor de um nó é o que vem após ele num percurso em-ordem. Mais formalmente, o sucessor de um nó $x$ é aquele que possui a menor chave maior ou igual à chave do nó $x$. O legal do procedimento é que você consegue encontrar o sucessor sem precisar comparar as chaves entre si.</p>
+                <p>O código tem dois casos. Se a subárvore direita de $x$ não estiver vazia, então o sucessor será o menor elemento de sua subárvore direita, bastando chamar o procedimento <code>TREE-MINIMUM(x.right)</code>. Por exemplo, o sucessor de $15$ na Figura 12.2c é o $17$.</p>
+                <p>Agora, se $x$ não possuir uma subárvore direita, então seu sucessor é seu ancestral mais baixo cujo filho esquerdo também é ancestral de $x$ (de outra forma, seu sucessor é o primeiro ancestral, subindo pela árvore, que é maior que ele). A Figura 12.2d ilustra esse caso para o nó $13$.</p>
                 <pre><code>TREE-SUCCESSOR(x)
 1 if x.right ≠ NIL               // case 1: leftmost node in right subtree
 2   return TREE-MINIMUM(x.right)
@@ -268,13 +268,13 @@
             <h3>12.3 Inserção e exclusão</h3>
             <div id="12-3-1-insercao">
                 <h4>12.3.1 Inserção</h4>
-                <p>A inserção traça um caminho da raiz até um <code>NIL</code>, oonde o noovo nó será inseridoo, mantendoo o poonteiro para o nó anterior, que será oo pai do noovo nó.</p>
+                <p>A inserção traça um caminho da raiz até um <code>NIL</code>, onde o novo nó será inserido, mantendo o ponteiro para o nó anterior, que será o pai do novo nó.</p>
                 <p>
                 <figure><img id="fig-12-3-inserting-node" alt="inserindo um nó">
                     <figcaption>Figura 12.3 Inserindo o nó $13$.</figcaption>
                 </figure>
                 </p>
-                <p>Como o caminho da raiz até uma das folhas passa por $h$ nós, sendo $h$ a altura da árvore, oo custoo da inserção é $O(h)$.</p>
+                <p>Como o caminho da raiz até uma das folhas passa por $h$ nós, sendo $h$ a altura da árvore, o custo da inserção é $O(h)$.</p>
                 <pre><code>TREE-INSERT(T, z)
 1 x = T.root       // node being compared with z
 2 y = NIL          // y will be parent of z

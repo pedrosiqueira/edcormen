@@ -313,7 +313,7 @@
                 <pre><code>TRANSPLANT(T, u, v)
 1 if u.p == NIL
 2      T.root = v
-3 elseif u == u.p.left
+3 else if u == u.p.left
 4      u.p.left = v
 5 else u.p.right = v
 6 if v ≠ NIL
@@ -323,7 +323,7 @@
                 <pre><code>TREE-DELETE(T, z)
  1 if z.left == NIL
  2      TRANSPLANT(T, z, z.right)       // replace z by its right child
- 3 elseif z.right == NIL	
+ 3 else if z.right == NIL	
  4      TRANSPLANT(T, z, z.left)        // replace z by its left child
  5 else y = TREE-MINIMUM(z.right)	    // y is z’s successor
  6      if y ≠ z.right                  // is y farther down the tree?

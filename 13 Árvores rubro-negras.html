@@ -616,15 +616,14 @@ RBTransplant(T, u, v)
                 <li>Suponha que um nó x seja inserido em uma árvore rubro-negra com RBInsert e então imediatamente excluído com RBDelete. A árvore rubro-negra resultante é igual à árvore rubro-negra inicial? Justifique sua resposta.</li>
                 <li>Considere a operação $\text{RB-ENUMERATE}(T, r, a, b)$ que exiba todas as chaves $k$ tal que $a \le k \le b$ em uma árvore rubro-negra enraizada em $r$. Descreva como implementar $\text{RB-ENUMERATE}$ em tempo $\Theta(m+\lg n)$, onde $m$ é o número de chaves que são exibidas. Assuma que as chaves em $T$ são únicas e que os valores $a$ e $b$ aparecem como chaves em $T$. Como a sua solução mudaria se $a$ e $b$ não aparecerem em $T$? ($\textit{Dica:}$ Você não precisa adicionar novos atributos à árvore rubro-negra.)</li>
 <ul>
-    <li>- $\Theta(\lg n)$:  Encontre a menor chave que seja maior ou igual a $a$.</li>
-    <li>- $\Theta(m)$: Depois de encontrar a menor chave maior ou igual a $a$, percorra os sucessores na árvore até encontrar uma chave que seja maior que $b$.</li>
+    <li>$\Theta(\lg n)$:  Encontre a menor chave que seja maior ou igual a $a$.</li>
+    <li>$\Theta(m)$: Depois de encontrar a menor chave maior ou igual a $a$, percorra os sucessores na árvore até encontrar uma chave que seja maior que $b$.</li>
 </ul>
 
 <p>Durante esse percurso, cada aresta na subárvore pode ser percorrida no máximo duas vezes:</p>
 <ul>
-    
-       <li>- **Descida**: Uma vez durante a descida enquanto procuramos os sucessores.</li>
-       <li>- **Subida**: Uma vez durante a subida ao retornar de um nó folha ou de um nó que não tem sucessores dentro do intervalo $[a, b]$.</li>
+       <li>Descida: Uma vez durante a descida enquanto procuramos os sucessores.</li>
+       <li>Subida: Uma vez durante a subida ao retornar de um nó folha ou de um nó que não tem sucessores dentro do intervalo $[a, b]$.</li>
 </ul>
 
 <p>Uma vez que uma aresta foi percorrida duas vezes, os nós abaixo dessa aresta não serão mais visitados, pois não serão sucessores dos próximos nós no intervalo $[a, b]$.</p>

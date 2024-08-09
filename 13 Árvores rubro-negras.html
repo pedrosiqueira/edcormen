@@ -188,16 +188,16 @@
             <p>As letras $\alpha$, $β$ e $γ$ representam subárvores arbitrárias. Uma operação de rotação preserva a propriedade de árvore de busca binária: as chaves em $\alpha$ precedem $x.key$, que precede as chaves em $β$, que precedem $y.key$, que precede as chaves em $γ$.</p>
             <pre><code>leftRotate(T,x)
  1    y = x.right       // set y
- 2    x.right = y.left  // turn y’s left subtree into x’s right subtree
+ 2    x.right = y.left  // turn y's left subtree into x's right subtree
  3    if y.left &ne; T.nil // if y.left is nil, there is no need to update it
  4      y.left.p = x
- 5    y.p = x.p         // link x’s parent to y
+ 5    y.p = x.p         // link x's parent to y
  6    if x.p == T.nil
  7      T.root = y
  8    else if x == x.p.left
  9      x.p.left = y
 10    else x.p.right = y
-11    y.left = x        // put x on y’s left
+11    y.left = x        // put x on y's left
 12    x.p = y
                 </code></pre>
 
@@ -249,7 +249,7 @@
 11 else if z.key &lt; y.key
 12   y.left = z
 13 else y.right = z
-14 z.left = T.nil      // both of z’s children are the sentinel
+14 z.left = T.nil      // both of z's children are the sentinel
 15 z.right = T.nil
 16 z.color = RED       // the new node starts out red
 17 RBInsertFIXUP(T, z) // correct any violations of red-black properties</code></pre>
@@ -280,9 +280,9 @@
             <p>A seguir, o algoritmo RBInsertFixup:</p>
             <pre><code>RBInsertFIXUP(T, z)
  1 while z.p.color == RED
- 2   if z.p == z.p.p.left // is z’s parent a left child?
- 3     y = z.p.p.right // y is z’s uncle
- 4     if y.color == RED // are z’s parent and uncle both red?
+ 2   if z.p == z.p.p.left // is z's parent a left child?
+ 3     y = z.p.p.right // y is z's uncle
+ 4     if y.color == RED // are z's parent and uncle both red?
  5       z.p.color = BLACK      // caso 1
  6       y.color = BLACK        // caso 1
  7       z.p.p.color = RED      // caso 1
@@ -336,37 +336,37 @@
                 <li>Sugira como implementar RBInsert de maneira eficiente se a representação para árvores rubro-negras não incluir referência ao pai.</li>
                 <p>Uma possibilidade de implementar RBInsert sem usar a referência ao pai (z.p) é através de recursão. Segue um rascunho incompleto e não testado sobre como seria:</p>
                 <pre><code>RBInsert(T, x, z)
-if x == T.nil
-    return z
-if z.key &lt; x.key
-    x.left = RBInsert(T, x.left, z)
-    p = x.left
-    y = x.right
-else
-    x.right = RBInsert(T, x.right, z)
-    p = x.right
-    y = x.left
-
-// correct any violations
-// of red-black properties
-// looking at grandchild node
-if p.color == RED
-    if y.color == BLACK
-        if p.left.color == RED
-            // case 1
-            z = p.left
-        else if p.right.color == RED
-            // case 1
-            z = p.right
-    else
-        if p.left.color == RED
-            // case 2 or 3
-        else if p.right.color == RED
-            // case 2 or 3
-else
-    // balanced
-
-return x</code></pre>
+ 1 if x == T.nil
+ 2     return z
+ 3 if z.key &lt; x.key
+ 4     x.left = RBInsert(T, x.left, z)
+ 5     p = x.left
+ 6     y = x.right
+ 7 else
+ 8     x.right = RBInsert(T, x.right, z)
+ 9     p = x.right
+10     y = x.left
+11 
+12 // correct any violations
+13 // of red-black properties
+14 // looking at grandchild node
+15 if p.color == RED
+16     if y.color == BLACK
+17         if p.left.color == RED
+18             // case 1
+19             z = p.left
+20         else if p.right.color == RED
+21             // case 1
+22             z = p.right
+23     else
+24         if p.left.color == RED
+25             // case 2 or 3
+26         else if p.right.color == RED
+27             // case 2 or 3
+28 else
+29     // balanced
+30 
+31 return x</code></pre>
 
             </ol>
         </div>
@@ -505,16 +505,16 @@ RBTransplant(T, u, v)
  6 else if z.right == T.nil
  7     x = z.left
  8     RBTransplant(T, z, z.left)      // replace z by its left child
- 9 else y = treeMinimum(z.right)       // y is z’s successor
+ 9 else y = treeMinimum(z.right)       // y is z's successor
 10     yOriginalColor = y.color
 11     x = y.right
 12     if y ≠ z.right                  // is y farther down the tree?
 13         RBTransplant(T, y, y.right) // replace y by its right child
-14         y.right = z.right           // z’s right child becomes
-15         y.right.p = y               //   y’s right child
+14         y.right = z.right           // z's right child becomes
+15         y.right.p = y               //   y's right child
 16     else x.p = y                    // in case x is T.nil
 17     RBTransplant(T, z, y)           // replace z by its successor y
-18     y.left = z.left                 //   and give z’s left child to y,
+18     y.left = z.left                 //   and give z's left child to y,
 19     y.left.p = y                    //   which had no left child
 20     y.color = z.color
 21 if yOriginalColor == BLACK          // if any red-black violations occurred,
@@ -557,7 +557,7 @@ RBTransplant(T, u, v)
             <pre><code>RBDeleteFixup(T, x)
  1 while x ≠ T.root and x.color == BLACK
  2     if x == x.p.left                 // is x a left child?
- 3         w = x.p.right                // w is x’s sibling
+ 3         w = x.p.right                // w is x's sibling
  4         if w.color == RED
  5             w.color = BLACK          // case 1
  6             x.p.color = RED          // case 1
@@ -606,14 +606,31 @@ RBTransplant(T, u, v)
             <p><b>Explicações extras:</b></p>
             <p>https://youtu.be/eO3GzpCCUSg</p>
             <h4>Exercícios</h4>
-            <ol class="exercicios">
+            <ol class="excs">
                 <li>Mostre que, após a execução de RBDeleteFixup, a raiz da árvore tem de ser preta.</li>
                 <li>Mostre que, se $x$ e $x.p$ são vermelhos em RBDelete, então a propriedade 4 é restabelecida pela chamada a RBDeleteFixup(T, x).</li>
                 <li>No Exercício 13.3-2, você determinou a árvore rubro-negra resultante da inserção sucessiva das chaves 41, 38, 31, 12, 19, 8 em uma árvore inicialmente vazia. Agora, mostre as árvores rubro-negras que resultam da exclusão sucessiva das chaves na ordem 8, 12, 19, 31, 38, 41.</li>
                 <li>Em quais linhas do código de RBDeleteFixup poderíamos examinar ou modificar a sentinela T.nil?</li>
-                <li>Em cada um dos casos da Figura 13.7, dê a contagem de nós pretos da raiz da subárvore mostrada até cada uma das subárvores $\alpha , β, γ, δ, ε, ζ$, e confirme que cada contagem permanece a mesma depois da transformação. Quando um nó tiver um atributo cor $c$ ou $c’$, use a notação $count(c)$ ou $count(c’)$ simbolicamente em sua contagem.</li>
+                <li>Em cada um dos casos da Figura 13.7, dê a contagem de nós pretos da raiz da subárvore mostrada até cada uma das subárvores $\alpha , β, γ, δ, ε, ζ$, e confirme que cada contagem permanece a mesma depois da transformação. Quando um nó tiver um atributo cor $c$ ou $c'$, use a notação $count(c)$ ou $count(c')$ simbolicamente em sua contagem.</li>
                 <li>Os professores Skelton e Baron estão preocupados porque, no início do caso 1 de RBDeleteFixup , o nó x.p poderia não ser preto. Se os professores estão corretos, as linhas 5-6 estão erradas. Mostre que x.p deve ser preto no início do caso 1 e, portanto, os professores não precisam se preocupar.</li>
                 <li>Suponha que um nó x seja inserido em uma árvore rubro-negra com RBInsert e então imediatamente excluído com RBDelete. A árvore rubro-negra resultante é igual à árvore rubro-negra inicial? Justifique sua resposta.</li>
+                <li>Considere a operação $\text{RB-ENUMERATE}(T, r, a, b)$ que exiba todas as chaves $k$ tal que $a \le k \le b$ em uma árvore rubro-negra enraizada em $r$. Descreva como implementar $\text{RB-ENUMERATE}$ em tempo $\Theta(m+\lg n)$, onde $m$ é o número de chaves que são exibidas. Assuma que as chaves em $T$ são únicas e que os valores $a$ e $b$ aparecem como chaves em $T$. Como a sua solução mudaria se $a$ e $b$ não aparecerem em $T$? ($\textit{Dica:}$ Você não precisa adicionar novos atributos à árvore rubro-negra.)</li>
+<ul>
+    <li>- $\Theta(\lg n)$:  Encontre a menor chave que seja maior ou igual a $a$.</li>
+    <li>- $\Theta(m)$: Depois de encontrar a menor chave maior ou igual a $a$, percorra os sucessores na árvore até encontrar uma chave que seja maior que $b$.</li>
+</ul>
+
+<p>Durante esse percurso, cada aresta na subárvore pode ser percorrida no máximo duas vezes:</p>
+<ul>
+    
+       <li>- **Descida**: Uma vez durante a descida enquanto procuramos os sucessores.</li>
+       <li>- **Subida**: Uma vez durante a subida ao retornar de um nó folha ou de um nó que não tem sucessores dentro do intervalo $[a, b]$.</li>
+</ul>
+
+<p>Uma vez que uma aresta foi percorrida duas vezes, os nós abaixo dessa aresta não serão mais visitados, pois não serão sucessores dos próximos nós no intervalo $[a, b]$.</p>
+
+<p>Como em qualquer árvore com $n$ nós, a quantidade de arestas é $n - 1$, ao percorrer $m$ nós, passamos por no máximo $2(m-1)$ arestas. Logo, o custo total do percurso será $\Theta(m)$, que somado ao custo $\Theta(\lg n)$ de encontrar a menor chave, dá o custo total de $\Theta(m+\lg n)$.</p>
+
             </ol>
         </div>
     </div>

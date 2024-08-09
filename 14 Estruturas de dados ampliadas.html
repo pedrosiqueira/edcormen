@@ -178,9 +178,6 @@
                         <p>Observe que essa ideia também funciona numa árvore rubro-negra, pois, após as rotações, os nós permanecem com os mesmos sucessores e predecessores.</p>
                         <li>Podemos manter em cada nó da árvore rubro-negra um atributo com o valor de sua altura-preta sem afetar o desempenho assintótico das operações? Mostre como, se sua resposta for positiva, ou justifique uma resposta negativa. E se quiséssemos manter a profundidade dos nós?</li>
                         <li>Seja $⊗$ um operador binário associativo e seja $a$ um atributo mantido em cada nó de uma árvore rubro-negra. Suponha que queiramos incluir em cada nó $x$ um atributo adicional $f$ tal que $x.f = x_1.a \otimes x_2.a \otimes \cdots \otimes x_m.a$, where $x_1, x_2, \ldots ,x_m$ é a listagem em ordem dos nós da subárvore com raiz em $x$. Mostre como atualizar os atributos $f$ em tempo $O(1)$ após uma rotação. Modifique ligeiramente seu argumento para aplicá-lo aos atributos <code>size</code> em árvores de ordem estatística.</li>
-                        <li>Desejamos ampliar a árvore rubro-negra com uma operação <code>RBEnumerate(x, a, b)</code> que imprime todas as chaves $k$ tais que $a \le k \le b$ em uma árvore rubro-negra com raiz em $x$. Descreva como implementar <code>RBEnumerate</code> em tempo $\Theta(m + \lg n)$, onde $m$ é o número de chaves impressas e $n$ é o número de nós internos na árvore.</li>
-                        <p>$\Theta(\lg n)$: Encontre a menor chave que seja maior ou igual a $a$.</p>
-                        <p>$\Theta(m)$: Baseado no exercício 14.2-1, encontre seus $m$ sucessores.</p>
                     </ol>
                     </li>
                 </div>

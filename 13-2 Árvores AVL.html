@@ -10,204 +10,206 @@
         }, false);
     </script>
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="pseudocode.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
-<script defer>hljs.configure({ cssSelector: "code", languages: ["pseudocode"] }); hljs.highlightAll(); /*hljs.initLineNumbersOnLoad();*/</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="pseudocode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["pseudocode"] }); hljs.highlightAll(); /*hljs.initLineNumbersOnLoad();*/</script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
 
-<style>
-    img {
-        max-width: 90vw;
-        max-height: 90vh;
-    }
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
 
-    .center {
-        text-align: center;
-    }
+        .center {
+            text-align: center;
+        }
 
-    .katex {
-        /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
-        font-size: 1.0em;
-    }
+        .katex {
+            /* o padrão é 1.21, vc pode remover essa configuração se quiser deixar o padrão */
+            font-size: 1.0em;
+        }
 
-    table.custom,
-    table.custom>thead>tr>th,
-    table.custom>tbody>tr>td,
-    table.custom>tbody>tr>th {
-        /* tabela centralizada e com bordas */
-        border: 1px solid black;
-        border-collapse: collapse;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 5px;
-        padding-right: 5px;
-        text-align: center;
-    }
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
 
-    table pre {
-        /* Remove a margem interna de tags pre dentro de tabelas */
-        margin: 0;
-        padding: 0;
-        text-align: left;
-    }
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
 
-    td:has(pre) {
-        /* tags pre dentro de tabela são alinhadas no topo à esquerda */
-        vertical-align: top;
-    }
+        td:has(pre) {
+            /* tags pre dentro de tabela são alinhadas no topo à esquerda */
+            vertical-align: top;
+        }
 
-    table.align-left th,
-    table.align-left td {
-        /* alinha à esquerda as células da tabela */
-        text-align: left;
-    }
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left;
+        }
 
-    /* inicia a lista de exercícios */
-    ol.excs {
-        padding-inline-start: 0em;
-        counter-reset: excs;
-        list-style: none;
-    }
+        /* inicia a lista de exercícios */
+        ol.excs {
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
 
-    /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
-    ol.excs>li:not(.no-mark)::before {
-        counter-increment: excs;
-        content: counters(excs, ".") ". ";
-    }
+        /* põe um numerador num item da lista de exercícios, desde que não seja da classe no-mark */
+        ol.excs>li:not(.no-mark)::before {
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
 
-    /* põe uma barra vertical ao lado do item da lista de exercícios */
-    ol.excs>li {
-        /* Change this to adjust the line color and thickness */
-        border-left: 2px solid #000;
-        /* Optional: Add padding to create some space between the bar and content */
-        padding-left: 10px;
-        margin-block-start: 1em;
-        margin-block-end: 1em;
-    }
+        /* põe uma barra vertical ao lado do item da lista de exercícios */
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
 
-    ol.section {
-        counter-reset: section;
-        list-style-type: none;
-    }
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
 
-    ol.section li::before {
-        counter-increment: section;
-        content: counters(section, ".") ". ";
-    }
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
 
-    td.hljs-ln-numbers {
-        /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-        color: #ccc;
-        border-right: 1px solid #999;
-        padding-right: 5px;
-    }
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
 
-    td.hljs-ln-code {
-        /* estilizar as linhas de código da extensao highlightjs-line-numbers */
-        padding-left: 10px;
-    }
-</style>
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+    </style>
 </head>
 
 <div id="estruturas-de-dados">
-<div id="13-2-arvores-avl">
-    <h2>13-2 Árvores AVL</h2>
-    <p>O nome AVL vem de seus autores, Adelson, Velskii e Landis, que propuseram a estrutura em 1962. É uma árvore de busca binária balanceada.</p>
+    <div id="13-2-arvores-avl">
+        <h2>13-2 Árvores AVL</h2>
+        <p>O nome AVL vem de seus autores, Adelson, Velskii e Landis, que propuseram a estrutura em 1962. É uma árvore de busca binária balanceada.</p>
 
-    <div id="13-2-1-propriedades-arvores-avl">
-        <h3>13-2.1 Propriedades de árvores AVL</h3>
-        <p>Numa árvore AVL, para cada nó x, a diferença entre as alturas das subárvores à esquerda e à direita de x é -1, 0 ou 1. A essa diferença damos o nome <b>fator de balanço</b> (balance factor).</p>
-        <p>Observe na seguinte figura que o fator de balanço do nó 20 é 0, 1, -1 e -2, respectivamente. Quando a diferença é positiva, então a subárvore esquerda é mais alta, e quando negativa, a subárvore direita é mais alta.</p>
-        <p>
-            <img id="balance-factor" alt='fatores de balanceamento possíveis'>
-        </p>
-        <p>Para implementar uma árvore AVL, mantemos um atributo extra em cada nó: $x.h$, a altura do nó $x$. Além disso, implementaremos uma versão recursiva da AVL, em que cada nó não precisa manter uma referência ao seu pai.</p>
-        <p><b>Teorema 13.5</b></p>
-        <p>Uma árvore AVL com $n$ nós tem altura $O(\lg n)$.</p>
-        <p><b>Prova</b></p>
-        <p>Seja $h$ a altura de uma árvore AVL e $N(h)$ o número de nós na árvore AVL com altura $h$. Observe que o pior caso ocorre quando a árvore AVL possui um número mínimo de nós: as alturas das subárvores de cada nó diferem em uma unidade. A seguinte figura ilustra as menores árvores AVL com altura de $0$ a $6$.</p>
-        <p>
-            <img id="avl-worst-case" alt='pior case de avl'>
-        </p>
-        <p>Portanto, no pior caso, se a subárvore esquerda possui altura $h-1$, então a subárvore direita possui altura $h-2$, e vice-versa. Como resultado, o número mínimo de nós com altura $h$ é:</p>
-        <p>$N(h) = N(h-1) + N(h-2) + 1$</p>
-        <p>Como $N(h-1) &gt; N(h-2)$, então:</p>
-        <p>$N(h) &gt; N(h-2) + N(h-2) + 1$</p>
-        <p>Logo, temos:</p>
-        <p>$N(h) &gt; 2\cdot N(h-2)$</p>
-        <p>Podemos resolver como uma recorrência:</p>
-        <p>$N(h) &gt; 2\cdot N(h-2) &gt; 2\cdot 2\cdot N(h-4) &gt; 2\cdot 2\cdot 2\cdot N(h-6)> … &gt; 2^{h/2} \cdot N(0)$</p>
-        <p>Considerando $N(0)=1$, e aplicando logaritmo em ambos os lados, temos:</p>
-        <p>$N(h) &gt; 2^{h/2} ⇒ lg(N(h)) &gt; h/2 ⇒ h &lt; 2\cdot log(N(h))$</p>
-    </div>
-    <div id="13-2-2-Rotação-arvores-avl">
-        <h3>13-2.2 Rotação em árvores AVL</h3>
-        <p>Quando alteramos a estrutura da árvore, precisamos garantir que o atributo $h$ dos nós mantenha atualizado. Por exemplo, quando rotacionamos um nó, alteramos a sua altura bem como a de seu filho, que ocupará seu lugar. O procedimento $rightRotate(x)$ adaptado é:</p>
-        <pre><code>rightRotate(x)
+        <div id="13-2-1-propriedades-arvores-avl">
+            <h3>13-2.1 Propriedades de árvores AVL</h3>
+            <p>Numa árvore AVL, para cada nó x, a diferença entre as alturas das subárvores à esquerda e à direita de x é -1, 0 ou 1. A essa diferença damos o nome <b>fator de balanço</b> (balance factor).</p>
+            <p>Observe na seguinte figura que o fator de balanço do nó 20 é 0, 1, -1 e -2, respectivamente. Quando a diferença é positiva, então a subárvore esquerda é mais alta, e quando negativa, a subárvore direita é mais alta.</p>
+            <p>
+                <img id="balance-factor" alt='fatores de balanceamento possíveis'>
+            </p>
+            <p>Para implementar uma árvore AVL, mantemos um atributo extra em cada nó: $x.h$, a altura do nó $x$. Além disso, implementaremos uma versão recursiva da AVL, em que cada nó não precisa manter uma referência ao seu pai.</p>
+            <p><b>Teorema 13.5</b></p>
+            <p>Uma árvore AVL com $n$ nós tem altura $O(\lg n)$.</p>
+            <p><b>Prova</b></p>
+            <p>Seja $h$ a altura de uma árvore AVL e $N(h)$ o número de nós na árvore AVL com altura $h$. Observe que o pior caso ocorre quando a árvore AVL possui um número mínimo de nós: as alturas das subárvores de cada nó diferem em uma unidade. A seguinte figura ilustra as menores árvores AVL com altura de $0$ a $6$.</p>
+            <p>
+                <img id="avl-worst-case" alt='pior case de avl'>
+            </p>
+            <p>Portanto, no pior caso, se a subárvore esquerda possui altura $h-1$, então a subárvore direita possui altura $h-2$, e vice-versa. Como resultado, o número mínimo de nós com altura $h$ é:</p>
+            <p>$N(h) = N(h-1) + N(h-2) + 1$</p>
+            <p>Como $N(h-1) &gt; N(h-2)$, então:</p>
+            <p>$N(h) &gt; N(h-2) + N(h-2) + 1$</p>
+            <p>Logo, temos:</p>
+            <p>$N(h) &gt; 2\cdot N(h-2)$</p>
+            <p>Podemos resolver como uma recorrência:</p>
+            <p>$N(h) &gt; 2\cdot N(h-2) &gt; 2\cdot 2\cdot N(h-4) &gt; 2\cdot 2\cdot 2\cdot N(h-6)> … &gt; 2^{h/2} \cdot N(0)$</p>
+            <p>Considerando $N(0)=1$, e aplicando logaritmo em ambos os lados, temos:</p>
+            <p>$N(h) &gt; 2^{h/2} ⇒ lg(N(h)) &gt; h/2 ⇒ h &lt; 2\cdot log(N(h))$</p>
+        </div>
+        <div id="13-2-2-Rotação-arvores-avl">
+            <h3>13-2.2 Rotação em árvores AVL</h3>
+            <p>Quando alteramos a estrutura da árvore, precisamos garantir que o atributo $h$ dos nós mantenha atualizado. Por exemplo, quando rotacionamos um nó, alteramos a sua altura bem como a de seu filho, que ocupará seu lugar. O procedimento $rightRotate(x)$ adaptado é:</p>
+            <pre><code>rightRotate(x)
 1. y = x.l
 2. x.l = y.r
 3. y.r = x
 4. x.h = 1 + max(height(x.l), height(x.r))
 5. y.h = 1 + max(height(y.l), height(y.r))
 6. return y</code></pre>
-        <p>Observe que as alturas dos filhos de $x$ e $y$ não foram alteradas. Outra coisa a se notar é que como não mais armazenamos nos nós a referência para seus pais, os procedimentos que alteram a estrutura da árvore retornam um nó, que pode ser ou o filho anterior ou o novo filho do nó que chamou o procedimento, como veremos. No caso de $rightRotate$, $y$ será o novo filho do nós que chamou a rotação. O procedimento $leftRotate(x)$ é simétrico. Usamos o procedimento $height(x)$ para verificar se o nó não é nulo antes de retornar sua altura:</p>
-        <pre><code>height(x)
+            <p>Observe que as alturas dos filhos de $x$ e $y$ não foram alteradas. Outra coisa a se notar é que como não mais armazenamos nos nós a referência para seus pais, os procedimentos que alteram a estrutura da árvore retornam um nó, que pode ser ou o filho anterior ou o novo filho do nó que chamou o procedimento, como veremos. No caso de $rightRotate$, $y$ será o novo filho do nós que chamou a rotação. O procedimento $leftRotate(x)$ é simétrico. Usamos o procedimento $height(x)$ para verificar se o nó não é nulo antes de retornar sua altura:</p>
+            <pre><code>height(x)
 1. if x == nil
 2.   return -1
 3. return x.h</code></pre>
-        <p>Convencionamos que a altura de $\text{NIL}$ é $-1$.</p>
-        <div id="13-2-3-insercao-arvore-avl">
-            <h3>13-2.3 Inserção em árvore AVL</h3>
-            <p>Ao inserir um nó $z$, chamamos a função $insert(x,z)$, que desce pelo nó $x$ recursivamente até encontrar o lugar de $z$. Sendo que $x$ começa da raiz da árvore.</p>
-            <pre><code class="python">insert(x, z)
-1    if x == nil
-2        return z
-3    if x.k == z.k
-4        return z
-5    if z.k &lt; x.k
-6        x.l = insert(x.l, z)
-7    else
-8        x.r = insert(x.r, z)
-9    x.h = 1 + max(height(x.l), height(x.r))
+            <p>Convencionamos que a altura de $\text{NIL}$ é $-1$.</p>
+            <div id="13-2-3-insercao-arvore-avl">
+                <h3>13-2.3 Inserção em árvore AVL</h3>
+                <p>Ao inserir um nó $z$, chamamos a função $insert(x,z)$, que desce pelo nó $x$ recursivamente até encontrar o lugar de $z$. Sendo que $x$ começa da raiz da árvore.</p>
+                <pre><code>insert(x, z)
+ 1    if x == nil
+ 2        return z
+ 3    if x.k == z.k
+ 4        return z
+ 5    if z.k &lt; x.k
+ 6        x.l = insert(x.l, z)
+ 7    else
+ 8        x.r = insert(x.r, z)
+ 9    x.h = 1 + max(height(x.l), height(x.r))
 10    return balance(x)</code></pre>
-            <p>Observe nas linhas 6 e 8 que podemos atualizar o filho de $x$, caso necessário. A linha 2 atualiza o filho do $x$ anterior (pai do $x$ atual) quando alcançamos um $\text{NIL}$. A linha 4 atualiza o filho do $x$ anterior quando for para substituir o $x$ atual por $z$ (nessa versão da AVL, existem apenas nós com chaves distintas). Como a árvore AVL era válida antes da inserção, então seu fator de balanço era no máximo 1 absoluto, e depois da inserção, seu fator de balanço pode ficar no máximo 2 absoluto. À medida que subimos pela árvore, o procedimento $balance(x)$ verifica se o nó $x$ continua com suas subárvores balanceadas, e se não, realiza o balanceamento. O rebalanceamento é feito com rotações. Como o nó $x$ pode ser rebaixado nas rotações, o procedimento $balance(x)$ pode retornar outro nó no lugar de $x$, que será o novo filho do $x$ anterior à essa chamada recursiva (pai do $x$ atual). Outro ponto a observar é que um nó só ficará desbalanceado se ele for avô, senão, não há como seu fator de balanço ser maior que 1.</p>
-            <p><b>Balanceamento</b></p>
-            <p>Considere $x$ o nó que está desbalanceado, $y$ o filho de $x$ com maior altura e $z$ o filho de $y$ com maior altura. Há 4 casos no total, sendo 2 simétricos aos outros 2.</p>
-            <p><b>Caso 1:</b> $y$ e $z$ estão do mesmo lado (sequência reta)</p>
-            <p>Solução: rotacione $x$ de modo que $y$ tome seu lugar.</p>
-            <p><b>Caso 1.1:</b> $y$ e $z$ são filhos esquerdos</p>
-            <p>Exemplo, na seguinte subárvore, $x=25$, $bf(x)=2$ e $bf(y)=1$, logo, $y$ e $z$ estão à esquerda. Basta rotacionar $x$ à direita.</p>
-            <p>
-                <img id='case-1-1' alt='caso 1.1 y e z estao do mesmo lado e sao filhos esquerdos'>
-            </p>
-            <p>Após a rotação, $y$ se torna o novo $x$, que é devolvido como filho ao seu pai. As subárvores dos nós $5$, $20$ e $30$ permanecem com a mesma altura<!--, assim como as subárvores acima do novo $x$ (rever essa informação)-->.</p>
-            <p><b>Caso 1.2:</b> $y$ e $z$ são filhos direitos</p>
-            <p>Nesse subcaso, $bf(x)=-2$ e $bf(y)=-1$. Basta rotacionar $x$ à esquerda.</p>
-            <p><b>Caso 2:</b> y e z estão em lados diferentes (sequência curva)</p>
-            <p>Solução: rotacione y de modo que z tome seu lugar. Assim, o caso 2 é convertido para o caso 1. Depois, rotacione x de modo que o novo y tome seu lugar.</p>
-            <p><b>Caso 2.1:</b> y é filho esquerdo e z é filho direito</p>
-            <p>Exemplo, na seguinte subárvore, x=45, bf(x)=2 e bf(y)=-1, logo, y está à esquerda e z está à direita. Basta rotacionar y à esquerda e rotacionar x à direita.</p>
-            <p>
-            </p>
-            <p><b>Caso 2.2:</b> y é filho direito e z é filho esquerdo</p>
-            <p>Nesse subcaso, bf(x)=-2 e bf(y)=1. Basta rotacionar y à direita e x à esquerda.</p>
-            <p><b>O algoritmo</b></p>
-            <p>O procedimento a seguir retorna o fator de balanço entre as subárvores de um nó:</p>
-            <pre><code>bf(x)
+                <p>Observe nas linhas 6 e 8 que podemos atualizar o filho de $x$, caso necessário. A linha 2 atualiza o filho do $x$ anterior (pai do $x$ atual) quando alcançamos um $\text{NIL}$. A linha 4 atualiza o filho do $x$ anterior quando for para substituir o $x$ atual por $z$ (nessa versão da AVL, existem apenas nós com chaves distintas). Como a árvore AVL era válida antes da inserção, então seu fator de balanço era no máximo 1 absoluto, e depois da inserção, seu fator de balanço pode ficar no máximo 2 absoluto. À medida que subimos pela árvore, o procedimento $balance(x)$ verifica se o nó $x$ continua com suas subárvores balanceadas, e se não, realiza o balanceamento. O rebalanceamento é feito com rotações. Como o nó $x$ pode ser rebaixado nas rotações, o procedimento $balance(x)$ pode retornar outro nó no lugar de $x$, que será o novo filho do $x$ anterior à essa chamada recursiva (pai do $x$ atual). Outro ponto a observar é que um nó só ficará desbalanceado se ele for avô, senão, não há como seu fator de balanço ser maior que 1.</p>
+                <p><b>Balanceamento</b></p>
+                <p>Considere $x$ o nó que está desbalanceado, $y$ o filho de $x$ com maior altura e $z$ o filho de $y$ com maior altura. Há 4 casos no total, sendo 2 simétricos aos outros 2.</p>
+                <p><b>Caso 1:</b> $y$ e $z$ estão do mesmo lado (sequência reta)</p>
+                <p>Solução: rotacione $x$ de modo que $y$ tome seu lugar.</p>
+                <p><b>Caso 1.1:</b> $y$ e $z$ são filhos esquerdos</p>
+                <p>Exemplo, na seguinte subárvore, $x=25$, $bf(x)=2$ e $bf(y)=1$, logo, $y$ e $z$ estão à esquerda. Basta rotacionar $x$ à direita.</p>
+                <p>
+                    <img id='case-1-1' alt='caso 1.1 y e z estao do mesmo lado e sao filhos esquerdos'>
+                </p>
+                <p>Após a rotação, $y$ se torna o novo $x$, que é devolvido como filho ao seu pai, com uma altura a menos. As subárvores dos nós $5$, $20$ e $30$ permanecem com a mesma altura<!--, assim como as subárvores acima do novo $x$ (rever essa informação)-->.</p>
+                <p><b>Caso 1.2:</b> $y$ e $z$ são filhos direitos</p>
+                <p>Nesse subcaso, $bf(x)=-2$ e $bf(y)=-1$. Basta rotacionar $x$ à esquerda.</p>
+                <p><b>Caso 2:</b> $y$ e $z$ estão em lados diferentes (sequência curva)</p>
+                <p>Solução: rotacione $y$ de modo que $z$ tome seu lugar. Assim, o caso 2 é convertido para o caso 1. Depois, rotacione $x$ de modo que o novo $y$ tome seu lugar.</p>
+                <p><b>Caso 2.1:</b> $y$ é filho esquerdo e $z$ é filho direito</p>
+                <p>Exemplo, na seguinte subárvore, $x=45$, $bf(x)=2$ e $bf(y)=-1$, logo, $y$ está à esquerda e $z$ está à direita. Basta rotacionar $y$ à esquerda e rotacionar $x$ à direita.</p>
+                <p>
+                    <img id='case-2-1' alt='caso 2.1 y e z estão em lados diferentes, y e filho esquerdo e z e filho direito'>
+                </p>
+                <p>Após as rotações, $z$ se torna pai de $y$ e de $x$, e é devolvido como novo filho do antes pai de $x$, com uma altura a menos. As subárvores dos nós $10$, $30$, $40$ e $55$ permanecem com a mesma altura<!--, assim como as subárvores acima do novo $x$ (rever essa informação)-->.</p>
+                <p><b>Caso 2.2:</b> $y$ é filho direito e $z$ é filho esquerdo</p>
+                <p>Nesse subcaso, $bf(x)=-2$ e $bf(y)=1$. Basta rotacionar $y$ à direita e $x$ à esquerda.</p>
+
+                <p><b>O algoritmo</b></p>
+                <p>O procedimento a seguir retorna o fator de balanço entre as subárvores de um nó:</p>
+                <pre><code>bf(x)
 1. return height(x.l) - height(x.r)</code></pre>
-        </div>
-        <p>O procedimento $balance(x)$ verifica se $x$ está balanceado, e se não, balanceia:</p>
-        <pre>
-            <code class="python">balance(x)
+            </div>
+            <p>O procedimento $balance(x)$ verifica se $x$ está balanceado, e se não, balanceia:</p>
+            <pre><code>balance(x)
 1. if(bf(x) &lt; -1)
 2.   if(bf(x.r) &gt; 0)
 3.     x.r = rightRotate(x.r)
@@ -217,19 +219,19 @@
 7.     x.l = leftRotate(x.l)
 8.   x = rightRotate(x)
 9. return x</code></pre>
-        <p><b>Recursos extras:</b></p>
-        <li><a href="http://youtu.be/RdtJ6CCU6ZU">youtu.be/RdtJ6CCU6ZU</a></li>
-        <li><a href="http://youtu.be/7m94k2Qhg68">youtu.be/7m94k2Qhg68</a></li>
-        <li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Simulação</a></li>
-        <h4>Exercícios</h4>
-        <ol class="exercicios">
-            <li>Desenhe uma árvore desbalanceada que caia no caso 1.2.</li>
-            <li>Desenhe uma árvore desbalanceada que caia no caso 2.2.</li>
-            <li>Desenhe a árvore AVL resultante após cada inserção e consequentes rotações dos nós 43, 18, 22, 9, 21, 6, 8, 20, 63, 50, 56, 51.</li>
-            <li>Qual o custo do procedimento insert(x) na árvore AVL? Prove.</li>
-            <li>O procedimento de exclusão segue a mesma ideia de exclusão em uma árvore de busca binária, mas no final a altura de cada nó deve ser atualizada, e, se necessário, o nó deve ser balanceado. Implemente o procedimento de exclusão. Qual o custo do procedimento de exclusão?</li>
-            <li>Quais as vantagens de AVL e rubro-negras entre si?</li>
-            Resposta <a href="https://www.geeksforgeeks.org/red-black-tree-vs-avl-tree/">aqui</a>
-        </ol>
+            <p><b>Recursos extras:</b></p>
+            <li><a href="http://youtu.be/RdtJ6CCU6ZU">youtu.be/RdtJ6CCU6ZU</a></li>
+            <li><a href="http://youtu.be/7m94k2Qhg68">youtu.be/7m94k2Qhg68</a></li>
+            <li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Simulação</a></li>
+            <h4>Exercícios</h4>
+            <ol class="excs">
+                <li>Desenhe uma árvore desbalanceada que caia no caso 1.2.</li>
+                <li>Desenhe uma árvore desbalanceada que caia no caso 2.2.</li>
+                <li>Desenhe a árvore AVL resultante após cada inserção e consequentes rotações dos nós 43, 18, 22, 9, 21, 6, 8, 20, 63, 50, 56, 51.</li>
+                <li>Qual o custo do procedimento $insert(x)$ na árvore AVL? Prove.</li>
+                <li>O procedimento de exclusão segue a mesma ideia de exclusão em uma árvore de busca binária, mas no final a altura de cada nó deve ser atualizada, e, se necessário, o nó deve ser balanceado. Implemente o procedimento de exclusão. Qual o custo do procedimento de exclusão?</li>
+                <li>Quais as vantagens de AVL e rubro-negras entre si?</li>
+                Resposta <a href="https://www.geeksforgeeks.org/red-black-tree-vs-avl-tree/">aqui</a>
+            </ol>
+        </div>
     </div>
-</div>

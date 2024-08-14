@@ -171,15 +171,14 @@
                 <pre><code>insert(x, z)
  1    if x == nil
  2        return z
- 3    if x.k == z.k
- 4        return z
- 5    if z.k &lt; x.k
- 6        x.l = insert(x.l, z)
- 7    else
- 8        x.r = insert(x.r, z)
- 9    x.h = 1 + max(height(x.l), height(x.r))
-10    return balance(x)</code></pre>
-                <p>Observe nas linhas 6 e 8 que podemos atualizar o filho de $x$, caso necessário. A linha 2 atualiza o filho do $x$ anterior (pai do $x$ atual) quando alcançamos um $\text{NIL}$. A linha 4 atualiza o filho do $x$ anterior quando for para substituir o $x$ atual por $z$ (nessa versão da AVL, existem apenas nós com chaves distintas). Como a árvore AVL era válida antes da inserção, então seu fator de balanço era no máximo 1 absoluto, e depois da inserção, seu fator de balanço pode ficar no máximo 2 absoluto. À medida que subimos pela árvore, o procedimento $balance(x)$ verifica se o nó $x$ continua com suas subárvores balanceadas, e se não, realiza o balanceamento. O rebalanceamento é feito com rotações. Como o nó $x$ pode ser rebaixado nas rotações, o procedimento $balance(x)$ pode retornar outro nó no lugar de $x$, que será o novo filho do $x$ anterior à essa chamada recursiva (pai do $x$ atual). Outro ponto a observar é que um nó só ficará desbalanceado se ele for avô, senão, não há como seu fator de balanço ser maior que 1.</p>
+ 3    if z.k &lt; x.k
+ 4        x.l = insert(x.l, z)
+ 5    else if z.k &gt; x.k
+ 6        x.r = insert(x.r, z)
+ 7    x.h = 1 + max(height(x.l), height(x.r))
+ 8    return balance(x)</code></pre>
+                <p>Observe nas linhas 4 e 6 que podemos atualizar o filho de $x$, caso necessário. A linha 2 atualiza o filho do $x$ anterior (pai do $x$ atual) quando alcançamos um $\text{NIL}$. Caso $x.k=z.k$, não fazemos nada, pois nessa versão não admitimos chaves duplicadas. Como a árvore AVL era válida antes da inserção, então seu fator de balanço era no máximo 1 absoluto, e depois da inserção, seu fator de balanço pode ficar no máximo 2 absoluto. À medida que subimos pela árvore, o procedimento $balance(x)$ verifica se o nó $x$ continua com suas subárvores balanceadas, e se não, realiza o balanceamento. O balanceamento é feito com rotações. Como o nó $x$ pode ser rebaixado nas rotações, o procedimento $balance(x)$ pode retornar outro nó no lugar de $x$, que será o novo filho do $x$ anterior à essa chamada recursiva (pai do $x$ atual). Outro ponto a observar é que um nó só ficará desbalanceado se ele for avô, senão, não há como seu fator de balanço ser maior que 1.</p>
+
                 <p><b>Balanceamento</b></p>
                 <p>Considere $x$ o nó que está desbalanceado, $y$ o filho de $x$ com maior altura e $z$ o filho de $y$ com maior altura. Há 4 casos no total, sendo 2 simétricos aos outros 2.</p>
                 <p><b>Caso 1:</b> $y$ e $z$ estão do mesmo lado (sequência reta)</p>
@@ -225,6 +224,7 @@
             <li><a href="https://www.cs.usfca.edu/~galles/visualization/AVLtree.html">Simulação</a></li>
             <h4>Exercícios</h4>
             <ol class="excs">
+                <li>Modifique o algoritmo de inserção em árvores AVL de forma que, ao tentar inserir um nó com chave duplicada, o nó antigo seja substituído pelo novo nó com a chave duplicada.</li>
                 <li>Desenhe uma árvore desbalanceada que caia no caso 1.2.</li>
                 <li>Desenhe uma árvore desbalanceada que caia no caso 2.2.</li>
                 <li>Desenhe a árvore AVL resultante após cada inserção e consequentes rotações dos nós 43, 18, 22, 9, 21, 6, 8, 20, 63, 50, 56, 51.</li>

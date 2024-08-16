@@ -146,7 +146,7 @@
             <p>$N(h) &gt; 2\cdot N(h-2)$</p>
             <p>Podemos resolver como uma recorrência:</p>
             <p>$N(h) &gt; 2\cdot N(h-2) &gt; 2\cdot 2\cdot N(h-4) &gt; 2\cdot 2\cdot 2\cdot N(h-6)> … &gt; 2^{h/2} \cdot N(0)$</p>
-            <p>Considerando $N(0)=1$, e aplicando logaritmo em ambos os lados, temos:</p>
+            <p>Considerando $N(0)=1$ (uma folha possui altura zero), e aplicando logaritmo em ambos os lados, temos:</p>
             <p>$N(h) &gt; 2^{h/2} ⇒ lg(N(h)) &gt; h/2 ⇒ h &lt; 2\cdot log(N(h))$</p>
         </div>
         <div id="13-2-2-Rotação-arvores-avl">
@@ -164,7 +164,7 @@
 1. if x == nil
 2.   return -1
 3. return x.h</code></pre>
-            <p>Convencionamos que a altura de $\text{NIL}$ é $-1$.</p>
+            <p>Convencionamos que a altura de $\text{NIL}$ é $-1$, considerando que a altura de uma folha (nó sem filho) é 0. Essa convenção garante que o fator de balanço de um nó com apenas um filho seja 1 ou -1.</p>
             <div id="13-2-3-insercao-arvore-avl">
                 <h3>13-2.3 Inserção em árvore AVL</h3>
                 <p>Ao inserir um nó $z$, chamamos a função $insert(x,z)$, que desce pelo nó $x$ recursivamente até encontrar o lugar de $z$. Sendo que $x$ começa da raiz da árvore.</p>
@@ -209,14 +209,14 @@
             </div>
             <p>O procedimento $balance(x)$ verifica se $x$ está balanceado, e se não, balanceia:</p>
             <pre><code>balance(x)
-1. if(bf(x) &lt; -1)
-2.   if(bf(x.r) &gt; 0)
-3.     x.r = rightRotate(x.r)
-4.   x = leftRotate(x)
-5. else if(bf(x) &gt; 1)
-6.   if(bf(x.l) &lt; 0)
-7.     x.l = leftRotate(x.l)
-8.   x = rightRotate(x)
+1. if(bf(x) &lt; -1)                
+2.   if(bf(x.r) &gt; 0)          // está desbalanceado pra direita?         
+3.     x.r = rightRotate(x.r) // caso 2               
+4.   x = leftRotate(x)        // caso 1         
+5. else if(bf(x) &gt; 1)         // está desbalanceado pra esquerda?          
+6.   if(bf(x.l) &lt; 0)          // caso 2         
+7.     x.l = leftRotate(x.l)  // caso 1              
+8.   x = rightRotate(x)                
 9. return x</code></pre>
             <p><b>Recursos extras:</b></p>
             <li><a href="http://youtu.be/RdtJ6CCU6ZU">youtu.be/RdtJ6CCU6ZU</a></li>

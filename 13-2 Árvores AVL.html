@@ -229,7 +229,25 @@
                 <li>Desenhe uma árvore desbalanceada que caia no caso 2.2.</li>
                 <li>Desenhe a árvore AVL resultante após cada inserção e consequentes rotações dos nós 43, 18, 22, 9, 21, 6, 8, 20, 63, 50, 56, 51.</li>
                 <li>Qual o custo do procedimento $insert(x)$ na árvore AVL? Prove.</li>
-                <li>O procedimento de exclusão segue a mesma ideia de exclusão em uma árvore de busca binária, mas no final a altura de cada nó deve ser atualizada, e, se necessário, o nó deve ser balanceado. Implemente o procedimento de exclusão. Qual o custo do procedimento de exclusão?</li>
+                <li>O procedimento de exclusão segue a mesma ideia de exclusão em uma árvore de busca binária, mas no final a altura de cada nó deve ser atualizada, e, se necessário, o nó deve ser balanceado. Implemente o procedimento de exclusão. Qual o custo do procedimento de exclusão?</li><!--
+                <pre><code>delete(x, k):
+ 1 if x == null: return null
+ 2
+ 3 if      k &lt; x.k: x.l = delete(x.l, k)
+ 4 else if k &gt; x.k: x.r = delete(x.r, k)
+ 5 else:
+ 6      // caso o nó a ser excluído tenha no máximo um filho
+ 7     if x.r == null: return x.l
+ 8     if x.l == null: return x.r
+ 9
+10     // substitui pelo sucessor em ordem (menor nó da subárvore direita)
+11     t = x
+12     x = min(t.r)
+13     x.r = delete_min(t.r) // remove o sucessor da posição original
+14     x.l = t.l // mantém o ponteiro para a subárvore esquerda
+15
+16 x.h = 1 + max(height(x.l), height(x.r))
+17 return balance(x)</code></pre>-->
                 <li>Quais as vantagens de AVL e rubro-negras entre si?</li>
                 Resposta <a href="https://www.geeksforgeeks.org/red-black-tree-vs-avl-tree/">aqui</a>
             </ol>

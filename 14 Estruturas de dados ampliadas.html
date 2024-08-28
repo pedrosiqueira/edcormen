@@ -122,24 +122,24 @@
 <div id="estruturas-de-dados">
     <div id="14-estruturas-de-dados-ampliadas">
         <h2>14 Estruturas de dados ampliadas</h2>
-        <p>Algumas situações não exigem mais que uma estrutura de dados “de livro didático” — como uma lista duplamente ligada, uma tabela hash ou uma árvore de busca binária —, mas muitas outras exigem uma pitada de criatividade. Entretanto, apenas em raras situações você precisará criar um tipo inteiramente novo de estrutura de dados.</p>
+        <p>Algumas soluções usam estruturas de dados básicas, como listas duplamente encadeadas ou árvores binárias, mas outras exigem criatividade. Em vez de criar novas estruturas, você pode melhorar as existentes, adicionando informações extras e programando novas operações. Contudo, essa melhoria deve ser feita com cuidado para que as informações adicionais sejam corretamente atualizadas.</p>
 
-        <div id="14-1-ordem-estatistica-dinamica">
-            <h3>14.1 Ordem estatística dinâmica</h3>
+        <div id="14-1-estatistica-de-ordem-dinamica">
+            <h3>14.1 Estatística de ordem dinâmica</h3>
 
-            <p>A i-ésima ordem estatística de um conjunto de $n$ elementos onde $i ∈ \lbrace 1, 2, ..., n\rbrace$, é simplesmente o elemento no conjunto que tenha a $i$-ésima menor chave.</p>
+            <p>A $i$-ésima estatística de ordem de um conjunto de $n$ elementos onde $i ∈ \lbrace 1, 2, ..., n\rbrace$, é simplesmente o elemento no conjunto que tenha a $i$-ésima menor chave.</p>
             <p>Já a posição de um nó se refere à sua posição na qual ele seria impresso em um percurso em-ordem.</p>
-            <p>Uma árvore de ordem estatística $T$ é uma árvore de busca binária em que cada nó $x$ possui um atributo extra, $x.size$. Esse atributo, no caso de árvores rubro-negras, contém o número de nós (não-nulos) da subárvore com raiz em $x$ (incluindo ele mesmo), isto é, o tamanho da subárvore. Se definirmos o tamanho da sentinela como zero, então, $x.size = x.left.size + x.right.size + 1$.</p>
+            <p>Uma árvore de estatística de ordem $T$ é uma árvore de busca binária em que cada nó $x$ possui um atributo extra, $x.size$. Esse atributo, no caso de árvores rubro-negras, contém o número de nós (não-nulos) da subárvore com raiz em $x$ (incluindo ele mesmo), isto é, o tamanho da subárvore. Se definirmos o tamanho da sentinela como zero, então, $x.size = x.left.size + x.right.size + 1$.</p>
             <p>
             <figure>
-                <img id="fig-14-1-red-black-tree-order-statistics" alt="uma árvore rubro-negra com ordem estatística">
-                <figcaption>Figura 14.1 Árvore rubro-negra com ordem estatística</figcaption>
+                <img id="fig-14-1-red-black-tree-order-statistics" alt="uma árvore rubro-negra com estatística de ordem">
+                <figcaption>Figura 14.1 Árvore rubro-negra com estatística de ordem</figcaption>
             </figure>
             </p>
-            <p>Numa árvore de ordem estatística, as chaves não precisam ser distintas, como os dois nós 14.</p>
+            <p>Numa árvore de estatística de ordem, as chaves não precisam ser distintas, como os dois nós 14.</p>
             <div id="14-1-1-recuperacao-posicao">
-                <h4>Recuperação de um elemento em determinada posição</h4>
-                <p>O procedimento <code>OSSelect(x,i)</code> retorna um ponteiro para o nó que possui a i-ésima menor chave na subárvore com raiz em x.</p>
+                <h4>Recuperando um elemento em determinada posição</h4>
+                <p>O procedimento <code>OSSelect(x,i)</code> retorna um ponteiro para o nó que possui a $i$-ésima menor chave na subárvore com raiz em $x$.</p>
                 <pre><code>OSSelect(x, i)
 1 r = x.left.size + 1 // rank of x within the subtree rooted at x
 2 if i == r
@@ -152,7 +152,7 @@
                 <p>Como cada chamada recursiva desce um nível na árvore, o tempo total para <code>OSSelect</code> é, na pior das hipóteses, proporcional à altura da árvore.</p>
             </div>
             <div id="14-1-2-determinacao-posicao">
-                <h4>Determinação da posição de um elemento</h4>
+                <h4>Determinando a posição de um elemento</h4>
                 <p>O procedimento <code>OSRank(T, x)</code> retorna a posição do nó $x$ determinada pelo percurso em-ordem na árvore $T$.</p>
                 <pre><code>OSRank(T, x)
 1 r = x.left.size + 1 // rank of x within the subtree rooted at x
@@ -166,8 +166,8 @@
                 <p>No início de cada iteração do laço <code>while</code> das linhas 3 a 6, $r$ é a posição de $x$ na subárvore com raiz no nó $y$.</p>
                 <p>À medida que $y$ sobe, se $y$ é um filho esquerdo, nem $y.p$ nem qualquer nó na subárvore direita de $y.p$ precede x; portanto, deixamos $r$ como está. Caso contrário, $y$ é um filho direito e todos os nós na subárvore esquerda de $y.p$ precedem $x$, assim como o próprio $y.p$. Portanto, na linha 5, adicionamos $y.p.left.size + 1$ ao valor atual de $r$.</p>
                 <p>O laço termina quando $y = T.root$, de modo que a subárvore com raiz em $y$ é a árvore inteira. Assim, o valor de $r$ é a posição de $x$ na árvore toda.</p>
-                <p>Por exemplo, para encontrar a posição do nó 38, obtemos a seguinte sequência de valores de y.key e r no início do laço <code>while</code>:</p>
-                <table>
+                <p>Por exemplo, para encontrar a posição do nó $38$, obtemos a seguinte sequência de valores de $y.key$ e $r$ no início do laço <code>while</code>:</p>
+                <table class="custom">
                     <tr>
                         <th>Iteração</th>
                         <th>y.key</th>
@@ -200,7 +200,7 @@
                 <h4>Manutenção dos tamanhos das subárvores</h4>
                 <p>Como <code>OSSelect</code> e <code>OSRank</code> precisam do tamanho de cada nó, precisamos de maneiras eficientes de manter esse atributo atualizado durante as operações de inserção e exclusão em árvores rubro-negras.</p>
                 <p>Durante a primeira fase da inserção, na descida, simplesmente incrementamos $x.size$ para cada nó $x$ no caminho descendente simples percorrido da raiz até as folhas. O novo nó adicionado obtém um tamanho igual a $1$. Visto que existem $O(\lg n)$ nós no caminho percorrido, o custo adicional de manter o tamanho é $O(lg n)$.</p>
-                <p>Na segunda fase, as únicas mudanças estruturais na árvore rubro-negra subjacente são causadas por rotações, das quais existem no máximo duas. Além disso, uma rotação é uma operação local: somente dois nós têm seus atributos $size$ invalidados.</p>
+                <p>Na segunda fase, as únicas mudanças estruturais na árvore rubro-negra resultante são causadas por rotações, das quais existem no máximo duas. Além disso, uma rotação é uma operação local: somente dois nós têm seus atributos $size$ modificados.</p>
                 <p>No caso da rotação à esquerda (Seção 13.2), adicionamos as seguintes linhas:</p>
                 <pre><code>13	y.size = x.size
 14	x.size = x.left.size + x.right.size + 1</code></pre>
@@ -211,20 +211,19 @@
                     <figcaption>Figura 14.2 Atualização do tamanho dos nós durante rotações</figcaption>
                 </figure>
                 </p>
-                <p>Visto que são executadas no máximo duas rotações durante a inserção em uma árvore rubro-negra, gastamos somente o tempo adicional $O(1)$ na atualização dos atributos $size$ na segunda fase. Portanto, o tempo total para inserção em uma árvore de ordem estatística com $n$ nós é $O(\lg n)$.</p>
-                <p>Durante a primeira fase da exclusão, um nó $y$ ou é excluído ou é movido para cima na árvore, no lugar do nó $z$. Para atualizar os tamanhos das subárvores, simplesmente percorremos um caminho simples do nó $y$ (começando em sua posição original dentro da árvore) até a raiz, decrementando o atributo $size$ de cada nó pelo caminho. Visto que esse caminho tem comprimento $O(\lg n)$ em uma árvore rubro-negra com $n$ nós, o tempo adicional despendido na manutenção dos atributos $size$ na primeira fase é $O(\lg n)$. Tratamos as $O(1)$ rotações na segunda fase de exclusão da mesma maneira que a inserção. Assim, tanto a inserção quanto a exclusão, incluindo a manutenção dos atributos $size$, demoram tempo $O(\lg n)$ para uma árvore de ordem estatística com $n$ nós.</p>
+                <p>Visto que são executadas no máximo duas rotações durante a inserção em uma árvore rubro-negra, gastamos somente o tempo adicional $O(1)$ na atualização dos atributos $size$ na segunda fase. Portanto, o tempo total para inserção em uma árvore de estatística de ordem com $n$ nós é $O(\lg n)$.</p>
+                <p>Durante a primeira fase da exclusão, um nó $y$ ou é excluído ou é movido para cima na árvore, no lugar do nó $z$. Para atualizar os tamanhos das subárvores, simplesmente percorremos um caminho simples do nó $y$ (começando em sua posição original dentro da árvore) até a raiz, decrementando o atributo $size$ de cada nó pelo caminho. Visto que esse caminho tem comprimento $O(\lg n)$ em uma árvore rubro-negra com $n$ nós, o tempo adicional despendido na manutenção dos atributos $size$ na primeira fase é $O(\lg n)$. Tratamos as $O(1)$ rotações na segunda fase de exclusão da mesma maneira que a inserção. Assim, tanto a inserção quanto a exclusão, incluindo a manutenção dos atributos $size$, demoram tempo $O(\lg n)$ para uma árvore de estatística de ordem com $n$ nós.</p>
             </div>
             <div id="14-1-exercicios">
                 <h4>Exercícios</h4>
-                <ol class="exercicios">
-                    <li>Mostre como OSSelect(T.root, 10) funciona na árvore rubro-negra T da Figura 14.1.</li>
-                    <li>Mostre como OSRank(T, x) funciona na árvore rubro-negra T da Figura 14.1 e no nó x com chave 35.</li>
-                    <li>Escreva uma versão não recursiva de OSSelect.</li>
-                    <li>Escreva um procedimento recursivo OSKeyRank(T, k) que recebe uma árvore de ordem estatística T e uma chave k e retorna a posição de k no conjunto dinâmico representado por T. Suponha que as chaves de T sejam distintas.</li>
-                    <li>Dado um elemento x em uma árvore de ordem estatística de n nós e um número natural i, de que modo podemos determinar o i-ésimo sucessor de x na árvore em tempo O(lg n)?</li>
-                    <li>Observe que, sempre que referenciamos o atributo size de um nó em OSSelect ou OSRank, o usamos somente para calcular uma posição. De acordo com isso, suponha que armazenemos em cada nó sua posição na subárvore da qual ele é a raiz. Mostre como manter essas informações durante inserção e exclusão. (Lembre-se de que essas duas operações podem provocar rotações.)
+                <ol class="excs">
+                    <li>Mostre como <code>OSSelect(T.root, 10)</code> funciona na árvore rubro-negra $T$ da Figura 14.1.</li>
+                    <li>Mostre como <code>OSRank(T, x)</code> funciona na árvore rubro-negra $T$ da Figura 14.1 e no nó $x$ com chave $35$.</li>
+                    <li>Escreva uma versão não recursiva de <code>OSSelect</code>.</li>
+                    <li>Escreva um procedimento recursivo <code>OSKeyRank(T, k)</code> que recebe uma árvore de estatística de ordem $T$ e uma chave $k$ e retorna a posição de $k$ no conjunto dinâmico representado por $T$. Suponha que as chaves de $T$ sejam distintas.</li>
+                    <li>Dado um elemento $x$ em uma árvore de estatística de ordem com $n$ nós e um número natural $i$, de que modo podemos determinar o $i$-ésimo sucessor de $x$ na árvore em tempo $O(\lg n)$?</li>
+                    <li>Os procedimentos <code>OSSelect</code> e <code>OSRank</code> utilizam o atributo $size$ de um nó apenas para calcular uma posição (rank). Suponha que você armazene em cada nó a sua posição na subárvore da qual ele é a raiz, em vez do atributo $size$. Mostre como manter essa informação durante a inserção e a exclusão. (Lembre-se de que essas duas operações podem causar rotações.)</li>
                 </ol>
-                </li>
             </div>
         </div>
 
@@ -238,27 +237,26 @@
                 <li>Verifique se podemos, sem perder a eficiência, manter atualizadas as informações adicionais para as operações modificadoras básicas na estrutura de dados subjacente.</li>
                 <li>Desenvolva novas operações.</li>
             </ol>
-            <p>Seguimos essas etapas na Seção 14.1 para projetar nossas árvores de ordem estatística. Na etapa 1, escolhemos as árvores rubro-negras como a estrutura de dados subjacente. Uma pista para determinar a adequação de árvores rubro-negras vem de seu suporte eficiente para outras operações de conjuntos dinâmicos ordenados, como Minimum, Maximum, Successor e Predecessor.</p>
+            <p>Seguimos essas etapas na Seção 14.1 para projetar nossas árvores de estatística de ordem. Na etapa 1, escolhemos as árvores rubro-negras como a estrutura de dados subjacente. Uma pista para determinar a adequação de árvores rubro-negras vem de seu suporte eficiente para outras operações de conjuntos dinâmicos ordenados, como Minimum, Maximum, Successor e Predecessor.</p>
             <p>Na etapa 2, acrescentamos o atributo <code>size</code>, no qual cada nó $x$ armazena o tamanho da subárvore com raiz em $x$. Em geral, as informações adicionais melhoram a eficiência das operações. Por exemplo, poderíamos ter implementado <code>OSSelect</code> e <code>OSRank</code> usando apenas as chaves armazenadas na árvore, mas elas não teriam sido executadas em tempo $O(\lg n)$.</p>
             <p>Na etapa 3, asseguramos que a inserção e a exclusão poderiam manter os atributos <code>size</code> e ainda assim serem executadas em tempo $O(\lg n)$. No caso ideal, precisaríamos atualizar somente alguns elementos da estrutura de dados para manter as informações adicionais. Por exemplo, se simplesmente armazenássemos em cada nó a posição que ele ocupa na árvore, os procedimentos <code>OSSelect</code> e <code>OSRank</code> seriam executados rapidamente, mas inserir um novo elemento mínimo causaria uma mudança nessas informações em todos os nós da árvore. Porém, quando armazenamos os tamanhos das subárvores, inserir um novo elemento provoca mudanças nas informações de apenas $O(\lg n)$ nós.</p>
-            <p>Na etapa 4, desenvolvemos as operações <code>OSSelect</code> e <code>OSRank</code>. Afinal, a necessidade de novas operações é o motivo pelo qual nos preocupamos em ampliar uma estrutura de dados. Ocasionalmente, em vez de desenvolver novas operações, usamos as informações adicionais para acelerar operações existentes.</p>
+            <p>Na etapa 4, desenvolvemos as operações <code>OSSelect</code> e <code>OSRank</code>. Afinal, a necessidade de novas operações é o motivo pelo qual nos preocupamos em ampliar uma estrutura de dados. Ocasionalmente, em vez de desenvolver novas operações, usamos as informações adicionais para acelerar operações existentes<!--como no caso de encontrar o sucessor e o predecessor acrescentando uma lista duplamente encadeada, que veremos adiante-->.</p>
             <p><b>Teorema 14.1</b> (Como ampliar uma árvore rubro-negra)</p>
             <p>Seja $f$ um atributo que amplia uma árvore rubro-negra $T$ de $n$ nós, e suponha que o valor de $f$ para cada nó $x$ dependa somente das informações nos nós $x$, $x.l$ e $x.r$, incluindo possivelmente $x.l.f$ e $x.r.f$. Então, podemos manter os valores de $f$ em todos os nós de $T$ durante inserção e exclusão, sem afetar assintoticamente o desempenho $O(\lg n)$ dessas operações.</p>
             <p><b>Prova</b></p>
-            <p>A principal ideia da prova é que uma mudança em um atributo $f$ de um nó $x$ se propaga apenas até os ancestrais de $x$ na árvore. Isto é, mudar $x.f$ pode exigir que $x.p.f$ seja atualizado, mas nada além disso; atualizar $x.p.f$ pode exigir que $x.p.p.f$ seja atualizado, mas nada além disso, e assim por diante subindo a árvore. Uma vez atualizado $T.root.f$, nenhum outro nó dependerá do novo valor e, assim, o processo termina. Visto que a altura de uma árvore rubro-negra é $O(\lg n)$, mudar um atributo $f$ em um nó custa o tempo $O(\lg n)$ na atualização de todos os nós que dependem da mudança.</p>
+            <p>A principal ideia da prova é que uma mudança em um atributo $f$ de um nó $x$ se propaga apenas pelos ancestrais de $x$ na árvore. Isto é, mudar $x.f$ pode exigir que $x.p.f$ seja atualizado, que pode exigir que $x.p.p.f$ seja atualizado, e assim por diante subindo a árvore, mas nada além disso. Uma vez atualizado $T.root.f$, nenhum outro nó dependerá do novo valor e, assim, o processo termina. Visto que a altura de uma árvore rubro-negra é $O(\lg n)$, mudar um atributo $f$ em um nó custa o tempo $O(\lg n)$ na atualização de todos os nós que dependem da mudança.</p>
+            <p>Em alguns casos, como na manutenção dos atributos $size$ em árvores de estatísticas de ordem, o custo de atualização após uma rotação é $O(1)$. No entanto, se a atualização após uma rotação precisar percorrer até a raiz, é crucial que inserções e exclusões em uma árvore rubro-negra exijam um número constante de rotações. Outros métodos de balanceamento de árvores de busca podem não limitar o número de rotações por operação, o que pode aumentar o tempo de uma operação para $\Theta(\lg^2 n)$ em vez de $O(\lg n)$.</p>
             <div id="14-2-exercicios">
                 <h4>Exercícios</h4>
-                <ol class="exercicios">
+                <ol class="excs">
                     <li>Mostre, adicionando ponteiros aos nós, como suportar cada uma das consultas de conjuntos dinâmicos <code>minimum</code>, <code>maximum</code>, <code>successor</code> e <code>predecessor</code> em tempo de pior caso $O(1)$ em uma árvore de busca binária. O desempenho assintótico das outras operações não deve ser afetado.</li>
-                    <p>Adicione um ponteiro <code>succ</code> e um ponteiro <code>pred</code>. Se mantivermos um ponteiro <code>head</code> para o menor nó e fizermos uma lista duplamente ligada circular, então as quatro operações terão tempo constante. Ainda precisamos ter certeza de manter essa estrutura de lista ligada em todas as modificações da árvore. Suponha que inserimos um nó como filho esquerdo, então podemos inseri-lo nesta lista duplamente ligada imediatamente antes de seu pai, o que pode ser feito em tempo constante. Da mesma forma, se for um filho direito, então o inserimos imediatamente após seu pai. A exclusão do elemento é apenas a exclusão usual em uma lista ligada.</p>
+                    <p>Adicione um ponteiro <code>succ</code> e um ponteiro <code>pred</code>. Se mantivermos um ponteiro <code>head</code> para o menor nó e fizermos uma lista duplamente encadeada circular, então as quatro operações terão tempo constante. Ainda precisamos ter certeza de manter essa estrutura de lista encadeada em todas as modificações da árvore. Suponha que inserimos um nó como filho esquerdo, então podemos inseri-lo nesta lista duplamente encadeada imediatamente antes de seu pai, o que pode ser feito em tempo constante. Da mesma forma, se for um filho direito, então o inserimos imediatamente após seu pai. A exclusão do elemento é apenas a exclusão usual em uma lista encadeada.</p>
                     <p>Observe que essa ideia também funciona numa árvore rubro-negra, pois, após as rotações, os nós permanecem com os mesmos sucessores e predecessores.</p>
                     <li>Podemos manter em cada nó da árvore rubro-negra um atributo com o valor de sua altura-preta sem afetar o desempenho assintótico das operações? Mostre como, se sua resposta for positiva, ou justifique uma resposta negativa. E se quiséssemos manter a profundidade dos nós?</li>
-                    <li>Seja $⊗$ um operador binário associativo e seja $a$ um atributo mantido em cada nó de uma árvore rubro-negra. Suponha que queiramos incluir em cada nó $x$ um atributo adicional $f$ tal que $x.f = x_1.a \otimes x_2.a \otimes \cdots \otimes x_m.a$, onde $x_1, x_2, \ldots ,x_m$ é a listagem em ordem dos nós da subárvore com raiz em $x$. Mostre como atualizar os atributos $f$ em tempo $O(1)$ após uma rotação. Modifique ligeiramente seu argumento para aplicá-lo aos atributos <code>size</code> em árvores de ordem estatística.</li>
+                    <li>Seja $⊗$ um operador binário associativo e seja $a$ um atributo mantido em cada nó de uma árvore rubro-negra. Suponha que queiramos incluir em cada nó $x$ um atributo adicional $f$ tal que $x.f = x_1.a \otimes x_2.a \otimes \cdots \otimes x_m.a$, onde $x_1, x_2, \ldots ,x_m$ é a listagem em ordem dos nós da subárvore com raiz em $x$. Mostre como atualizar os atributos $f$ em tempo $O(1)$ após uma rotação. Modifique ligeiramente seu argumento para aplicá-lo aos atributos <code>size</code> em árvores de estatística de ordem.</li>
                 </ol>
-                </li>
             </div>
         </div>
-
 
         <div id="14-3-arvores-intervalo">
             <h3>14.3 Árvores de intervalo</h3>

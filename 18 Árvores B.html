@@ -236,7 +236,7 @@ outras operações que apenas acessam x</pre>
                 <h4>Busca</h4>
                 <p>Mesma ideia da busca em árvore binária, mas em vez de escolher $1$ dentre dois filhos, escolhemos $1$ dentre $x.n+1$ filhos.</p>
                 <p>Os parâmetros do procedimento <code>BTreeSearch(x,k)</code> são um ponteiro para um nó $x$, que começa da raiz, e uma chave $k$ a ser procurada. Se $k$ estiver na árvore, <code>BTreeSearch</code> retorna o par $(y,i)$, que consiste em um nó $y$ e um índice $i$ tal que $y.key_i= k$. Caso contrário, o procedimento retorna $\text{NIL}$.</p>
-                <pre><code class="cpp">BTreeSearch(x, k)
+                <pre><code>BTreeSearch(x, k)
 1 i = 1
 2 while i ≤ x.n and k > x.key[i]
 3   i = i + 1
@@ -252,7 +252,7 @@ outras operações que apenas acessam x</pre>
             <div id="18-2-2-criacao">
                 <h4>Criando uma árvore B vazia</h4>
                 <p>Para construir uma árvore B $T$, primeiro utilizamos <code>BTreeCreate</code> para criar um nó raiz vazio e depois chamamos <code>BTreeInsert</code> para acrescentar novas chaves. Esses dois procedimentos usam um procedimento auxiliar <code>allocateNode</code>, que aloca uma página de disco para ser usada como um novo nó em tempo $O(1)$. Podemos considerar que um nó criado por <code>allocateNode</code> não requer nenhuma operação <code>diskRead</code>, já que ainda não existe nenhuma informação útil armazenada no disco para esse nó.</p>
-                <pre><code class="cpp">BTreeCreate(T)
+                <pre><code>BTreeCreate(T)
 1 x = allocateNode()
 2 x.leaf = TRUE
 3 x.n = 0
@@ -272,8 +272,8 @@ outras operações que apenas acessam x</pre>
                     <img id="fig-18-5" alt='repartindo um nó com t=4'>
                     <figcaption>Figura 18.5 Repartindo um nó com $t = 4$.</figcaption>
                 </figure>
-
-                <pre><code class="cpp">BTreeSplitChild(x, i)
+                <p>O nó $y$ tem originalmente $2t$ filhos e $2t - 1$ chaves, mas é reduzido a $t$ filhos e $t - 1$ chaves. O nó $z$ recebe os $t$ maiores filhos e as $t - 1$ maiores chaves de $y$, e $z$ se torna um novo filho de $x$, posicionado logo após $y$ no array de filhos de $x$. A chave mediana de $y$ sobe e torna-se uma chave em $x$ que separa $y$ e $z$. Como devemos inserir um novo elemento no meio do array de chaves de $x$, e um novo apontador no meio do array de filhos de $x$, devemos abrir espaço nesses arrays (linhas 11 a 16).</p>
+                <pre><code>BTreeSplitChild(x, i)
  1 y = x.c[i]                   // full node to split
  2 z = allocateNode()           // z will take half of y
  3 z.leaf = y.leaf
@@ -287,14 +287,13 @@ outras operações que apenas acessam x</pre>
 11 for j = x.n + 1 downto i + 1 // shift x’s children to the right …
 12     x.c[j+1] = x.c[j]
 13 x.c[i+1] = z                 // … to make room for z as a child
-14 for j = x.ndownto i          // shift the corresponding keys in x
+14 for j = x.n downto i         // shift the corresponding keys in x
 15     x.key[j+1] = x.key[j]
 16 x.key[i] = y.key[t]          // insert y’s median key
 17 x.n = x.n + 1                // x has gained a child
 18 diskWrite(y)
 19 diskWrite(z)
 20 diskWrite(x)</code></pre>
-                <p>O nó $y$ tem originalmente $2t$ filhos e $2t - 1$ chaves, mas é reduzido a $t$ filhos e $t - 1$ chaves. O nó $z$ recebe os $t$ maiores filhos e as $t - 1$ maiores chaves de $y$, e $z$ se torna um novo filho de $x$, posicionado logo após $y$ no array de filhos de $x$. A chave mediana de $y$ sobe e torna-se uma chave em $x$ que separa $y$ e $z$. Como devemos inserir um novo elemento no meio do array de chaves de $x$, e um novo apontador no meio do array de filhos de $x$, devemos abrir espaço nesses arrays (linhas 11 a 16).</p>
                 <p>Para repartir uma raiz cheia, o procedimento é ligeiramente diferente, como veremos mais adiante.</p>
                 <p>Como $O(n)≈O(t)$, o tempo de CPU usado por <code>BTreeSplitChild</code> é $O(t)$. O procedimento executa $O(1)$ operações de disco.</p>
             </div>
@@ -302,25 +301,25 @@ outras operações que apenas acessam x</pre>
             <div id="18-2-5-insercao">
                 <h4>Inserindo uma chave numa árvore B em uma única passagem</h4>
                 <p>O procedimento <code>BTreeInsert</code> utiliza <code>BTreeSplitChild</code> para garantir que a recursão nunca desça até um nó cheio.</p>
-                <pre><code class="cpp">BTreeInsert(T, k)
+                <pre><code>BTreeInsert(T, k)
 1 r = T.root
 2 if r.n == 2t - 1
 3   s = BTreeSplitRoot(T)
 4   BTreeInsertNonFull(s, k)
 5 else BTreeInsertNonFull(r, k)</code></pre>
 
-                <p>A primeira coisa a verificar é o caso especial de repartir o nó raiz, que é diferente dos demais. Repartir a raiz é o único modo de aumentar a altura de uma árvore B; (repartir é o único meio para crescer). A Figura 18.6 ilustra esse caso.</p>
+                <p>A primeira coisa a verificar é o caso especial de repartir o nó raiz, que é diferente dos demais. Repartir a raiz é o único modo de aumentar a altura de uma árvore B (repartir é o único meio de crescer). A Figura 18.6 ilustra esse caso.</p>
                 <p>
                 <figure><img id="fig-18-6" alt='repartindo a raiz com t=4'>
                     <figcaption>Figura 18.6 Repartindo a raiz com $t = 4$</figcaption>
                 </figure>
                 </p>
                 <p>Primeiro transformamos a raiz em um filho de um novo nó raiz vazio para podermos usar <code>BTreeSplitChild</code>. Diferentemente de uma árvore de busca binária, a altura de uma árvore B aumenta para cima, em vez de para baixo. Depois é chamado o método <code>BTreeInsertNonFull</code> para inserir a chave $k$ ou na nova raiz $s$ depois de dividir a raiz antiga, ou na raiz original $r$ caso ela não tenha sido dividida.</p>
-                <pre><code class="cpp">BTreeSplitRoot(T)
+                <pre><code>BTreeSplitRoot(T)
 1 s = AllocateNode()
 2 s.leaf = FALSE
 3 s.n = 0
-4 s.c1 = T.root
+4 s.c[1] = T.root
 5 T.root = s
 6 BTreeSplitChild(s, 1)
 7 return s</code></pre>
@@ -332,7 +331,7 @@ outras operações que apenas acessam x</pre>
                 </figure>
                 </p>
                 <p>O grau mínimo dessa árvore é $t=3$. Os nós modificados pela inserção estão em azul.</p>
-                <pre><code class="cpp">BTreeInsertNonFull(x, k)
+                <pre><code>BTreeInsertNonFull(x, k)
  1 i = x.n
  2 if x.leaf                      // inserting into a leaf?
  3   while i ≥ 1 and k &lt; x.key[i] // shift keys in x to make room for k
@@ -351,12 +350,12 @@ outras operações que apenas acessam x</pre>
 16     if k > x.key[i]            // does k go into x.c[i] or x.c[i+1]?
 17       i = i + 1
 18   BTreeInsertNonFull(x.c[i], k)</code></pre>
-                <p>As linhas 3-8 tratam o caso quando $x$ é folha, inserindo a chave $k$ em $x$. Se $x$ não é folha, devemos inserir $k$ no nó folha da subárvore de $x$. Nesse caso, as linhas 10-11 determinam por qual filho de $x$ descer. A linha 14 detecta se o filho onde desceremos está cheio, e caso sim, o reparte em dois filhos não cheios, e as linhas 16-17 determinam por qual dos dois filhos descer. (Observe que não há nenhuma necessidade de uma operação <code>diskRead(x.c[i])</code> após a linha 17 incrementar $i$, já que nesse caso a recursão descerá até um filho que acabou de ser criado por <code>BTreeSplitChild</code>.) Então, a linha 18 desce até o nó filho adequado.</p>
+                <p>As linhas 3-8 tratam o caso quando $x$ é folha, inserindo a chave $k$ em $x$<!--sabemos que x.n<2t-1, isto é, há pelo menos um espaço sobrando pra inserir k-->. Se $x$ não é folha, devemos inserir $k$ no nó folha da subárvore de $x$. Nesse caso, as linhas 10-11 determinam por qual filho de $x$ descer. A linha 14 detecta se o filho onde desceremos está cheio, e caso sim, o reparte em dois filhos não cheios, e as linhas 16-17 determinam por qual dos dois filhos descer. (Observe que não há nenhuma necessidade de uma operação <code>diskRead(x.c[i])</code> após a linha 17 incrementar $i$, já que nesse caso a recursão descerá até um filho que acabou de ser criado por <code>BTreeSplitChild</code>.) Então, a linha 18 desce até o nó filho adequado.</p>
                 <p>Para uma árvore B de altura $h$, <code>BTreeInsert</code> executa $O(h)$ acessos a disco, já que ocorrem somente $O(1)$ operações <code>diskRead</code> e <code>diskWrite</code> em cada chamada a <code>BTreeInsertNonfull</code>. O tempo total de CPU usado é $O(th) = O(t \log_t n)$. O número de páginas que precisam estar na memória principal em qualquer instante é $O(1)$.</p>
             </div>
             <div id="18-2-6-exercicios">
                 <h4>Exercícios</h4>
-                <ol class="exercicios">
+                <ol class="excs">
                     <li>Mostre os resultados da inserção das chaves F, S, Q, K, C, L, H, T, V, W, M, R, N, P, A, B, X, Y, D, Z, E em uma árvore B vazia com grau mínimo 2. Desenhe apenas as configurações da árvore imediatamente antes de algum nó ser repartido, e desenhe também a configuração final.</li>
                     <li>Explique sob quais circunstâncias, se houver, ocorrem operações redundantes <code>diskRead</code> ou <code>diskWrite</code> durante o curso da execução de uma chamada a <code>BTreeInsert</code> . (Uma operação <code>diskRead</code> redundante é uma operação <code>diskRead</code> para uma página que já está na memória. Uma operação <code>diskWrite</code> redundante grava em disco uma página de informações idêntica à que já está ali armazenada.)</li>
                     <li>Explique como encontrar a menor chave armazenada em uma árvore B e como encontrar o predecessor de uma determinada chave armazenada em uma árvore B.</li>

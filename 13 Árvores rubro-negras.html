@@ -500,25 +500,25 @@ RBTransplant(T, u, v)
  1 y = z
  2 yOriginalColor = y.color
  3 if z.left == T.nil
- 4     x = z.right
- 5     RBTransplant(T, z, z.right)     // replace z by its right child
+ 4      x = z.right
+ 5      RBTransplant(T, z, z.right)     // replace z by its right child
  6 else if z.right == T.nil
- 7     x = z.left
- 8     RBTransplant(T, z, z.left)      // replace z by its left child
- 9 else y = treeMinimum(z.right)       // y is z's successor
-10     yOriginalColor = y.color
-11     x = y.right
-12     if y ≠ z.right                  // is y farther down the tree?
-13         RBTransplant(T, y, y.right) // replace y by its right child
-14         y.right = z.right           // z's right child becomes
-15         y.right.p = y               //   y's right child
-16     else x.p = y                    // in case x is T.nil
-17     RBTransplant(T, z, y)           // replace z by its successor y
-18     y.left = z.left                 //   and give z's left child to y,
-19     y.left.p = y                    //   which had no left child
-20     y.color = z.color
-21 if yOriginalColor == BLACK          // if any red-black violations occurred,
-22     RBDeleteFixup(T, x)             //   correct them
+ 7      x = z.left
+ 8      RBTransplant(T, z, z.left)      // replace z by its left child
+ 9 else y = treeMinimum(z.right)        // y is z's successor
+10      yOriginalColor = y.color
+11      x = y.right
+12      if y ≠ z.right                  // is y farther down the tree?
+13          RBTransplant(T, y, y.right) // replace y by its right child
+14          y.right = z.right           // z's right child becomes
+15          y.right.p = y               //   y's right child
+16      else x.p = y                    // in case x is T.nil
+17      RBTransplant(T, z, y)           // replace z by its successor y
+18      y.left = z.left                 //   and give z's left child to y,
+19      y.left.p = y                    //   which had no left child
+20      y.color = z.color
+21 if yOriginalColor == BLACK           // if any red-black violations occurred,
+22      RBDeleteFixup(T, x)             //   correct them
                 </code></pre>
             </p>
             <p>A linha 16 se faz necessário pois se $x$ é $T.nil$, então $x.p$ inicialmente não é $y$, e vamos precisar de uma referência para $x.p$ em RBDeleteFixup para subir pela árvore. Se $x$ não é nil, essa linha acaba sendo redundante.</p>
